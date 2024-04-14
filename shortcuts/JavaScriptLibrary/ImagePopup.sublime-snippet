@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+document.addEventListener('DOMContentLoaded', (event) => {
+    const imgDiv = document.querySelector('.img-div');
+    if (imgDiv) {
+        imgDiv.addEventListener('click', (event) => {
+            if (event.target.tagName.toLowerCase() === 'img') {
+                window.open(event.target.src, '_blank');
+            }
+        });
+    }
+});
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>popup</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

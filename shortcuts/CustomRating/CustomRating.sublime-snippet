@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+<style label="custom_rating" arg:qmode="rating" arg:autoContinue="false" arg:autoNumber="true" arg:btnDirection="row" arg:leftText="" arg:rightText="" arg:showArrow="false" arg:showGroup="true" name="question.after"><![CDATA[
+<style>.answers {display: none;}</style>
+<div class="custom-loader"></div>
+<script type="text/babel">
+const groupInfo = {
+\@if this.grouping.rows
+\@for eachRow in this.rows
+\@if eachRow.group
+  '\${eachRow.label}': {'label': `\${eachRow.group.label}`, 'text': `\${eachRow.group.text}`},
+\@endif
+\@end
+\@endif
+\@if this.grouping.cols
+\@for eachCol in this.cols
+\@if eachCol.group
+  '\${eachCol.label}': {'label': `\${eachCol.group.label}`, 'text': `\${eachCol.group.text}`},
+\@endif
+\@end
+\@endif
+};
+
+let thisAnswers = document.querySelector('.label_\$(this.label) .answers');
+let loader = '.custom-loader';
+try {
+  CustomRating({
+    setRoot: '.label_\$(this.label) .answers',
+    json: \${jsexport()},
+    mode: "\$(qmode)",
+    leftText: `\$(leftText)`,
+    rightText: `\$(rightText)`,
+\@if this.grouping.rows
+    answers: \${dict([[x.label, x.val if x.val != None else 'null'] for x in \$(this.label).rows if x.displayed])},
+\@endif
+\@if this.grouping.cols
+    answers: \${dict([[x.label, x.val if x.val != None else 'null'] for x in \$(this.label).cols if x.displayed])},
+\@endif
+    flexDirection: "\$(btnDirection)",
+    showGroup: \$(showGroup),
+    groupInfo: groupInfo,
+    showArrow: \$(showArrow),
+    autoContinue: \$(autoContinue),
+    autoNumber: \$(autoNumber),
+  });
+  thisAnswers.style.display = 'table';
+} catch (error) {
+  console.error("Rendering error:", error);
+  thisAnswers.style.display = 'table';
+  document.querySelector(loader)?.remove();
+}
+</script>
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>custom.rate</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

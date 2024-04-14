@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+<style name="page.head" label="hangle_css"><![CDATA[
+<style>
+.text-input {
+  text-align: right;
+  max-width: 100px !important;
+}
+
+.hangle-text {
+  height:25px;
+  text-align: right;
+}
+
+.hanchange {
+  width: fit-content;
+}
+
+\@media (max-width: 768px) {
+  .text-input {
+    max-width: 100% !important;
+  }
+  
+  .show-hangle {
+    text-align: center;
+  }
+
+  .hanchange {
+    width: 100%;
+  }
+}
+</style>
+]]${-1}></style>
+<style label="hangleConverter" arg:hanPostText="${1}" name="question.after" wrap="ready"><![CDATA[
+han('', '\$(hanPostText)');
+//han('0000', '\$(hanPostText)'); //만원 단위
+]]${-1}></style>
+<style label="hangleClass" name="el.text"><![CDATA[
+<div class="hanchange">
+  <div>\${row.styles.ss.preText if not row.styles.ss.preText == None else ''}&nbsp;</div>
+  <div class="han-input-div" style="gap: 0 !important;">
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <input type="number" name="\$(name)" id="\$(id)" value="\$(value)" size="\$(size)" class="input text-input" \$(extra)/>
+      <span>\${row.styles.ss.postText if not row.styles.ss.postText == None else ''}</span>
+    </div>
+  </div>
+\@if True
+  <div class="hangle-text">
+    <span class="hangle-span"></span>
+  </div>
+\@endif
+</div>
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>han</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

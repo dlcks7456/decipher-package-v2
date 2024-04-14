@@ -1,0 +1,15 @@
+<snippet>
+  <content><![CDATA[
+def oe_length(num) :
+  txt = str(this.unsafe_val).replace(' ', '')
+  utxt = unicode(txt, 'utf-8') 
+  curr_val = len(utxt)
+  
+  if num gt curr_val :
+    error(this.lget("lenAtLeast", min=num, count=curr_val))
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>oe.len</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.xml</scope>
+</snippet>

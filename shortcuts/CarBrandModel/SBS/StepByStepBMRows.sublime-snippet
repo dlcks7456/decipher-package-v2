@@ -1,0 +1,139 @@
+<snippet>
+    <content><![CDATA[
+<block label="${1:[QID]}_block">
+        <select 
+      label="${1:[QID]}x1"
+      grouping="rows"
+      ss:questionClassNames="sbs-question"
+      surveyDisplay="mobile">
+          <title><div class="q-name">${1:[QID]}</div> </title>
+          <alt>브랜드</alt>
+<validate>
+for bm in [${1:[QID]}x1, ${1:[QID]}x2] :
+    for eachRow in bm.rows :
+        if eachRow.any :
+            choice_answer = bm.choices[eachRow.val]
+            if hasattr(BMbase.attr(choice_answer.label), 'open') :
+                oe = allQuestions['%soe'%(bm.label)].attr(eachRow.label)
+                if oe.val == None or oe.val == '' :
+                    error(this.lget('extraInfo'), row=oe)
+
+pt = ${1:[QID]}x3
+for eachRow in pt.rows :
+    if eachRow.p98  :
+        oe = allQuestions['%soe'%(pt.label)].attr(eachRow.label)
+        if oe.val == None or oe.val == '' :
+            error(this.lget('extraInfo'), row=oe)
+</validate>
+        <style name="el.select.header" label="sbs_select_header" arg:step="1" arg:stepBase="" arg:stepKey=""><![CDATA[
+<select name="\$(name)" id="\$(id)" class="input dropdown step-by-step step-\$(step)" data-stepbase="\$(stepBase)" data-stepkey="\$(stepKey)" \$(extra)>
+]]${-1}></style>
+          <style label="sbs_select_default" arg:stepName="브랜드" name="el.select.default"><![CDATA[
+<option value="-1" \$(selected)>\$(stepName)</option>
+]]${-1}></style>
+          <style name="el.select.element"><![CDATA[
+<option value="\$(value)" data-base="\${choice.value}" \$(selected) class="\${choice.styles.ss.choiceClassNames if ec.choice else ""}" data-open="\${1 if choice.open else 0}">\$(text)</option>
+]]${-1}></style>
+          <style label="sbs_select_footer" arg:baseName="${1:[QID]}x1" name="el.select.footer"><![CDATA[
+</select>
+<div class="step-by-step-oe \$(baseName)oe-\$(row.label)"></div>
+]]${-1}></style>
+          <insert as="choices" source="brand_list"/>
+          <row label="r1" value="1">차량 1</row>
+          <row label="r2" value="2">차량 2</row>
+          <row label="r3" value="3">차량 3</row>
+        </select>
+
+        <text 
+      label="${1:[QID]}x1oe"
+      size="40"
+      ss:questionClassNames="hidden"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title>${1:[QID]}x1 open text question</title>
+          <alt>브랜드 - 기타</alt>
+          <style label="sbs_open" name="el.text"><![CDATA[
+<input type="text" name="\$(name)" id="\$(id)" class="other-open \${"" if value else "input-disabled"}" value="\$(value)" size="\$(size)" \${"" if value else "disabled"} placeholder="\${this.styles.ss.postText or ""}"/>
+<script>
+document.querySelector('.\$(this.label)-\$(row.label)').appendChild(document.querySelector("input[name='\$(name)']"));
+</script>
+]]${-1}></style>
+        </text>
+
+        <select 
+      label="${1:[QID]}x2"
+      grouping="rows"
+      rightOf="${1:[QID]}x1"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title>${1:[QID]} Model</title>
+          <alt>모델</alt>
+          <style copy="sbs_select_header" name="el.select.header" arg:step="2" arg:stepBase="1" arg:stepKey="base"/>
+          <style arg:stepName="모델" copy="sbs_select_default" name="el.select.default"/>
+          <style name="el.select.element"><![CDATA[
+<option value="\$(value)" data-code="\${choice.value//100}" data-base="\${PTbase.attr(choice.label).unsafe_val}" \$(selected) class="\${choice.styles.ss.choiceClassNames if ec.choice else ""}" data-open="\${1 if choice.open else 0}">\$(text)</option>
+]]${-1}></style>
+          <style arg:baseName="${1:[QID]}x2" copy="sbs_select_footer" name="el.select.footer"/>
+          <insert as="choices" source="model_list"/>
+        </select>
+
+        <text 
+      label="${1:[QID]}x2oe"
+      size="40"
+      ss:questionClassNames="hidden"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title>${1:[QID]}x2 open text question</title>
+          <alt>모델 - 기타</alt>
+          <style copy="sbs_open" name="el.text"/>
+        </text>
+
+        <select 
+      label="${1:[QID]}x3"
+      grouping="rows"
+      rightOf="${1:[QID]}x1"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title>${1:[QID]}x3 PT type</title>
+          <alt>엔진 타입</alt>
+          <style copy="sbs_select_header" name="el.select.header" arg:step="3" arg:stepBase="2" arg:stepKey="base"/>
+          <style arg:stepName="엔진 타입" copy="sbs_select_default" name="el.select.default"/>
+          <style name="el.select.element"><![CDATA[
+<option value="\$(value)" data-code="\${choice.value}" data-base="1" \$(selected) class="\${choice.styles.ss.choiceClassNames if ec.choice else ""}" data-open="\${1 if choice.open else 0}">\$(text)</option>
+]]${-1}></style>
+          <style arg:baseName="${1:[QID]}x3" copy="sbs_select_footer" name="el.select.footer"/>
+          <insert as="choices" source="PT_list"/>
+        </select>
+
+        <text 
+      label="${1:[QID]}x3oe"
+      size="40"
+      ss:questionClassNames="hidden"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title>${1:[QID]}x3 open text question</title>
+          <alt>엔진 타입 - 기타</alt>
+          <style copy="sbs_open" name="el.text"/>
+        </text>
+
+        <suspend/>
+
+        <text 
+      label="${1:[QID]}_name"
+      optional="0"
+      size="40"
+      where="execute,survey,notdp"
+      onLoad="copy('${1:[QID]}x1', rows=True)">
+          <title><div class="q-name">${1:[QID]}name</div> ${1:[QID]} pipe</title>
+          <exec>
+for eachRow in ${1:[QID]}_name.rows :
+    eachRow.val = return_pipe_text([(${1:[QID]}x1, eachRow.label), (${1:[QID]}x2, eachRow.label)])
+          </exec>
+
+        </text>
+
+</block>
+
+<note>${1:[QID]}_block END</note>
+<suspend/>
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>sbs.bm.rows</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>text.xml</scope>
+</snippet>

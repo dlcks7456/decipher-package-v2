@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+<style copy="js_onerowatatime" arg:completeWord="default" arg:multiControl="true" arg:nextControl="true" arg:resultPosFix="true" arg:resultView="true" arg:scrollMove="true" name="question.after" wrap="ready"/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>js.onerow.copy</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

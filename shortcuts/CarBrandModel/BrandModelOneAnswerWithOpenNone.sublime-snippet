@@ -1,0 +1,73 @@
+<snippet>
+    <content><![CDATA[
+<block label="${1}_block">
+
+  <select 
+   label="${1}"
+   ss:questionClassNames="bm-question"
+   optional="1">
+    <title>${2}</title>
+    <validate>
+brand_model_check(use_open=True, use_none=True)
+    </validate>
+    <style copy="bmHeader" name="el.select.header"/>
+    <style cols="brand" copy="brandSelect" name="el.select.element"/>
+    <style cols="model" copy="modelSelect" name="el.select.element"/>
+    <style copy="bmLeft" name="question.left"/>
+    <style copy="bmFooter" name="el.select.footer"/>
+    <col label="brand" ss:colClassNames="brand">${3}</col>
+    <col label="model" ss:colClassNames="model">${4}</col>
+    <row label="r1">${5}</row>
+    <insert as="choices" source="brand_list"/>
+    <insert as="choices" source="model_list"/>
+  </select>
+
+  <text 
+   label="${1}oe"
+   onLoad="copy('${1}', rows=True, cols=True)"
+   size="40"
+   ss:postText="${6:기타}"
+   ss:questionClassNames="hidden">
+    <title>(HIDDEN) oe</title>
+    <style copy="bmOpen" name="el.text"/>
+  </text>
+
+  <checkbox 
+   label="${1}none"
+   onLoad="copy('${1}', rows=True)"
+   ss:questionClassNames="hidden">
+    <title>${7:없음}</title>
+    <style label="bmNone" name="el.checkbox"><![CDATA[
+        <div class="none \$(this.label)-\$(row.label)">
+          \${${1}none.title} <div class="none-input"><input type="checkbox" name="\$(name)" id="\$(id)" value="1" \$(checked)/></div>
+        </div>
+        <script>
+        document.querySelector(".\$(this.label)-\$(row.index)-div").appendChild(document.querySelector(".\$(this.label)-\$(row.label)"));
+        </script>
+    ]]${-1}></style>
+  </checkbox>
+
+  <suspend/>
+
+<text 
+    label="P${1}"
+    onLoad="copy('${1}', rows=True)"
+    size="40"
+    where="execute,survey,report">
+    <title>(HIDDEN) ${1} PIPE</title>
+    <exec>
+set_pipe_value(${1}, P${1})
+    </exec>
+
+</text>
+
+<suspend/>
+
+</block>
+<suspend/>
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>bm.all</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>text.xml</scope>
+</snippet>

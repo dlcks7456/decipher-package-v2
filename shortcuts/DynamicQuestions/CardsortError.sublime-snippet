@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+<res label="sys_check-error-atLeast-sing-row">답변을 선택하세요.</res>
+<res label="sys_check-error-atMost-plur-row">답변을 선택하세요.</res>
+<res label="sys_noAnswerSelected">답변을 선택하세요.</res>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cardsort.err</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

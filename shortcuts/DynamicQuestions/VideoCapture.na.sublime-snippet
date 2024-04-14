@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+<textarea 
+  label="${1}"
+  height="10"
+  sst="0"
+  uses="videocapture.2"
+  width="50">
+  <title><div class="q-name">${1}</div> ${2}</title>
+  <comment></comment>
+  <noanswer label="na">${3:NA}</noanswer>
+</textarea>
+
+<suspend/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>videocapture.na</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

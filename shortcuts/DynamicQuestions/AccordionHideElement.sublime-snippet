@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+<validate>
+# row index and str type
+row_errs = []
+if row_errs :
+    error(res.acco_error%(','.join(row_errs)))
+</validate>
+
+<style name="question.after" wrap="ready"><![CDATA[
+const rowBase = \${[]};
+const colBase = \${[]};
+accordionHideEelement(rowBase, colBase);
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>acco.hide</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

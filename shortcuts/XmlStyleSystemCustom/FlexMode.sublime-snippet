@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+<style name="question.left"><![CDATA[
+	<div style="display: flex; margin-bottom: 10px; align-content: center; align-items: center;">
+	  <span class="hidden">\$(text)</span>
+]]${-1}></style>
+<style name="question.right"><![CDATA[
+	</div>
+]]${-1}></style>
+<style name="question.element"><![CDATA[
+	<span class="hidden">
+	\${v2_insertStyle('el.label.start')}
+	\${v2_insertStyle('el.label.end')}
+	</span>
+	\$(text)
+]]${-1}></style>
+<style name="question.top-legend"/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>flex.mode</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

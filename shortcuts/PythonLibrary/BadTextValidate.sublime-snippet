@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+def badtext() :
+  text_answer = [unicode(i, 'utf-8').replace(" ","") for i in this.values if not i==None]
+  badhan = (res.badhan)
+  badhan = [unicode(t, 'utf-8') for t in badhan.split(',')]
+
+  badspa = (res.badspa)
+  badspa = [unicode(t, 'utf-8') for t in badspa.split(',')]
+
+
+  for ans in text_answer :
+    ans_len=len(ans)
+    for j in range(0, ans_len) :
+      if ans[j] in badhan :
+        if decLang == 'korean' or LQ.korean :
+         error(res.badhan_err)
+
+      if ans[j] in badspa :
+        error(res.badspa_err)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>badtext</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
