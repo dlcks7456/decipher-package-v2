@@ -1453,6 +1453,7 @@ class makeRatingCommand(sublime_plugin.TextCommand):
             input = ''
             docType =  returnContext(self)
             custom_rate = "\t<style copy=\"custom_rating\" arg:qmode=\"rating\" arg:autoContinue=\"false\" arg:autoNumber=\"true\" arg:btnDirection=\"row\" arg:leftText=\"\" arg:rightText=\"\" arg:showArrow=\"false\" arg:showGroup=\"true\" name=\"question.after\"/>\n"
+
             for sel in sels:
                 printPage = ''
                 input = self.view.substr(sel)
@@ -1475,6 +1476,10 @@ class makeRatingCommand(sublime_plugin.TextCommand):
                 shffl = ""
                 style = ""
                 comment = ''
+
+                if not "<row" in output :
+                    custom_rate = ""
+
                 if docType == 'FMA':
                     printPage = "<radio\n  label=\"%s%s%s\"\n  type=\"rating\">\n%s\t<title><div class=\"q-name\">%s</div> %s</title>\n\t%s\n</radio>\n<suspend/>" % (label.strip(), shffl, style, alt, label.strip().replace('x', '-'), title.strip(), output)
 
