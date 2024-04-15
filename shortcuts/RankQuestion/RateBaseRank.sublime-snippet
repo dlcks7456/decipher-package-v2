@@ -43,7 +43,7 @@ auto_rows = scale_rank_items(${2}, ${3})['auto']
   <validate>
 scale_rank_vali(${2})
   </validate>
-<style arg:ableNone="1"  arg:autoContinue="false" arg:ableSort="true" arg:colCnt="2" arg:noneLabel="null" arg:showAnswers="true" arg:showCnt="true" arg:showGroups="true" arg:toggle="false" copy="custom_rank" name="question.after"/>
+<style arg:ableNone="1" arg:autoClick="true" arg:autoContinue="false" arg:ableSort="true" arg:colCnt="2" arg:noneLabel="null" arg:showAnswers="true" arg:showCnt="true" arg:showGroups="true" arg:toggle="false" copy="custom_rank" name="question.after"/>
 <style name="page.head"><![CDATA[
 <style>
 \@for rank, x in auto_rows

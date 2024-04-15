@@ -286,5 +286,12 @@
               "key": "selector", "operator": "equal", "operand":"text.xml"
             }
         ]
+    },
+    { 
+        "keys": ["ctrl+m"], "command": "split_context", "context": [
+            {
+              "key": "selector", "operator": "equal", "operand":"text.xml"
+            }
+        ]
     }
 ]

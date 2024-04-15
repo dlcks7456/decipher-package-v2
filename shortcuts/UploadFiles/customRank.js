@@ -261,7 +261,7 @@ const RankBtn = ({row, idx, answers, setAnswers, answerComplete, setAnswerComple
 }
 
 
-const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[], noneIndex, ableNone, ableSort, showAnswers, toggle, showCnt, autoContinue=false})=>{
+const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[], noneIndex, ableNone, ableSort, showAnswers, toggle, showCnt, autoContinue=false, autoClick=true})=>{
     const {label, uid, cols, rows, noanswers, errors} = json;
     const [newError, setNewError] = React.useState(
         errors.map((err)=>{
@@ -387,7 +387,7 @@ const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[
         setAnswerList(rankAnswers);
 
         const remainAnswerCount = cols.length - rankAnswers.length;
-        if( clickFlag && newError.length == 0 ){
+        if( clickFlag && newError.length == 0 && autoClick ){
             if( (remainAnswerCount == 1) && (cols.length == rows.length) ){
                 const remainRow = rows.filter((row)=> !rankAnswers.includes(row.index));
                 const remainLabel = remainRow[0].label;
@@ -1085,7 +1085,7 @@ const LoadingComp = () =>{
     )
 }
 
-const SettingGridRankSort = ({setRoot, json, defaultValue, showGroups=false, groups=[], colCnt=1, noneIndex=null, ableNone=1, showAnswers=true, ableSort=true, loadingQuery='.custom-loader', toggle=false, showCnt=true, autoContinue=false})=>{
+const SettingGridRankSort = ({setRoot, json, defaultValue, showGroups=false, groups=[], colCnt=1, noneIndex=null, ableNone=1, showAnswers=true, ableSort=true, loadingQuery='.custom-loader', toggle=false, showCnt=true, autoClick=true, autoContinue=false})=>{
     const root = document.querySelector(setRoot);
     let toggleFlag = toggle;
     if( !showGroups ){
@@ -1109,6 +1109,7 @@ const SettingGridRankSort = ({setRoot, json, defaultValue, showGroups=false, gro
             showAnswers={showAnswers}
             toggle={toggleFlag}
             showCnt={showCnt}
+            autoClick={autoClick}
             autoContinue={focusFlag}
         />, root
     );

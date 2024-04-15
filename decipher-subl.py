@@ -1,4 +1,6 @@
 import sublime, sublime_plugin,re
+from itertools import product
+import html
 
 #define survey context
 def returnContext(self):
@@ -3677,4 +3679,26 @@ class entityCommand(sublime_plugin.TextCommand):
                 
             except Exception as e:
                 print (e) 
+
+
+class splitContextCommand(sublime_plugin.TextCommand):
+        def run (self, edit):
+            try:
+                sels = self.view.sel()[0]
+                textr = self.view.substr(sels)
+                textr = html.escape(textr)
+                textr = textr.replace('[', '〔')
+                textr = textr.replace(']', '〕')
+
+                textr = textr.split('\n')
+                textr = sum([x.split('.') for x in textr], [])
+
+                textr = '\n'.join(["<p>%s</p>"%(x.strip()) for x in textr if len(x.strip()) != 0])
+
+                self.view.replace(edit,sels, textr)
+                
+            except Exception as e:
+                print (e) 
+
+
 
