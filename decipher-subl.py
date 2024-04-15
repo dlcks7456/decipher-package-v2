@@ -3724,3 +3724,84 @@ class splitCommentCommand(sublime_plugin.TextCommand):
 
 
 
+class makeColAutoValueCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            sels = self.view.sel()
+            input = ''
+            docType =  returnContext(self)
+            for sel in sels:
+                count = 0
+                printPage = ''
+                extra = ''
+                input = self.view.substr(sel)
+                #CLEAN UP THE TABS
+                input = re.sub("\t+", " ", input)
+
+                #CLEAN UP SPACES
+                input = re.sub("\n +\n", "\n\n", input)
+
+                #CLEAN UP THE EXTRA LINE BREAKS
+                input = re.sub("\n{2,}", "\n", input)
+                input = fixUniCode(input)
+
+                input = input.strip().split("\n")
+                #ebay has a different openSize
+                openSize =  '45' if docType =='EBA' else '25'
+
+                for x in range(0,len(input)):
+                    input[x] = re.sub("^[a-zA-Z0-9]{1,2}[\.:\)][ \t]+", "", input[x])
+
+                for x in input:
+
+                    if ("other" in input[count].strip().lower() and "specify" in input[count].strip().lower()) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
+                      input[count] = input[count].strip().replace("_", "")
+                      extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
+                    else:
+                      extra = ''
+                    printPage += "  <col label=\"c%s\"%s value=\"%s\">%s</col>\n" % (str(count+1), extra, str(count+1), input[count].strip())
+                    count += 1
+                # thanks to replace the regions keep updated with their start and end point
+                self.view.replace(edit,sel, checkDupeElement(printPage))
+
+        except Exception as e:
+            print (e)
+
+
+class makeChoiceAutoValueCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            sels = self.view.sel()
+            input = ''
+            docType =  returnContext(self)
+            for sel in sels:
+                count = 0
+                printPage = ''
+                extra = ''
+                input = self.view.substr(sel)
+                #CLEAN UP THE TABS
+                input = re.sub("\t+", " ", input)
+
+                #CLEAN UP SPACES
+                input = re.sub("\n +\n", "\n\n", input)
+
+                #CLEAN UP THE EXTRA LINE BREAKS
+                input = re.sub("\n{2,}", "\n", input)
+                input = fixUniCode(input)
+
+                input = input.strip().split("\n")
+                #ebay has a different openSize
+                openSize =  '45' if docType =='EBA' else '25'
+
+                for x in range(0,len(input)):
+                    input[x] = re.sub("^[a-zA-Z0-9]{1,2}[\.:\)][ \t]+", "", input[x])
+
+                for x in input:
+                    extra = ''
+                    printPage += "  <choice label=\"ch%s\"%s value=\"%s\">%s</choice>\n" % (str(count+1), extra, str(count+1), input[count].strip())
+                    count += 1
+                # thanks to replace the regions keep updated with their start and end point
+                self.view.replace(edit,sel, checkDupeElement(printPage))
+
+        except Exception as e:
+            print (e)

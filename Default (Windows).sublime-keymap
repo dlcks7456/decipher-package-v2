@@ -300,5 +300,19 @@
               "key": "selector", "operator": "equal", "operand":"text.xml"
             }
         ]
+    },
+    { 
+        "keys": ["ctrl+shift+2"], "command": "make_col_auto_value", "context": [
+            {
+              "key": "selector", "operator": "equal", "operand":"text.xml"
+            }
+        ]
+    },
+    { 
+        "keys": ["ctrl+shift+3"], "command": "make_choice_auto_value", "context": [
+            {
+              "key": "selector", "operator": "equal", "operand":"text.xml"
+            }
+        ]
     }
 ]
