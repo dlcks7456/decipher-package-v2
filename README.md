@@ -1,7 +1,7 @@
-### Decipher Programming SublimeText Package
-<div style="font-size:1.3rem;color:#2d6df6;font-style:italic;">From : Chan.lee@nielseniq</div>
+## ❇️ Decipher Programming SublimeText Package
+<b>From : <i>Chan.lee@nielseniq.com</i></b>
 
-#### Short Cut
+### 📌 Short Cut
 | ShortCut         | Feature                      |
 | :--------------- | :--------------------------- |
 | `ctrl+r`         | make_radio                   |
