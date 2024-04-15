@@ -3665,7 +3665,7 @@ class loopLabelCommand(sublime_plugin.TextCommand):
                     set_text = '_[loopvar: label]'
                 else :
                     textr = self.view.substr(sels)
-                    set_text = '[loopvar: ]'%(textr)
+                    set_text = '[loopvar: %s]'%(textr)
                 self.view.replace(edit,sels, set_text)
                 
             except Exception as e:
