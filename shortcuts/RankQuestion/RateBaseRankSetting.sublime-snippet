@@ -59,7 +59,6 @@ def scale_rank_items(scale_qid, rank_qid, reverse=True) :
           rowCond.append(x)
       
       if str(rank_qid.o.shuffle).strip() == 'rows' :
-        print(rank_qid.o.shuffle)
         rank_qid.rows.order = [scale_qid.attr(each).index for each in sum(sort_rows, [])]
        
    
