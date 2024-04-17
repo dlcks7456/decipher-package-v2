@@ -314,5 +314,12 @@
               "key": "selector", "operator": "equal", "operand":"text.xml"
             }
         ]
-    }
+    },
+    { 
+        "keys": ["shift+alt+down"], "command": "duplicate_line"
+    },
+    { 
+        "keys": ["alt+z"], "command": "toggle_setting", 
+        "args": {"setting": "word_wrap"}
+    },
 ]
