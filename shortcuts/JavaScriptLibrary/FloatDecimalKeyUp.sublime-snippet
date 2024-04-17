@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+<style name="question.after" wrap="ready"><![CDATA[
+document.querySelectorAll('.input-float').forEach(input => {
+  input.addEventListener('keyup', function() {
+    // 입력 값이 소수점 두 자리 이상이면 제거
+    if (input.value.includes('.') && input.value.split('.')[1].length > 1) {
+      input.value = parseFloat(input.value).toFixed(1);
+    }
+  });
+});
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>float.js</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

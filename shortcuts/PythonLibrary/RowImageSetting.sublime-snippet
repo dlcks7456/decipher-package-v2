@@ -1,8 +1,26 @@
 <snippet>
 	<content><![CDATA[
+.card-img {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-img p {
+  width: 100%;
+  text-align: center;
+}
+
+.card-img img {
+  width: 100%;
+}
+
+
 <res label="img_div" translateable="0"><div class="card-img"><p>%s</p><p><img src="%s"/></p></div></res>
 
-def row_img_setting(qid, text_base, base_path, diff_value, img_format="png") :
+def row_img_setting(qid, text_base, base_path, diff_value=[], img_format="png") :
   for x in qid.rows :
     if (x.value in diff_value) or (not x.displayed):
       continue
