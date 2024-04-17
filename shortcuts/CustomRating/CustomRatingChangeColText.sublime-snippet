@@ -1,0 +1,102 @@
+<snippet>
+	<content><![CDATA[
+<style name="question.after"><![CDATA[
+<script>
+const targetNode = document.querySelector('.answers');
+
+const config = {
+  childList: true, // 자식 요소의 변화를 감지
+  subtree: true   // 하위 요소 감지
+};
+
+const callback = function(mutationsList, observer) {
+  for(const mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      const groupCols = [
+        {
+          'rows': ['r103', 'r106'],
+          'cols': {
+            'c1': '너무 약하다',
+            'c2': '약하다',
+            'c3': '적당하다',
+            'c4': '강하다',
+            'c5': '너무 강하다',
+          },
+        },
+        {
+          'rows': ['r104'],
+          'cols': {
+            'c1': '너무 무르다',
+            'c2': '무르다',
+            'c3': '적당하다',
+            'c4': '질기다/딱딱하다',
+            'c5': '너무 질기다/너무 딱딱하다',
+          },
+        },
+        {
+          'rows': ['r108', 'r102'],
+          'cols': {
+            'c1': '너무 적다',
+            'c2': '적다',
+            'c3': '적당하다',
+            'c4': '많다',
+            'c5': '너무 많다',
+          },
+        },
+        {
+          'rows': ['r105'],
+          'cols': {
+            'c1': '너무 작다',
+            'c2': '작다',
+            'c3': '적당하다',
+            'c4': '크다',
+            'c5': '너무 크다',
+          }
+        },
+        {
+          'rows': ['r107'],
+          'cols': {
+            'c1': '너무 얇다',
+            'c2': '얇다',
+            'c3': '적당하다',
+            'c4': '두껍다',
+            'c5': '너무 두껍다',
+          }
+        },
+      ];
+
+      groupCols.forEach((gr) => {
+        const {rows, cols} = gr;
+        rows.forEach((r) => {
+          Object.entries(cols).forEach(([cl, txt], colIndex) => {
+            const btnLabelClass = document.querySelector('.sp-btn-' + r + '-' + cl);
+            if(btnLabelClass) {
+              const lb = btnLabelClass.querySelector('label');
+              const pTag = lb.querySelector('.sp-col-score');
+              const colText = document.createElement('p');
+      
+              colText.classList.add('change-col-text');
+              const textFlag = lb.querySelector('.change-col-text')
+              if( !textFlag ){
+                pTag.innerText = '(' + (colIndex + 1) + ')';
+                lb.appendChild(colText);
+                colText.innerText = txt;
+              }
+            }
+          });
+        });
+      });
+    }
+  }
+};
+
+const observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
+</script>
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>custom.rate.obs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
