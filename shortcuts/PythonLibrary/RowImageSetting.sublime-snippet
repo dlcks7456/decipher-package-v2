@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+<res label="img_div" translateable="0"><div class="card-img"><p>%s</p><p><img src="%s"/></p></div></res>
+
+def row_img_setting(qid, text_base, base_path, diff_value, img_format="png") :
+  for x in qid.rows :
+    if (x.value in diff_value) or (not x.displayed):
+      continue
+
+    img_path = "%s/%s.%s"%(base_path, '{0:02d}'.format(x.value), img_format)
+    x.text = res.img_div%(text_base.attr(x.label).text, img_path)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>row.img</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
