@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-<img width="\$\{100 if device.mobileDevice else 50\}%" src="\$\{imgdr\}/$2.png"/>
+<img src="\$\{imgdr\}/${1}.png"/>
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>img</tabTrigger>

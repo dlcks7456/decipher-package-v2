@@ -2028,6 +2028,7 @@ const setCustomBtn = ()=>{
 
 .sp-custom-btn .answers .element img { 
     pointer-events: none;
+    width: 100%;
 }
 
 .sp-custom-btn .answers .element .cell-sub-wrapper {
