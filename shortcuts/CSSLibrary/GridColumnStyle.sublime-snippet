@@ -3,7 +3,7 @@
 .grid-cols-3 .answers{
   display: grid !important;
   width: 100% !important;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: repeat(3, 1fr);
   grid-column-gap : 5px;
   grid-row-gap: 5px;
   max-width: 924px;
@@ -12,7 +12,7 @@
 
 .grid-cols-2 .answers{
   display: grid !important;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(2, 1fr);
   grid-column-gap : 5px;
   grid-row-gap: 5px;
   width: 100% !important;
@@ -22,16 +22,16 @@
 
 \@media all and (max-width: 800px){
  .grid-cols-3 .answers{
-    grid-template-columns: 50% 50%;
+    grid-template-columns: repeat(2, 1fr);
  }
  .grid-cols-2 .answers{
-    grid-template-columns: 100%;
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
 \@media all and (max-width: 500px){
  .grid-3-cols .answers{
-    grid-template-columns: 100%;
+    grid-template-columns: repeat(1, 1fr);
  }
 }
 ]]></content>

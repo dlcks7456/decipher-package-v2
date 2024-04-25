@@ -1,0 +1,21 @@
+<snippet>
+  <content><![CDATA[
+  <samplesource list="12">
+    <title>MarketLink</title>
+    <invalid>URL에 정보가 누락되었습니다. 기존의 초대받은 URL을 확인해 주시기 바랍니다.</invalid>
+    <completed>귀하께서는 이미 본 설문에 접속 하신 것으로 확인 됩니다.</completed>
+    <var name="CO" required="1" values="GB,DE,IT,ES,FR,KR"/>
+    <var name="mlTerm" required="1"/>
+    <var name="mlOver" required="1"/>
+    <var name="mlQual" required="1"/>
+    <var name="seq" unique="1"/>
+    <exit cond="terminated" url="https://join.cloudpanel.co.kr/join/resultDirect?KEY=\${mlTerm}&amp;PANEL_SEQ=\${seq}"/>
+    <exit cond="overquota" url="https://join.cloudpanel.co.kr/join/resultDirect?KEY=\${mlOver}&amp;PANEL_SEQ=\${seq}"/>
+    <exit cond="qualified" url="https://join.cloudpanel.co.kr/join/resultDirect?KEY=\${mlQual}&amp;PANEL_SEQ=\${seq}"/>
+  </samplesource>
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>marketlink</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.xml</scope>
+</snippet>
