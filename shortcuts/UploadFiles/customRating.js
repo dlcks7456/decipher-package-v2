@@ -374,6 +374,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", au
     align-items: center;
 }
 
+.z-up {
+    z-index: 99999;
+}
+
 .sp-arrow-btn {
     display: flex;
     justify-content: space-between;
@@ -623,7 +627,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", au
                     <div className={classHandler(ansIndex == elRows.length, "sp-card-container", "hide")}>
                         {elRows.map((row, rowIndex)=>{
                             return (
-                                <div key={rowIndex} className={"sp-card"}>
+                                <div key={rowIndex} className={classHandler(rowIndex == ansIndex, "sp-card", "z-up")}> 
                                     {Object.keys(groupInfo).length > 0 && showGroup ? (
                                         <div className={"sp-rate-group"}>
                                             <div className={classHandler((!(ansIndex == elRows.length) && (groupInfo[row.label].label == groupInfo[rows[ansIndex].label].label)), `sp-group-text sp-group-${groupInfo[row.label].label}`, 'show')}>
