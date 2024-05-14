@@ -1477,7 +1477,7 @@ class makeRatingCommand(sublime_plugin.TextCommand):
                 style = ""
                 comment = ''
 
-                if not "<row" in output :
+                if not "<row" in output and not "<insert" in output :
                     custom_rate = ""
 
                 if docType == 'FMA':
