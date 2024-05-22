@@ -53,7 +53,7 @@ const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, aut
     )
 }
 
-const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", autoContinue=false, showArrow=false, autoNumber, showGroup=false, groupInfo={}})=>{
+const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", disableContinue=true, autoContinue=false, showArrow=false, autoNumber, showGroup=false, groupInfo={}})=>{
     const brandColor = "#2d6df6";
     const brandSubColor = "#b7ceff";
     let {uid, cols, rows, haveRightLegend, grouping} = json;
@@ -172,9 +172,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", au
         }
     }, [answer])
 
+    
     React.useEffect(()=>{
         const continueBtn = document.querySelector('#btn_continue');
-        if( continueBtn !== undefined && continueBtn !== null){
+        if( continueBtn !== undefined && continueBtn !== null ){
             if( ansserComplete ){
                 continueBtn.style.opacity = "1";
                 continueBtn.style.pointerEvents = "auto";
@@ -187,8 +188,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", au
                     }
                 }
             }else{
-                continueBtn.style.opacity = "0.5";
-                continueBtn.style.pointerEvents = "none";
+                if( disableContinue ){
+                    continueBtn.style.opacity = "0.5";
+                    continueBtn.style.pointerEvents = "none";
+                }
             }
         }
 
@@ -747,6 +750,7 @@ const CustomRating = ({
     rightText, 
     answers,
     flexDirection="row",
+    disableContinue=true,
     autoContinue=false,
     autoNumber=true,
     showArrow=false,
@@ -794,6 +798,7 @@ const CustomRating = ({
             left={leftText} 
             right={rightText}
             mode={mode}
+            disableContinue={disableContinue}
             answers={answers}
             flexDirection={flexDirection}
             showArrow={showArrow}

@@ -2211,7 +2211,7 @@ const setCustomBtn = ()=>{
     elements.forEach((element)=>{
         const labelNode = element.querySelector('label');
         const inputNode = element.querySelector('input');
-        const openCheck = element.querySelector('input[type=text], input[type=number], select');
+        const openCheck = element.querySelector('input[type=text], input[type=number], input[type=time], input[type=date], input[type=month], select');
         
         const firCheck = element.querySelector('.fir-icon');
         //firCheck.style.pointerEvents = 'none';
