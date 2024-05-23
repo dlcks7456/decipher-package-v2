@@ -37,7 +37,7 @@ try {
     answers: \${dict([[x.label, x.val if x.val != None else 'null'] for x in \$(this.label).cols if x.displayed])},
 \@endif
     flexDirection: "\$(btnDirection)",
-    disableContinue: $(disableContinue),
+    disableContinue: \$(disableContinue),
     showGroup: \$(showGroup),
     groupInfo: groupInfo,
     showArrow: \$(showArrow),
