@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 <style label="custom_rating" arg:qmode="rating" arg:autoContinue="false" arg:autoNumber="true" arg:btnDirection="row" arg:leftText="" arg:rightText="" arg:showArrow="false" arg:showGroup="true" arg:disableContinue="true" name="question.after"><![CDATA[
-<style>.answers {display: none;}</style>
+<style>.label_$(this.label) .answers {display: none;}</style>
 <div class="custom-loader"></div>
 <script type="text/babel">
 const groupInfo = {
