@@ -2001,108 +2001,11 @@ const setCustomBtn = ()=>{
   if( btnClass.length == 0 ){
     return;
   }
-
-  const mainStyle = document.createElement('style');
-  mainStyle.innerHTML = `
-.btn-exclusive {
-    max-width: 924px;
-}
-
-.sp-custom-btn .answers .element {
-  padding: unset;
-  border-radius: 7px;
-  margin-bottom: 3px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-}
-
-.sp-custom-btn .answers .element .cell-text {
-  width: 100%;
-  max-width: 924px;
-  padding: 5px;
-}
-
-.sp-custom-btn .answers .element { 
-    transition: background-color 0.5s;
-}
-
-.sp-custom-btn .answers .element img { 
-    pointer-events: none;
-    width: 100%;
-}
-
-.sp-custom-btn .answers .element .cell-sub-wrapper {
-  padding-left: 0.25em;
-  border-radius: 7px;
-  border: 1px solid #959595;
-  width: 100%;
-  max-width: 924px;
-  overflow: hidden;
-}
-
-
-.sp-custom-btn .answers .element .cell-sub-wrapper .cell-sub-column {
-  height: 100%;
-}
-
-.sp-custom-btn .answers .element label {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-  font-size: 1.2rem;
-}
-
-.sp-custom-btn .answers .element input[type="text"] {
-  margin-left: 6px;
-}
-
-.hasError .ch-group-toggle .ch-group-rows .hasError .cell-text {
-    border-bottom: unset !important;
-}
-
-.sp-custom-btn .ch-group-toggle .hasError.element .cell-sub-wrapper {
-    border: 1px solid #e7046f;
-}
-
-.sp-custom-btn.hasError .ch-group-toggle .ch-group-rows {
-    background-color: unset !important;
-}
-
-.sp-custom-btn .element.hasError:not(.btn-hover) {
-    background-color: unset !important;
-}
-
-.sp-custom-btn .element.hasError .cell-sub-wrapper{
-  border-color: #e7046f!important;
-}
-
-.btn-hover {
-  background-color: #b7ceff!important;
-}
-
-@media (max-width: 768px) {
-  .sp-custom-btn .answers .element {
-    max-width: 100%;
-  }
-
-  .sp-custom-btn .answers .element input[type="text"] {
-    width: 90%;
-  }
-
-  .sp-custom-btn .answers .element label { 
-    font-size: 1.1rem;
-  }
-}
-  `;
-  document.head.appendChild(mainStyle);
-  
   
   observeElements();
 
 
   btnClass.forEach((btn, btnIndex)=>{
-
     const btnClassList = btn.classList;
     const btnId = btn.id;
 
@@ -2117,8 +2020,114 @@ const setCustomBtn = ()=>{
     }
     const newClassName = `custom-btn-cols-${colNumber}`;
 
-    
+    if( btn.querySelector('.grid-table-mode') && !btn.querySelector('.grid-list-mode') ){
+        return;
+    }
 
+    const singleDimension = (btn.classList.contains('noCols') || btn.classList.contains('noRows'))
+
+    const mainStyle = document.createElement('style');
+    mainStyle.innerHTML = `
+#${btnId} .zeroHeight {
+    display: none!important;
+}
+
+#${btnId} .btn-exclusive {
+    max-width: 924px;
+}
+
+#${btnId}.sp-custom-btn .answers .element {
+  padding: unset;
+  border-radius: 7px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+#${btnId}.sp-custom-btn .answers .element .cell-text {
+  width: 100%;
+  max-width: 924px;
+  padding: 5px;
+}
+
+#${btnId}.sp-custom-btn .answers .element { 
+    transition: background-color 0.5s;
+}
+
+#${btnId}.sp-custom-btn .answers .element img { 
+    pointer-events: none;
+    width: 100%;
+}
+
+#${btnId}.sp-custom-btn .grid-list-mode .cell.element {
+    border: 1px solid #959595;
+}
+
+#${btnId}.sp-custom-btn .answers .element .cell-sub-wrapper {
+  padding-left: 0.25em;
+  border-radius: 7px;
+  border: 1px solid #959595;
+  width: 100%;
+  max-width: 924px;
+  overflow: hidden;
+}
+
+
+#${btnId}.sp-custom-btn .answers .element .cell-sub-wrapper .cell-sub-column {
+  height: 100%;
+}
+
+#${btnId}.sp-custom-btn .answers .element label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  font-size: 1.2rem;
+}
+
+#${btnId}.sp-custom-btn .answers .element input[type="text"] {
+  margin-left: 6px;
+}
+
+.hasError .ch-group-toggle .ch-group-rows .hasError .cell-text {
+    border-bottom: unset !important;
+}
+
+#${btnId}.sp-custom-btn .ch-group-toggle .hasError.element .cell-sub-wrapper {
+    border: 1px solid #e7046f;
+}
+
+#${btnId}.sp-custom-btn.hasError .ch-group-toggle .ch-group-rows {
+    background-color: unset !important;
+}
+
+#${btnId}.sp-custom-btn .element.hasError:not(.btn-hover) {
+    background-color: unset !important;
+}
+
+#${btnId}.sp-custom-btn .element.hasError .cell-sub-wrapper{
+  border-color: #e7046f!important;
+}
+
+.btn-hover {
+  background-color: #b7ceff!important;
+}
+
+@media (max-width: 768px) {
+  #${btnId}.sp-custom-btn .answers .element {
+    max-width: 100%;
+  }
+
+  #${btnId}.sp-custom-btn .answers .element input[type="text"] {
+    width: 90%;
+  }
+
+  #${btnId}.sp-custom-btn .answers .element label { 
+    font-size: 1.1rem;
+  }
+}
+  `;
+    document.head.appendChild(mainStyle);
 
     const style = document.createElement('style');
     btn.querySelector('.answers').appendChild(style);
@@ -2162,7 +2171,32 @@ const setCustomBtn = ()=>{
     mainBefore.classList.add('answers', 'btn-exclusive', 'answers-before');
     mainAfter.classList.add('answers', 'btn-exclusive', 'answers-after');
 
-    answers.classList.add(newClassName);
+    if( !singleDimension ){
+        btn.querySelectorAll('.row-elements').forEach((row)=>{
+            row.classList.add(newClassName);
+        });
+        style.innerHTML += `
+#${btnId} .row-elements th, #${btnId} .row-elements .mobile-group-legend{
+    grid-column: 1 / -1;
+    margin: 0 -5px 0 -5px;
+}
+
+#${btnId} .${newClassName} {
+    padding: 0 5px 5px 5px;
+}
+
+#${btnId} .btn-bot, #${btnId} .btn-top {
+    grid-column: 1 / -1;
+}
+
+#${btnId} .row-elements+.row-elements, #${btnId} .row-elements+.row-group {
+    margin-top: unset;
+}
+
+        `;
+    }else{
+        answers.classList.add(newClassName);
+    }
     
     const checkMaxWidth = [...btnClassList].filter((cl)=> cl.includes('btn-mw-'));
 
@@ -2219,12 +2253,14 @@ const setCustomBtn = ()=>{
         const notClickNodes = ['label', 'input', 'input[type=text]', 'rect', 'polygon', 'circle', '.fir-icon']
         const notClickNodesMap = notClickNodes.map((nd)=> element.querySelector(nd));
         
-        if( element.classList.contains('btn-top') ){
-            mainBefore.appendChild(element);
-        }
+        if( singleDimension ){
+            if( element.classList.contains('btn-top') ){
+                mainBefore.appendChild(element);
+            }
 
-        if( element.classList.contains('btn-bot') ){
-            mainAfter.appendChild(element);
+            if( element.classList.contains('btn-bot') ){
+                mainAfter.appendChild(element);
+            }
         }
 
         element.addEventListener('click', (event) => {
