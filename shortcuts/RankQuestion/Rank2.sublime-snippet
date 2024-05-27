@@ -5,7 +5,7 @@
   grouping="cols"
   shuffle="rows"
   unique="1"
-  ss:questionClassNames="niq-rk-question">
+  ss:questionClassNames="niq-rk-question sp-custom-btn">
   <title><div class="q-name">${1:QID}</div> ${2}</title>
   <style copy="custom_rank" arg:autoClick="true" arg:autoContinue="false" arg:colCnt="${3:1}" arg:ableNone="${5:1}" arg:noneLabel="${6:null}" arg:showAnswers="true" arg:ableSort="true" arg:showGroups="false" arg:toggle="false" arg:showCnt="true" name="question.after"/>
   <col label="c1">1순위</col>

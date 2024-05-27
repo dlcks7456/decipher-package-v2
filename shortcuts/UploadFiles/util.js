@@ -2066,7 +2066,6 @@ const setCustomBtn = ()=>{
 #${btnId}.sp-custom-btn .answers .element .cell-sub-wrapper {
   padding-left: 0.25em;
   border-radius: 7px;
-  border: 1px solid #959595;
   width: 100%;
   max-width: 924px;
   overflow: hidden;
@@ -2188,14 +2187,14 @@ const setCustomBtn = ()=>{
 #${btnId} .btn-bot, #${btnId} .btn-top {
     grid-column: 1 / -1;
 }
-
-#${btnId} .row-elements+.row-elements, #${btnId} .row-elements+.row-group {
-    margin-top: unset;
-}
-
         `;
     }else{
         answers.classList.add(newClassName);
+        style.innerHTML += `
+#${btnId}.sp-custom-btn .answers .element .cell-sub-wrapper {
+  border: 1px solid #959595;
+}
+        `;
     }
     
     const checkMaxWidth = [...btnClassList].filter((cl)=> cl.includes('btn-mw-'));
@@ -2510,7 +2509,6 @@ const customInputBox = ()=>{
 
 window.addEventListener('DOMContentLoaded', customInputBox);
 
-
 const checkElement = (el) => {
     return (el !== undefined && el !== null)
 }
@@ -2562,5 +2560,441 @@ const autoClickContinue = (flag)=>{
                 });
             });
         }
+    });
+}
+
+
+
+// Custom Card Setting
+const CustomCardSetting = ()=>{
+    const customCard = document.querySelectorAll('.sp-custom-card');
+    const continueBtn = document.querySelector('#btn_continue');
+
+    if( continueBtn === null || continueBtn === undefined ){
+        return;
+    }
+
+    // Error Check
+    const errorFlag = (document.querySelectorAll('.hasError').length>=1);
+
+    if( customCard.length === 0 ){
+        return;
+    }else{
+        if( !errorFlag ){
+            continueBtn.disabled = true;
+        }else{
+            continueBtn.disabled = false;
+        }
+    }
+
+
+    const style = document.createElement('style');
+
+    style.innerHTML = `
+.sp-card-arrow {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px !important;
+}
+
+.sp-card-arrow-left, .sp-card-arrow-right {
+    width: 40px;
+    padding: 7px;
+    background-color: #2d6df6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.sp-card-arrow-icon {
+    width: 30px;
+}
+
+.sp-card-arrow-left:hover {
+    transform: translateX(-10px);
+}
+
+.sp-card-arrow-right:hover {
+    transform: translateX(10px);
+}
+
+@media (max-width: 768px) {
+    .sp-card-arrow-left:hover {
+        transform: translateX(0px);
+    }
+
+    .sp-card-arrow-right:hover {
+        transform: translateX(0px);
+    }
+
+    .sp-custom-card .grid-list-mode {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
+
+.sp-custom-card .grid-list-mode .row-elements th{
+    text-align: center;
+}
+
+.sp-card-container {
+    display: flex!important;
+    overflow: hidden;
+    width: 100%;
+}
+
+.sp-card-container .row-elements {
+    min-width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.sp-card-last, .sp-card-complete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sp-card-complete svg {
+    width: 80px;
+    color: #2d6df6;
+}
+
+.sp-card-last {
+    grid-template-columns: repeat(1, 1fr)!important;
+}
+
+.border-shadow-unset {
+    border: unset !important;
+    box-shadow: unset !important;
+}
+
+.row-margin-top-unset {
+    margin-top: unset !important;
+}
+        `;
+    document.head.appendChild(style);
+
+
+    // SetUp Each Custom Card Question
+    [...customCard].forEach((card)=>{
+        const cardId = card.id;
+        const baseRoot = card.querySelector('.grid-list-mode');
+
+        const allRows = card.querySelectorAll('.grid-list-mode .row-elements:not(.zeroHeight)');
+        const baseElements = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
+        const disabledElements = [...allRows].filter(row => row.querySelectorAll('input').length == 0);
+
+
+        // Answer Check
+        const answerCount = [...baseElements].filter(row => row.querySelector('.fir-icon.selected')).length;
+        let answerComplteCount = answerCount;
+        const currentAnswers = answerCount >= 1;
+
+        // Auto Next Flag;
+        let nextFlag = currentAnswers ? false : true;
+        
+
+        if( card.classList.contains('able-continue') || currentAnswers ){
+            continueBtn.disabled = false;
+        }
+
+
+        disabledElements.forEach((row)=>{
+            row.classList.add('hidden');
+        });
+
+
+        if( errorFlag ){
+            return;
+        }else{
+            [...allRows].forEach((row)=>{
+                row.classList.add('row-margin-top-unset');
+            })
+        }
+
+        // Set Next/Prev Button Element
+        const navigatorContiner = document.createElement('div');
+        navigatorContiner.classList.add('sp-card-arrow');
+
+        const prevBtnIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sp-card-arrow-icon"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+        const prevBtn = document.createElement('div');
+        prevBtn.innerHTML = prevBtnIcon;
+        prevBtn.classList.add('sp-card-arrow-left');
+
+        const nextBtnIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sp-card-arrow-icon"><path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+        const nextBtn = document.createElement('div');
+        nextBtn.innerHTML = nextBtnIcon;
+        nextBtn.classList.add('sp-card-arrow-right');
+
+
+        let currentIndex = currentAnswers ? answerCount : 0;
+
+        const answerCountDiv = document.createElement('div');
+        answerCountDiv.classList.add('sp-answer-count', 'animate__animated', 'animate__fast');
+        answerCountDiv.innerHTML = `${currentIndex + 1}/${baseElements.length}`;
+
+        const groupBody = document.createElement('tbody');
+
+        groupBody.classList.add('sp-card-arrow');
+
+        [prevBtn, answerCountDiv, nextBtn].forEach((item)=>{
+          groupBody.appendChild(item);
+        });
+
+        baseRoot.insertBefore(groupBody, baseRoot.firstChild);
+
+        const newTbody = document.createElement('tbody');
+        newTbody.classList.add('sp-card-container', 'animate__animated', 'animate__fadeIn');
+        baseRoot.appendChild(newTbody);
+
+        let setGroupElement = null;
+
+        baseElements.forEach((row)=>{
+          newTbody.appendChild(row);
+
+          const colGroup = row.querySelector('.col-legend-group');
+          if( colGroup ){
+            setGroupElement = colGroup.cloneNode(true);
+            return;
+          }else{
+            if( setGroupElement !== null ){
+              row.insertBefore(setGroupElement, row.firstChild);
+            }
+          }
+        });
+
+        // Last Page
+        const lastPage = document.createElement('tr');
+        lastPage.classList.add('sp-card-last', 'row-elements');
+
+        // Complete Element
+        const completeDiv = document.createElement('div');
+        lastPage.appendChild(completeDiv);
+        completeDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`;
+
+        completeDiv.classList.add('sp-card-complete', 'animate__animated');
+
+        newTbody.appendChild(lastPage);
+
+
+        const disableBtn = (btn)=>{
+          btn.style.pointerEvents = 'none';
+          btn.style.opacity = '0.5';  
+        }
+
+        const ableBtn = (btn)=>{
+          btn.style.pointerEvents = '';
+          btn.style.opacity = '1';  
+        }
+
+        const updateSlide = ()=> {
+            let offset = -(currentIndex) * 100;
+            const rowElementsCount = baseElements.length;
+
+            const eachPage = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
+            eachPage.push(lastPage);
+
+            eachPage.forEach(row => {
+                row.style.transform = `translateX(${offset}%)`;
+            });
+
+            const pageNumber = currentIndex + 1 <= rowElementsCount ? currentIndex + 1 : currentIndex;
+            answerCountDiv.innerHTML = `${pageNumber}/${rowElementsCount}`;
+
+
+            const rowElements = card.querySelectorAll('.row-elements');
+
+            if(currentIndex + 1 > rowElementsCount){
+                // Answer Complete
+                answerCountDiv.classList.add('animate__flipOutX');
+                answerCountDiv.classList.remove('animate__flipInX');
+                newTbody.style.maxHeight = '120px';
+                completeDiv.classList.add('animate__bounceIn');
+                completeDiv.classList.remove('animate__fadeOut');
+
+                answerComplteCount += 1;
+
+                if( answerComplteCount === customCard.length ){
+                    continueBtn.disabled = false;
+                    continueBtn.focus();
+
+                    // Auto Continue
+                    if( card.classList.contains('auto-continue') && !currentAnswers ){
+                        continueBtn.click();
+                    }
+                }
+
+                rowElements.forEach((row)=>{
+                    row.classList.add('border-shadow-unset');
+                });
+
+            }else{
+                answerCountDiv.classList.add('animate__flipInX');
+                answerCountDiv.classList.remove('animate__flipOutX');
+                newTbody.style.maxHeight = 'unset';
+                completeDiv.classList.add('animate__fadeOut');
+                completeDiv.classList.remove('animate__bounceIn');
+                    rowElements.forEach((row)=>{
+                    row.classList.remove('border-shadow-unset');
+                });
+            }
+
+            nextBtnHandler();
+
+            if( currentIndex === 0 ){
+              disableBtn(prevBtn);
+            }else{
+              ableBtn(prevBtn);
+            }
+        }
+
+        const focusNavigator = ()=>{
+            card.scrollIntoView({ behavior: 'smooth', block: 'start'});
+        }
+
+        const nextBtnHandler = ()=>{
+                if( currentIndex < baseElements.length ){
+                const currentPage = baseElements[currentIndex].querySelector('input:checked', '.fir-icon.selected');
+
+                if( !currentPage ){
+                  disableBtn(nextBtn);
+                  nextFlag = true;
+                }else{
+                    const questionType = currentPage.type;
+                    if( questionType === 'radio' ){
+                        ableBtn(nextBtn);
+                    }
+
+                    if( questionType === 'checkbox' ){
+                        // Atleast Default 1
+                        let atleast = [...card.classList].filter((cl)=> cl.includes('atleast-'))[0];
+                        try {
+                            atleast = atleast === undefined ? 1 : parseInt(atleast.split('-')[1]);
+                        }
+                        catch {
+                            atleast = 1;
+                        }
+
+                        // AtMost Default null
+                        let atmost = [...card.classList].filter((cl)=> cl.includes('atmost-'))[0];
+                        try {
+                            atmost = atmost === undefined ? null : parseInt(atmost.split('-')[1]);
+                        }
+                        catch {
+                            atmost = null;
+                        }
+
+                        // Exactly Default null
+                        let exactly = [...card.classList].filter((cl)=> cl.includes('exactly-'))[0];
+                        try {
+                            exactly = exactly === undefined ? null : parseInt(exactly.split('-')[1]);
+                        }
+                        catch {
+                            exactly = null;
+                        }
+
+                        const multiAnswer = baseElements[currentIndex].querySelectorAll('input:checked', '.fir-icon.selected').length;
+
+                        if( exactly ){
+                            if( exactly === multiAnswer ){
+                                ableBtn(nextBtn);
+                            }else{
+                                disableBtn(nextBtn);
+
+                                if( currentPage.classList.contains('exclusive') ){
+                                    ableBtn(nextBtn);
+                                }
+                            }
+                        }else{
+                            if( atmost ){
+                                if( (atleast <= multiAnswer) && (multiAnswer <= atmost) ){
+                                    ableBtn(nextBtn);
+                                }else{
+                                    disableBtn(nextBtn);
+                                }
+                            }else{
+                                if( atleast <= multiAnswer ){
+                                    ableBtn(nextBtn);
+                                }else{
+                                    disableBtn(nextBtn);
+                                }
+                            }
+
+                            if( currentPage.classList.contains('exclusive') ){
+                                ableBtn(nextBtn);
+                            }
+                        }
+                    }
+
+                    if( nextFlag ){
+                        // Auto Next
+
+                        // CheckBox
+                        if( (questionType === 'checkbox' && currentPage.classList.contains('exclusive'))){
+                            currentIndex++;
+                            updateSlide();
+                            focusNavigator();
+                        }
+
+                        // Radio
+                        if(questionType === 'radio'){
+                            const parentNode = currentPage.parentNode.parentNode.parentNode;
+                            if( !parentNode.classList.contains('supportsOE') ){
+                                currentIndex++;
+                                updateSlide();
+                                focusNavigator();
+                            }
+                        }
+                    }
+                }
+              }else{
+                disableBtn(nextBtn);
+              }
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                    nextFlag = false;
+                currentIndex--;
+                updateSlide();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const eachPage = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
+            if (currentIndex < eachPage.length) {
+                currentIndex++;
+                updateSlide();
+            }
+        });
+
+        updateSlide();
+
+        const config = {
+          attributes: true,
+          attributeFilter: ['class', 'checked'],
+          subtree: true,
+          childList: false,
+        };
+
+        const callback = (mutationsList, observer) => {
+          for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes' && (mutation.attributeName === 'class' || mutation.attributeName === 'checked')) {
+              nextBtnHandler();
+            }
+          }
+        };
+
+        const observer = new MutationObserver(callback);
+
+        baseElements.forEach((row) => {
+          observer.observe(row, config);
+        });
     });
 }

@@ -36,7 +36,7 @@ base = ${2}
   rowCond="row.label in scale_rank_items(${2}, ${3})['show']"
   colCond="col.index lt len(scale_rank_items(${2}, ${3})['show'])"
   grouping="cols"
-  ss:questionClassNames="niq-rk-question">
+  ss:questionClassNames="niq-rk-question sp-custom-btn">
   <alt></alt>
   <title><div class="q-name">${3}</div> ${5}</title>
   <comment></comment>

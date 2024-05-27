@@ -1,7 +1,8 @@
 <snippet>
 	<content><![CDATA[
 <style label="custom_rating" arg:qmode="rating" arg:autoContinue="false" arg:autoNumber="true" arg:btnDirection="row" arg:leftText="" arg:rightText="" arg:showArrow="false" arg:showGroup="true" arg:disableContinue="true" name="question.after"><![CDATA[
-<style>.label_$(this.label) .answers {display: none;}</style>
+\@if len(this.rows) > 1
+<style>.label_\$(this.label) .answers {display: none;}</style>
 <div class="custom-loader"></div>
 <script type="text/babel">
 const groupInfo = {
@@ -51,6 +52,7 @@ try {
   document.querySelector(loader)?.remove();
 }
 </script>
+\@endif
 ]]${-1}></style>
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

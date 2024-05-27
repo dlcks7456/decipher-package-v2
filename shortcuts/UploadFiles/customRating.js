@@ -92,6 +92,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         }
     }));
 
+    const [offset, setOffset] = React.useState(-(ansIndex)*100);
+
     const [autoNext, setAutoNext] = React.useState(true);
     const [leftFlag, setLeftFlag] = React.useState(false);
     const [rightFlag, setRightFlag] = React.useState(false);
@@ -159,7 +161,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
             containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
-
+    
     React.useEffect(()=>{
         const currAnswer = [...answer];
 
@@ -173,6 +175,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     }, [answer])
 
     
+    React.useEffect(()=>{
+        setOffset(-(ansIndex)*100);
+    }, [ansIndex]);
+
     React.useEffect(()=>{
         const continueBtn = document.querySelector('#btn_continue');
         if( continueBtn !== undefined && continueBtn !== null ){
@@ -232,6 +238,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     return (
         <div>
             <style jsx="true">{`
+.sp-question {
+    max-width: 924px;
+}
+
 .qaCode-label {
     font-weight: bold;
 }
@@ -239,21 +249,16 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 #btn_continue {
     transition: opacity 0.5s;
 }
+
+.sp-container {
+    overflow: hidden;
+}
+
 .sp-col-legend-box, .sp-row-legend {
     width: 100%;
     display: flex;
     justify-content: space-between;
     transition: transform 0.3s;
-}
-
-.sp-row-legend {
-    transform: rotateX(90deg);
-    pointer-events: none;
-}
-
-.sp-row-legend.show {
-    transform: rotateX(0);
-    pointer-events: auto;
 }
 
 .sp-col-legend, .sp-row-card {
@@ -346,7 +351,6 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     color: #fff;
 }
 
-
 .sp-row-left, .sp-row-right {
     width: 100%;
     display: flex;
@@ -365,16 +369,15 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 .sp-card-container {
-    position: relative;
+    display: flex;
 }
 
 .sp-card {
-    position: absolute;
-    top: 0;
-    width: 100%;
+    min-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: transform 0.3s ease;
 }
 
 .z-up {
@@ -444,17 +447,13 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 .sp-rating {
-    display: none;
-    pointer-events: none;
-}
-
-.sp-rating.show {
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
     pointer-events: auto;
 }
+
 
 .arrow-container {
     height: 8px;
@@ -570,16 +569,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     text-align: center;
     border-radius: 5px;
     transition: transform 0.5s;
-    transform: rotateX(90deg);
 }
 
-.sp-group-text.show {
-    transform: rotateX(0);
-}
-
-.hasError .sp-group-text {
-    transform: rotateX(0);
-}
             `}</style>
             {!haveRightLegend ? (
                 <div>
@@ -627,18 +618,18 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                             </svg>
                         </div>
                     </div>
-                    <div className={classHandler(ansIndex == elRows.length, "sp-card-container", "hide")}>
+                    <div className={"sp-card-container"}>
                         {elRows.map((row, rowIndex)=>{
                             return (
-                                <div key={rowIndex} className={classHandler(rowIndex == ansIndex, "sp-card", "z-up")}> 
+                                <div key={rowIndex} className={"sp-card"} style={{transform: `translateX(${offset}%)`}}> 
                                     {Object.keys(groupInfo).length > 0 && showGroup ? (
                                         <div className={"sp-rate-group"}>
-                                            <div className={classHandler((!(ansIndex == elRows.length) && (groupInfo[row.label].label == groupInfo[rows[ansIndex].label].label)), `sp-group-text sp-group-${groupInfo[row.label].label}`, 'show')}>
+                                            <div className={`sp-group-text sp-group-${groupInfo[row.label].label}`}>
                                                 {groupInfo[row.label].text}
                                             </div>
                                         </div>
                                     ) : null}
-                                    <div className={classHandler(rowIndex == ansIndex, "sp-row-legend", "show")}>
+                                    <div className={"sp-row-legend"}>
                                         <div className={"sp-row-card sp-row-left"}>
                                             {qaShow ? (<p className="qaCode-label">[{row.label}]{haveRightLegend ? ("_left") : null}</p>) : null}
                                             <p dangerouslySetInnerHTML={{__html: row.text}}></p>
@@ -650,7 +641,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                             </div>
                                         ) : null}
                                     </div>
-                                    <div className={classHandler(rowIndex == ansIndex, "sp-rating", "show")}>
+                                    <div className={"sp-rating"}>
                                         {showArrow ? (
                                             <div className={"arrow-container"}>
                                                 <div className={"arrow-left"}></div>
@@ -728,14 +719,16 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                 </div>
                             )
                         })}
-                    </div>
-                    {ansIndex == elRows.length ? (
-                        <div className={"sp-complete animate__animated animate__bounceIn"}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
+                        <div className={"sp-card"} style={{transform: `translateX(${offset}%)`}}>
+                            {ansIndex == elRows.length ? (
+                                <div className={"sp-complete animate__animated animate__bounceIn"}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </div>
+                            ) : null}
                         </div>
-                    ) : null}
+                    </div>
                 </div>
             </div>
         </div>
