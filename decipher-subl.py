@@ -1387,6 +1387,12 @@ class makeRadioCommand(sublime_plugin.TextCommand):
                 class_name = setQuestionClassNames(output)
                 class_name = '\n  %s'%(class_name) if not class_name == None else ''
 
+                # Custom Card Setting
+                custom_card = ""
+                if ("<row" in output) and ("<col" in output) :
+                    custom_card = "\n\tsurveyDisplay=\"mobile\"\n\tss:questionClassNames=\"sp-custom-btn btn-cols-1 sp-custom-card\""
+                    class_name = custom_card
+
                 #test for and adjust comment for 2d question
                 if output.strip() == '':
                     printpage = printPage = """
@@ -1609,6 +1615,12 @@ class makeCheckboxCommand(sublime_plugin.TextCommand):
                 # Custom Button Add
                 class_name = setQuestionClassNames(output2)
                 class_name = '\n  %s'%(class_name) if not class_name == None else ''
+
+                # Custom Card Setting
+                custom_card = ""
+                if ("<row" in output2) and ("<col" in output2) :
+                    custom_card = "\n\tsurveyDisplay=\"mobile\"\n\tss:questionClassNames=\"sp-custom-btn btn-cols-1 sp-custom-card\""
+                    class_name = custom_card
 
                 inputSpl = output2.split('\n')
                 output2 = []

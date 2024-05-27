@@ -2591,6 +2591,11 @@ const CustomCardSetting = ()=>{
     const style = document.createElement('style');
 
     style.innerHTML = `
+
+.sp-custom-card .grid-list-mode {
+    max-width: 924px;
+}
+
 .sp-card-arrow {
     display: flex !important;
     justify-content: space-between;
@@ -2634,10 +2639,11 @@ const CustomCardSetting = ()=>{
     }
 
     .sp-custom-card .grid-list-mode {
-        max-width: 350px;
+        max-width: 350px !important;
         margin: 0 auto;
     }
 }
+
 
 .sp-custom-card .grid-list-mode .row-elements th{
     text-align: center;
@@ -2754,6 +2760,31 @@ const CustomCardSetting = ()=>{
         baseRoot.appendChild(newTbody);
 
         let setGroupElement = null;
+
+        const rows = card.querySelectorAll('.grid-list-mode .row');
+        const groupedRows = [];
+        let currentGroup = null;
+
+        rows.forEach((row, index) => {
+          if (row.classList.contains('row-group')) {
+            if (currentGroup) {
+              groupedRows.push(currentGroup);
+            }
+            currentGroup = {
+              group: index,
+              elements: []
+            };
+          } else if (row.classList.contains('row-elements')) {
+            if (currentGroup) {
+              currentGroup.elements.push(index);
+            }
+          }
+        });
+
+        if (currentGroup) {
+          groupedRows.push(currentGroup);
+        }
+
 
         baseElements.forEach((row)=>{
           newTbody.appendChild(row);
