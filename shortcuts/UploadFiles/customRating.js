@@ -414,6 +414,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 @media (max-width: 768px) {
+    .sp-container {
+        max-width: 350px;
+        margin: 0 auto;
+    }
     .sp-arrow-left:hover {
         transform: translateX(0px);
     }
@@ -618,7 +622,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                             </svg>
                         </div>
                     </div>
-                    <div className={"sp-card-container"}>
+                    <div className={"sp-card-container"} style={{maxHeight: ansIndex == elRows.length ? '100px' : null}}>
                         {elRows.map((row, rowIndex)=>{
                             return (
                                 <div key={rowIndex} className={"sp-card"} style={{transform: `translateX(${offset}%)`}}> 
