@@ -1501,6 +1501,9 @@ class makeRatingCommand(sublime_plugin.TextCommand):
                 if not "<row" in output and not "<insert" in output :
                     custom_rate = ""
 
+                if check_insert(output, "cols") and not "<row" in output :
+                    custom_rate = ""
+
                 if docType == 'FMA':
                     printPage = "<radio\n  label=\"%s%s%s\"\n  type=\"rating\">\n%s\t<title><div class=\"q-name\">%s</div> %s</title>\n\t%s\n</radio>\n<suspend/>" % (label.strip(), shffl, style, alt, label.strip().replace('x', '-'), title.strip(), output)
 
