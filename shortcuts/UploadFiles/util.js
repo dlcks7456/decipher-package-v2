@@ -2441,73 +2441,177 @@ const customInputBox = ()=>{
     }
 
     const mainStyle = document.createElement('style');
-    mainStyle.innerHTML = `
-.sp-custom-input .answers div.element .cell-legend-above {
+    mainStyle.innerHTML = '';
+    document.head.appendChild(mainStyle);
+
+    inputBoxQuestion.forEach((numq) => {
+        const inputBoxId = numq.id;
+        if (numq.classList.contains('noCols') && numq.classList.contains('noRows')) {
+            return;
+        }
+
+        const checkMaxWidth = [...numq.classList].filter((cl) => cl.includes('ip-mw-'));
+
+        if (checkMaxWidth.length == 1) {
+            const setMaxWidth = checkMaxWidth[0].split('-').slice(-1)[0];
+            mainStyle.innerHTML += `
+#${inputBoxId} .answers {
+    max-width: ${setMaxWidth}px;
+}`;
+        }
+
+        const checkCols = [...numq.classList].filter(cl => cl.includes('ip-cols-'));
+        const colsFlag = (checkCols.length >= 1);
+
+        let colNumber = colsFlag ? checkCols[0].split('-')[2] : 1;
+
+        const minColClass = [...numq.classList].filter(cl => cl.includes('min-col-'));
+        const minColCount = minColClass.length >= 1 ? minColClass[0].split('-')[2] : 1;
+
+        if (minColCount > 1 && colNumber == 1) {
+            colNumber = minColCount;
+        }
+
+        mainStyle.innerHTML += `
+#${inputBoxId}.sp-custom-input .answers div.element .cell-legend-above {
   width: 100%;
 }
 
-.sp-custom-input .answers div.element.groupingCols .cell-text {
+#${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-text {
   border-bottom: 1px solid #ccc;
   transition: background-color 0.5s;
 }
 
-.sp-custom-input .answers div.element.groupingCols .cell-text label {
+#${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-text label {
   width: 100%;
   padding: 10px;
   display: block;
 }
 
-.sp-custom-input .answers div.element .cell-input {
+#${inputBoxId}.sp-custom-input .answers div.element .cell-input {
   padding: 10px 10px 10px 13px;
   display: flex;
   align-items: center;
 }
 
-.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper {
+#${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper {
   overflow: hidden;
   border: 1px solid #ccc;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
-.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper:hover .cell-text {
+#${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper:hover .cell-text {
   background-color: #b7ceff;
-}
-`;
-    document.head.appendChild(mainStyle);
+}`;
 
-    inputBoxQuestion.forEach((numq)=>{
+        if (colsFlag) {
+            if (!(numq.classList.contains('noCols') || numq.classList.contains('noRows'))) {
+                mainStyle.innerHTML += `
+#${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(${colNumber}, 1fr);
+}
+
+#${inputBoxId}.sp-custom-input .answers .grid-list-mode .row-elements {
+    margin-top: unset !important;
+}`;
+
+                if (colNumber >= 3) {
+                    mainStyle.innerHTML += `
+@media (max-width: 1000px) {
+    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody {
+      grid-template-columns: repeat(${minColCount == 1 ? 2 : (colNumber-1 > minColCount ? colNumber-1 : minColCount)}, 1fr);
+    }
+}`;
+                }
+
+                mainStyle.innerHTML += `
+@media (max-width: 768px) {
+    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody{
+        grid-template-columns: repeat(${minColCount}, 1fr);
+    }
+
+    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody{
+        max-width: 100%;
+    }
+}
+                `;
+
+            } else {
+                mainStyle.innerHTML += `
+#${inputBoxId}.sp-custom-input .answers {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(${colNumber}, 1fr);
+}
+
+#${inputBoxId}.sp-custom-input .answers .element {
+    padding: unset;
+}`;
+
+                if (colNumber >= 3) {
+                    mainStyle.innerHTML += `
+@media (max-width: 1000px) {
+    #${inputBoxId}.sp-custom-input .answers {
+      grid-template-columns: repeat(${minColCount == 1 ? 2 : (colNumber-1 > minColCount ? colNumber-1 : minColCount)}, 1fr);
+    }
+}`;
+                }
+
+                mainStyle.innerHTML += `
+@media (max-width: 768px) {
+    #${inputBoxId}.sp-custom-input .answers {
+        grid-template-columns: repeat(${minColCount}, 1fr);
+    }
+
+    #${inputBoxId}.sp-custom-input .answers {
+        max-width: 100%;
+    }
+
+    #${inputBoxId}.sp-custom-input .answers .element {
+        max-width: 100% !important;
+        padding: .4em .4em .4em 0;
+    }
+}`;
+            }
+        }
+
+
         const elements = numq.querySelectorAll('.element');
 
-        if( elements.length ==0 ){
-            return
+        if (elements.length == 0) {
+            return;
         }
 
         // table mode skip
         const tableMode = numq.querySelector('.grid-table-mode');
-        if( tableMode ){
+        if (tableMode) {
             return;
         }
 
-        elements.forEach((el)=>{
+        elements.forEach((el) => {
             const cellInput = el.querySelector('.cell-input');
-            if( !cellInput ){
+            if (!cellInput) {
                 return;
             }
 
             cellInput.style.cursor = 'pointer';
 
             const inputBox = el.querySelector('input[type="number"], input[type="text"], select');
-            cellInput.addEventListener('click', ()=>{
-                if( inputBox ){
+            cellInput.addEventListener('click', () => {
+                if (inputBox) {
                     inputBox.focus();
                 }
             });
         });
     });
+
+
+
 }
 
-window.addEventListener('DOMContentLoaded', customInputBox);
 
 const checkElement = (el) => {
     return (el !== undefined && el !== null)
@@ -2566,7 +2670,7 @@ const autoClickContinue = (flag)=>{
 
 
 // Custom Card Setting
-const CustomCardSetting = ()=>{
+const customCard = ()=>{
     const customCard = document.querySelectorAll('.sp-custom-card');
     const continueBtn = document.querySelector('#btn_continue');
     let answerComplteCount = 0;
@@ -2637,6 +2741,13 @@ const CustomCardSetting = ()=>{
 
 .sp-card-arrow-right:hover {
     transform: translateX(10px);
+}
+
+@media (max-width: 1000px) {
+    .sp-custom-card .grid-list-mode {
+        max-width: 750px !important;
+        margin: 0 auto;
+    }    
 }
 
 @media (max-width: 768px) {
@@ -3016,6 +3127,7 @@ const CustomCardSetting = ()=>{
                     nextFlag = false;
                 currentIndex--;
                 updateSlide();
+                focusNavigator();
             }
         });
 
@@ -3024,6 +3136,7 @@ const CustomCardSetting = ()=>{
             if (currentIndex < eachPage.length) {
                 currentIndex++;
                 updateSlide();
+                focusNavigator();
             }
         });
 
