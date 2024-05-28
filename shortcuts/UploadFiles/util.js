@@ -2569,6 +2569,7 @@ const autoClickContinue = (flag)=>{
 const CustomCardSetting = ()=>{
     const customCard = document.querySelectorAll('.sp-custom-card');
     const continueBtn = document.querySelector('#btn_continue');
+    let answerComplteCount = 0;
 
     if( continueBtn === null || continueBtn === undefined ){
         return;
@@ -2586,7 +2587,6 @@ const CustomCardSetting = ()=>{
             continueBtn.disabled = false;
         }
     }
-
 
     const style = document.createElement('style');
 
@@ -2680,6 +2680,11 @@ const CustomCardSetting = ()=>{
     box-shadow: unset !important;
 }
 
+.group-unset {
+    border-radius: unset !important;
+    box-shadow: unset !important;
+}
+
 .row-margin-top-unset {
     margin-top: unset !important;
 }
@@ -2699,8 +2704,12 @@ const CustomCardSetting = ()=>{
 
         // Answer Check
         const answerCount = [...baseElements].filter(row => row.querySelector('.fir-icon.selected')).length;
-        let answerComplteCount = answerCount;
+        
         const currentAnswers = answerCount >= 1;
+
+        if( currentAnswers ){
+            answerComplteCount += 1;
+        }
 
         // Auto Next Flag;
         let nextFlag = currentAnswers ? false : true;
@@ -2759,46 +2768,45 @@ const CustomCardSetting = ()=>{
         newTbody.classList.add('sp-card-container', 'animate__animated', 'animate__fadeIn');
         baseRoot.appendChild(newTbody);
 
+        
+        // Group By row
         let setGroupElement = null;
 
-        const rows = card.querySelectorAll('.grid-list-mode .row');
-        const groupedRows = [];
-        let currentGroup = null;
+        if ( baseRoot.dataset.settings.includes('group-by-row') ){
+            const rows = baseRoot.querySelectorAll('.row');
 
-        rows.forEach((row, index) => {
-          if (row.classList.contains('row-group')) {
-            if (currentGroup) {
-              groupedRows.push(currentGroup);
-            }
-            currentGroup = {
-              group: index,
-              elements: []
-            };
-          } else if (row.classList.contains('row-elements')) {
-            if (currentGroup) {
-              currentGroup.elements.push(index);
-            }
-          }
-        });
-
-        if (currentGroup) {
-          groupedRows.push(currentGroup);
+            rows.forEach((row, index) => {
+              if (row.classList.contains('row-group')) {
+                setGroupElement = row.querySelector('th').cloneNode(true);
+                row.parentNode.removeChild(row);
+                return;
+              } else {
+                newTbody.appendChild(row);
+                if (setGroupElement !== null) {
+                    const clonedGroup = setGroupElement.cloneNode(true);
+                    clonedGroup.classList.add('group-unset');
+                    row.insertBefore(clonedGroup, row.firstChild);
+                }
+              }
+            });
         }
 
+        // Group By col
+        if ( baseRoot.dataset.settings.includes('group-by-col') ){
+            baseElements.forEach((row)=>{
+              newTbody.appendChild(row);
 
-        baseElements.forEach((row)=>{
-          newTbody.appendChild(row);
-
-          const colGroup = row.querySelector('.col-legend-group');
-          if( colGroup ){
-            setGroupElement = colGroup.cloneNode(true);
-            return;
-          }else{
-            if( setGroupElement !== null ){
-              row.insertBefore(setGroupElement, row.firstChild);
-            }
-          }
-        });
+              const colGroup = row.querySelector('.col-legend-group');
+              if( colGroup ){
+                setGroupElement = colGroup.cloneNode(true);
+                return;
+              }else{
+                if( setGroupElement !== null ){
+                    row.insertBefore(setGroupElement.cloneNode(true), row.firstChild);
+                }
+              }
+            });
+        }
 
         // Last Page
         const lastPage = document.createElement('tr');
@@ -2851,7 +2859,7 @@ const CustomCardSetting = ()=>{
 
                 answerComplteCount += 1;
 
-                if( answerComplteCount === customCard.length ){
+                if( answerComplteCount >= customCard.length ){
                     continueBtn.disabled = false;
                     continueBtn.focus();
 
