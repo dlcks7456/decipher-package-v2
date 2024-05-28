@@ -2450,6 +2450,10 @@ const customInputBox = ()=>{
             return;
         }
 
+        if (!(numq.classList.contains('number') || numq.classList.contains('text'))) {
+            return;
+        }
+
         const checkMaxWidth = [...numq.classList].filter((cl) => cl.includes('ip-mw-'));
 
         if (checkMaxWidth.length == 1) {
