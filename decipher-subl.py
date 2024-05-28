@@ -1357,6 +1357,17 @@ class makeSurveyCommand(sublime_plugin.TextCommand):
 
 
 ################# Question types
+
+def check_insert(text, _as):
+    # 정규 표현식 패턴 정의
+    pattern = r'<insert[^>]*\s+as="%s"[^>]*>'%(_as)
+    
+    # 정규 표현식을 사용하여 패턴이 있는지 확인
+    match = re.search(pattern, text)
+    
+    # 패턴이 존재하면 True, 존재하지 않으면 False 반환
+    return match is not None
+
 class makeRadioCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -1389,7 +1400,11 @@ class makeRadioCommand(sublime_plugin.TextCommand):
 
                 # Custom Card Setting
                 custom_card = ""
-                if ("<row" in output) and ("<col" in output) :
+                default_cond = ("<row" in output) and ("<col" in output)
+                insert_cond_cols = (check_insert(output, "cols")) and ("<row" in output)
+                insert_cond_rows = ("<insert" in output) and (not check_insert(output, "cols")) and ("<col" in output)
+
+                if any([default_cond, insert_cond_cols, insert_cond_rows]) :
                     custom_card = "\n\tsurveyDisplay=\"mobile\"\n\tss:questionClassNames=\"sp-custom-btn btn-cols-1 sp-custom-card\""
                     class_name = custom_card
 
@@ -1618,7 +1633,11 @@ class makeCheckboxCommand(sublime_plugin.TextCommand):
 
                 # Custom Card Setting
                 custom_card = ""
-                if ("<row" in output2) and ("<col" in output2) :
+                default_cond = ("<row" in output2) and ("<col" in output2)
+                insert_cond_cols = (check_insert(output2, "cols")) and ("<row" in output2)
+                insert_cond_rows = ("<insert" in output2) and (not check_insert(output2, "cols")) and ("<col" in output2)
+
+                if any([default_cond, insert_cond_cols, insert_cond_rows]) :
                     custom_card = "\n\tsurveyDisplay=\"mobile\"\n\tss:questionClassNames=\"sp-custom-btn btn-cols-1 sp-custom-card\""
                     class_name = custom_card
 
