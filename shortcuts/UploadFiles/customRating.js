@@ -384,6 +384,17 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     z-index: 99999;
 }
 
+.survey-container {
+  overflow: unset !important;
+}
+
+.sticky-class {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background-color: #fff;
+}
+
 .sp-arrow-btn {
     display: flex;
     justify-content: space-between;
@@ -597,31 +608,31 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                 </div>
             ) : null}
             <div className={"sp-question animate__animated animate__fadeIn"} ref={containerRef}>
-                <div className={"sp-container"}>
-                    <div className={"sp-arrow-btn"}>
-                        <div className={classHandler(ansIndex == 0, "sp-arrow-left", "disabled-arrow")} 
-                            onClick={()=>{
-                                pageOnClick(-1);
-                                setAutoNext(false);
-                            }
-                            }>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={"sp-arrow-icon"}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                        </div>
-                        <div className={classHandler(ansIndex == elRows.length, "sp-answer-count", "hide")}>
-                            {ansIndex+1}/{elRows.length}
-                        </div>
-                        <div className={classHandler((ansIndex == (elRows.length)) || (elRows[ansIndex]['answer'] == 'null'), "sp-arrow-right", "disabled-arrow")} 
-                            onClick={()=>{
-                                pageOnClick(1);
-                                setAutoNext(true);
-                            }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={"sp-arrow-icon"}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                        </div>
+                <div className={"sp-arrow-btn sticky-class"}>
+                    <div className={classHandler(ansIndex == 0, "sp-arrow-left", "disabled-arrow")} 
+                        onClick={()=>{
+                            pageOnClick(-1);
+                            setAutoNext(false);
+                        }
+                        }>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={"sp-arrow-icon"}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
                     </div>
+                    <div className={classHandler(ansIndex == elRows.length, "sp-answer-count", "hide")}>
+                        {ansIndex+1}/{elRows.length}
+                    </div>
+                    <div className={classHandler((ansIndex == (elRows.length)) || (elRows[ansIndex]['answer'] == 'null'), "sp-arrow-right", "disabled-arrow")} 
+                        onClick={()=>{
+                            pageOnClick(1);
+                            setAutoNext(true);
+                        }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={"sp-arrow-icon"}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </div>
+                </div>
+                <div className={"sp-container"}>
                     <div className={"sp-card-container"} style={{maxHeight: ansIndex == elRows.length ? '100px' : null}}>
                         {elRows.map((row, rowIndex)=>{
                             return (

@@ -1981,6 +1981,7 @@ function handleButtonColor(element) {
 
 const observeElements = () => {
     const elements = document.querySelectorAll('.sp-custom-btn .answers .element');
+    
     elements.forEach(element => {
         const observer = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
@@ -2003,7 +2004,6 @@ const setCustomBtn = ()=>{
   }
   
   observeElements();
-
 
   btnClass.forEach((btn, btnIndex)=>{
     const btnClassList = btn.classList;
@@ -2591,6 +2591,16 @@ const CustomCardSetting = ()=>{
     const style = document.createElement('style');
 
     style.innerHTML = `
+.survey-container {
+  overflow: unset !important;
+}
+
+.sticky-class {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background-color: #fff;
+}
 
 .sp-custom-card .grid-list-mode {
     max-width: 924px;
@@ -2697,6 +2707,10 @@ const CustomCardSetting = ()=>{
         const cardId = card.id;
         const baseRoot = card.querySelector('.grid-list-mode');
 
+        if( baseRoot === null || baseRoot === undefined ){
+            return;
+        }
+
         const allRows = card.querySelectorAll('.grid-list-mode .row-elements:not(.zeroHeight)');
         const baseElements = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
         const disabledElements = [...allRows].filter(row => row.querySelectorAll('input').length == 0);
@@ -2756,7 +2770,7 @@ const CustomCardSetting = ()=>{
 
         const groupBody = document.createElement('tbody');
 
-        groupBody.classList.add('sp-card-arrow');
+        groupBody.classList.add('sp-card-arrow', 'sticky-class');
 
         [prevBtn, answerCountDiv, nextBtn].forEach((item)=>{
           groupBody.appendChild(item);
