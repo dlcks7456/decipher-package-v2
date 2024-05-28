@@ -2477,6 +2477,18 @@ const customInputBox = ()=>{
         }
 
         mainStyle.innerHTML += `
+#${inputBoxId}.sp-custom-input .pre-text {
+    display: block;
+}
+
+#${inputBoxId}.sp-custom-input .post-text {
+    vertical-align: middle;
+}
+
+#${inputBoxId}.sp-custom-input input {
+    width: auto !important;
+}
+
 #${inputBoxId}.sp-custom-input .answers div.element .cell-legend-above {
   width: 100%;
 }
@@ -2494,8 +2506,6 @@ const customInputBox = ()=>{
 
 #${inputBoxId}.sp-custom-input .answers div.element .cell-input {
   padding: 10px 10px 10px 13px;
-  display: flex;
-  align-items: center;
 }
 
 #${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper {

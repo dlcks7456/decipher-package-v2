@@ -174,7 +174,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     }, [containerRef]);
 
 
-    const [ansserComplete, setAnswerComplete] = React.useState(false);
+    const [answerComplete, setAnswerComplete] = React.useState(false);
 
     const focusTop = ()=>{
         containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -227,7 +227,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     React.useEffect(()=>{
         const continueBtn = document.querySelector('#btn_continue');
         if( continueBtn !== undefined && continueBtn !== null ){
-            if( ansserComplete ){
+            if( answerComplete ){
                 continueBtn.style.opacity = "1";
                 continueBtn.style.pointerEvents = "auto";
 
@@ -246,7 +246,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
             }
         }
 
-    }, [ansserComplete]);
+    }, [answerComplete]);
 
 
 
@@ -693,8 +693,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                         </svg>
                     </div>
                 </div>
-                <div className={"sp-container"}>
-                    {/*style={{maxHeight: ansIndex == elRows.length ? '100px' : null}} No longer needed */}
+                <div className={"sp-container"} style={{maxHeight: ansIndex == elRows.length ? '100px' : null}}>
                     <div className={"sp-card-container"}>
                         {elRows.map((row, rowIndex)=>{
                             return (
