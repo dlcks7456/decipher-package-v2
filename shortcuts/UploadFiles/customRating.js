@@ -29,7 +29,7 @@ const classHandler = (cond, className, addClass) => {
     }
 }
 
-const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, autoNumber, qaShow, grouping})=>{
+const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, autoNumber, qaShow, grouping, errRow=[], errCol=[]})=>{
     const {text, index} = col;
     const inputName = grouping === "rows" ? `ans${uid}.0.${row.index}` : `ans${uid}.${row.index}.0`;
     const inputID = `ans${uid}.${index}.${row.index}`;
@@ -37,7 +37,7 @@ const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, aut
     return (
         <div className={`sp-btn-container sp-btn-${row.label}-${col.label}`}>
             <input type="radio" name={inputName} value={index} id={inputID} style={{display: "none"}} checked={col.index == row.answer ? true : false}></input>
-            <label className={classHandler(col.scoreText === null, "sp-col-btn", "sp-col-center") } htmlFor={inputID} onClick={ansUpdate} onMouseOver={mouseOverEvent} onMouseOut={mouseOutEvent} onTouchStart={mouseOverEvent} onTouchEnd={mouseOutEvent}>
+            <label className={classHandler(errCol.includes(String(col.index)) && errRow.includes(String(row.index)), classHandler(col.scoreText === null, "sp-col-btn", "sp-col-center"), "error-focus") } htmlFor={inputID} onClick={ansUpdate} onMouseOver={mouseOverEvent} onMouseOut={mouseOutEvent} onTouchStart={mouseOverEvent} onTouchEnd={mouseOutEvent}>
                 {qaShow ? (<p className="qaCode-label">[{col.label}]</p>) : null}
                 {autoNumber ? (
                         <div className={"sp-col-btn-text"}>
@@ -56,7 +56,8 @@ const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, aut
 const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", disableContinue=true, autoContinue=false, showArrow=false, autoNumber, showGroup=false, groupInfo={}})=>{
     const brandColor = "#2d6df6";
     const brandSubColor = "#b7ceff";
-    let {uid, cols, rows, haveRightLegend, grouping} = json;
+    const errorColor = "#e7046f"
+    let {uid, cols, rows, haveRightLegend, grouping, errors} = json;
     if( grouping === "cols" ){
         const copy_rows = rows
         const copy_cols = cols
@@ -64,6 +65,45 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         rows = copy_cols;
         cols = copy_rows;
     }
+
+
+    const [errRows, setErrRows] = React.useState(errors.map((err)=>{
+        const errProp = err[1];
+        if ( errProp === "cell" ){
+            const [errText, errProp, errColIndex, errRowIndex] = err;
+            return String(errRowIndex);
+        }
+        
+        if( errProp === (grouping === "cols" ? "col" : "row")){
+            const [errText, errProp, errRowIndex] = err;
+            return String(errRowIndex);
+        }
+    }).filter(element=>element));
+
+    const [errCols, setErrCols] = React.useState(errors.map((err)=>{
+        const errProp = err[1];
+        if( errProp === "cell" ){
+            const [errText, errProp, errColIndex, errRowIndex] = err;
+            return String(errColIndex);
+        }
+        
+        if( errProp === (grouping === "cols" ? "row" : "col") ){
+            const [errText, errProp, errColIndex] = err;
+            return String(errColIndex);
+        }
+    }).filter(element=>element));
+
+    const [errRowLegends, setrrRowLegends] = React.useState(errors.map((err)=>{
+        const [errText, errProp, errColIndex, errRowIndex] = err;
+        if( errProp === 'row-legend' || errProp === "cell" ){
+            return String(errRowIndex);
+        }
+    }).filter(element=>element));
+
+    console.log(errRows);
+    console.log(errCols);
+    console.log(errRowLegends);
+
 
     let colDirection = haveRightLegend ? 'row' : flexDirection;
 
@@ -238,7 +278,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         if( controlBar && qaCodes.length > 0 ){
             setQaShow(true);
         }
+
     }, []);
+
+    const showError = document.querySelector('.hasError') ? true : false;
 
     return (
         <>
@@ -258,7 +301,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 .sp-container {
-    overflow: hidden;
+    overflow: ${showError ? 'unset' : 'hidden'};
 }
 
 .sp-col-legend-box, .sp-row-legend {
@@ -309,7 +352,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     display: flex;
     flex-direction: column;
     gap: 5px;
-    justify-content: flex-start;
+    justify-content: ${colDirection === "row" ? "flex-start" : "center"};
     align-items: center;
     font-size: 1.1rem;
     color: #333;
@@ -377,6 +420,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 
 .sp-card-container {
     display: flex;
+    flex-direction: ${showError ? 'column' : 'row'};
 }
 
 .sp-card {
@@ -571,6 +615,14 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     border-radius: 10px;
 }
 
+.hasError .sp-card.error-focus {
+    border-color: ${errorColor};
+}
+
+.hasError .sp-col-btn.error-focus {
+    border-color: ${errorColor};
+}
+
 .hasError .sp-arrow-btn {
     display: none;
 }
@@ -642,10 +694,11 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                     </div>
                 </div>
                 <div className={"sp-container"}>
-                    <div className={"sp-card-container"} style={{maxHeight: ansIndex == elRows.length ? '100px' : null}}>
+                    {/*style={{maxHeight: ansIndex == elRows.length ? '100px' : null}} No longer needed */}
+                    <div className={"sp-card-container"}>
                         {elRows.map((row, rowIndex)=>{
                             return (
-                                <div key={rowIndex} className={"sp-card"} style={{transform: `translateX(${offset}%)`}}> 
+                                <div key={rowIndex} className={classHandler(errRows.includes(String(rowIndex)) || errRowLegends.includes(String(rowIndex)), "sp-card", "error-focus")} style={{transform: showError ? null : `translateX(${offset}%)`}}> 
                                     {Object.keys(groupInfo).length > 0 && showGroup ? (
                                         <div className={"sp-rate-group"}>
                                             <div className={`sp-group-text sp-group-${groupInfo[row.label].label}`}>
@@ -694,6 +747,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                                         mouseOutEvent={()=>{hoverEvent(col.index, false)}}
                                                         qaShow={qaShow}
                                                         grouping={grouping}
+                                                        errRow={errRows}
+                                                        errCol={errCols}
                                                     />
                                                 )
                                             }else{
@@ -711,6 +766,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                                                 mouseOutEvent={()=>{hoverEvent(col.index, false)}}
                                                                 qaShow={qaShow}
                                                                 grouping={grouping}
+                                                                errRow={errRows}
+                                                                errCol={errCols}
                                                             />
                                                         );
                                                     }
@@ -731,6 +788,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                                                     mouseOutEvent={()=>{hoverEvent(col.index, false)}}
                                                                     qaShow={qaShow}
                                                                     grouping={grouping}
+                                                                    errRow={errRows}
+                                                                    errCol={errCols}
                                                                 />
                                                             );
                                                         }
@@ -743,15 +802,17 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                 </div>
                             )
                         })}
-                        <div className={"sp-card"} style={{transform: `translateX(${offset}%)`}}>
-                            {ansIndex == elRows.length ? (
-                                <div className={"sp-complete animate__animated animate__bounceIn"}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                </div>
+                        {!showError ? (
+                            <div className={"sp-card"} style={{transform: `translateX(${offset}%)`}}>
+                                {ansIndex == elRows.length ? (
+                                    <div className={"sp-complete animate__animated animate__bounceIn"}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </div>
+                                ) : null}
+                            </div>
                             ) : null}
-                        </div>
                     </div>
                 </div>
             </div>
