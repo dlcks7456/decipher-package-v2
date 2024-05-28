@@ -2822,6 +2822,10 @@ const customCard = ()=>{
             return;
         }
 
+        if( !(card.classList.contains('radio') || card.classList.contains('checkbox')) ){
+            return;
+        }
+
         const allRows = card.querySelectorAll('.grid-list-mode .row-elements:not(.zeroHeight)');
         const baseElements = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
         const disabledElements = [...allRows].filter(row => row.querySelectorAll('input').length == 0);
