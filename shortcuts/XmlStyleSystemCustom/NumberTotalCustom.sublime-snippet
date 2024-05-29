@@ -1,0 +1,75 @@
+<snippet>
+	<content><![CDATA[
+<style name="page.head" label="custom_sum_css"><![CDATA[
+<style>
+.calc-result input {
+  pointer-events: none;
+  background-color: #cccccc52;
+  color: #e7046f;
+  font-style: italic;
+  font-weight: 2px;
+  text-align: center;
+}
+
+.calc-result {
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
+</style>
+]]${-1}></style>
+<style name="question.after" label="custom_sum_js"><![CDATA[
+<script>
+const parentElement = document.querySelector('.label_\$(this.label)');
+const resultInput = parentElement.querySelector('.calc-result input');
+
+resultInput.readOnly = true;
+
+function calculateProduct(){
+  const inputs = parentElement.querySelectorAll('.calc-base input[type="number"]');
+
+  let product = 1;
+
+  inputs.forEach(input => {
+    const value = parseFloat(input.value);
+    if (isNaN(value) || value === 0) {
+      product += 0;
+    } else {
+      product += value;
+    }
+  });
+
+  resultInput.value = product
+}
+
+calculateProduct();
+parentElement.querySelectorAll('.calc-base input[type="number"]').forEach(input => {
+  input.onkeyup = calculateProduct;
+});
+</script>
+]]${-1}></style>
+<style name="survey.question.answers.end" label="custom_sum_end"><![CDATA[
+\@if not ec.simpleList
+\@if not simple
+</tbody>
+\@endif
+</\$(tag)>
+\@endif
+<!-- /.grid -->
+<div class="element calc-result">
+  <span class="cell-sub-wrapper cell-legend-above">
+  <span class="cell-text cell-sub-column">Total</span>
+  <span class="cell-input cell-sub-column">
+    <input type="number" class="input text-input" readonly="">
+    <span class="post-text">&nbsp;\${this.styles.ss.postText or ""}</span>
+  </span>
+  </span>
+</div>
+</div>
+<!-- /.answers -->
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>custom.sum</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
