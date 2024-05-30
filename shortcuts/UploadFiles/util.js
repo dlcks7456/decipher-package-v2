@@ -2496,6 +2496,7 @@ const customInputBox = ()=>{
 #${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-text {
   border-bottom: 1px solid #ccc;
   transition: background-color 0.5s;
+  font-size: 1.3rem;
 }
 
 #${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-text label {
