@@ -211,7 +211,7 @@
 @answer-font-family:  @secondary-font-family;
 
 // Tables
-@table-border-color:        @border-color;
+@table-border-color:        @custom-border-up-color;
 @table-legend-bg-color:     contrast(@foreground-color, lighten(@foreground-color, 10%), darken(@foreground-color, 7%), 53%);
 @table-row-legend-bg-color: @table-legend-bg-color;
 @table-col-legend-bg-color: @button-color;
@@ -230,7 +230,7 @@
 @input-font-size:           @small-text;
 @input-bg-color:            @foreground-color;
 @input-bg-color-active:     @input-bg-color;
-@input-border-color:        #8D8D8D;
+@input-border-color:        @custom-border-up-color;
 @input-border-color-active: #2D6DF6;
 
 // ********************** Buttons ********************** //
@@ -767,7 +767,7 @@ textarea {
   
   .nonempty {
     // Apply cell borders and backgrounds to this selector, as it excludes blank corner cells.
-    border: 1px solid @table-border-color;
+    border: 1px solid @table-border-color !important;
   }
   .row-legend-group {
     font-size: 1.2em;
@@ -1153,7 +1153,7 @@ form#primary, .exit-message {
     font-size: 18px;
     text-align: center;
     color: #000 !important;
-    border-color: #000000 !important; 
+    border-color: @custom-border-up-color !important; 
     cursor: pointer;
     transition-property: background-color, border-color, color, opacity;
     transition-duration: 0.5s, 0.5s, 0.5s, 0.5s;
@@ -2430,7 +2430,7 @@ input[type="text"]:disabled {
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
     border-radius: 4px;
-    border: 1px solid @color-4;
+    border: 1px solid @custom-border-up-color;
 
     &:focus {
         border: 1px solid @custom-color;
