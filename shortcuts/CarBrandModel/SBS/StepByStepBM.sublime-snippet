@@ -16,6 +16,7 @@ for bm in [${1:[QID]}x1, ${1:[QID]}x2] :
             if oe.val == None or oe.val == '' :
                 error(this.lget('extraInfo'))
 
+# PT
 pt = ${1:[QID]}x3
 if pt.p98  :
     oe = allQuestions['%soe'%(pt.label)]
