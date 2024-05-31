@@ -180,6 +180,9 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    const hasError = document.querySelector('.hasError');
+    const hasErrorFlag = (hasError === undefined || hasError === null);
+
     const answerUpdate = (setIndex, ans) => {
         const newAnswer = [...answer];
         const answerChageFlag = newAnswer[setIndex] !== ans;
@@ -195,8 +198,6 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
             return row;
         });
         setElRows(newElRows);
-        const hasError = document.querySelector('.hasError');
-        const hasErrorFlag = (hasError === undefined || hasError === null);
         if( autoNext && hasErrorFlag ){
             setAnsIndex(ansIndex + 1);
         }
@@ -496,6 +497,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         display: flex;
         gap: 5px;
         align-items: center;
+        justify-content: ${haveRightLegend ? 'center' : 'flex-start'};
     }
 }
 
@@ -659,6 +661,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         justify-content: flex-start;
         text-align: left;
     }
+
     .arrow-container {
         display: ${haveRightLegend ? 'flex' : 'none'};
     }
@@ -693,7 +696,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                         </svg>
                     </div>
                 </div>
-                <div className={"sp-container"} style={{maxHeight: ansIndex == elRows.length ? '100px' : null}}>
+                <div className={"sp-container"} style={{maxHeight: (hasErrorFlag && ansIndex == elRows.length) ? '100px' : null}}>
                     <div className={"sp-card-container"}>
                         {elRows.map((row, rowIndex)=>{
                             return (
