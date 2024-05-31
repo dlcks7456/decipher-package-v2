@@ -2486,7 +2486,7 @@ const customInputBox = ()=>{
 }
 
 #${inputBoxId}.sp-custom-input input {
-    width: auto !important;
+    width: 40%;
 }
 
 #${inputBoxId}.sp-custom-input .answers div.element .cell-legend-above {
