@@ -2,12 +2,13 @@
     <content><![CDATA[
 .maxdiff tr.maxdiff-header-legend {
     background-color: transparent;
-    border-bottom: 2px solid #d9d9d9;
 }
+
 .maxdiff tr.maxdiff-header-legend th.legend {
     background-color: transparent;
     border: none;
 }
+
 .maxdiff tr.maxdiff-row td.element {
     border-left: none;
     border-right: none;
@@ -15,6 +16,7 @@
     border-bottom: 1px solid #d9d9d9;
     text-align: center;
 }
+
 .maxdiff tr.maxdiff-row th.row-legend {
     background-color: transparent;
     border-left: none;

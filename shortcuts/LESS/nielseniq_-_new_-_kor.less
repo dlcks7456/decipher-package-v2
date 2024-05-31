@@ -2571,3 +2571,94 @@ input[type='number'] {
 .dont-click {
   pointer-events: none;
 }
+
+
+/* MaxDiff */
+.maxdiff {
+    tr {
+        &.maxdiff-header-legend {
+            background-color: transparent;
+            
+            th.legend {
+                background-color: transparent;
+                border: none;
+            }
+        }
+        
+        &.maxdiff-row {
+            td.element {
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: 1px solid @custom-border-up-color;
+                text-align: center;
+            }
+            
+            th.row-legend {
+                background-color: transparent;
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: 1px solid @custom-border-up-color;
+                text-align: center;
+            }
+        }
+    }
+}
+
+/* Conjoint */
+.dcm {
+    tr {
+        &.legend {
+            th.legend {
+                font-weight: bold;
+                width: auto;
+                text-align: center;
+            }
+        }
+    }
+
+    th, td {
+        padding: 15px;
+        border: 1px solid @custom-border-up-color;
+    }
+
+    td {
+        font-size: 1.1rem;
+        
+        &.dcm_legend {
+            font-weight: bold;
+            text-align: left;
+            width: 120px;
+        }
+        
+        &.dcm_item {
+            text-align: center;
+            width: 120px;
+        }
+    }
+
+    tbody:nth-child(1) {
+        tr:nth-child(even) {
+            background-color: @background-color;
+        }
+        
+        tr:nth-child(odd):not(:nth-child(1)) {
+            background-color: @row-bg-color-alt;
+        }
+    }
+
+    .dcm_legend2, .survey-q-grid-collegend {
+        background-color: #dae6ff;
+    }
+
+    table {
+        .box-shadow-style();
+    }
+
+    .grid-table-mode {
+        .nonempty {
+            border: 1px solid @custom-border-up-color !important;
+        }
+    }
+}

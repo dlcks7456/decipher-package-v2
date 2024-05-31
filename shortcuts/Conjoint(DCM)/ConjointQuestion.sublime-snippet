@@ -33,13 +33,13 @@ p.startTime = timeSpent()
 
     <loop label="${1:QID}_dcm_loop" randomizeChildren="1" vars="task">
       <title>${1:QID} - DCM Loop</title>
-      <block label="${1:QID}_dcm_block">
+      <block label="${1:QID}_dcm_loop_block">
         <radio 
       label="${1:QID}_[loopvar: task]"
       optional="0"
       ss:questionClassNames="dcm"
       surveyDisplay="desktop">
-          <title>${4}</title>
+          <title><div class="q-name">${1:QID}_[loopvar: task]</div> ${4}</title>
           <exec>
 setupDCMItems( ${1:QID}_dcm, "v%s_t%s" % (${1:QID}_Version.val,"[loopvar: task]"),"${1:QID}" )
 p.DCMcount = "%d" % (${1:QID}_dcm_loop_expanded.order.index([loopvar: task]-1) + 1)

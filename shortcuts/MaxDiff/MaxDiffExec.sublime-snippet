@@ -15,7 +15,7 @@ def setupMaxDiffItemsA(d, vt, question, parentLabel):
     print "*****STAFF ONLY*****"
     print "Version_Task: %s" % vt
     for r in question.rows:
-        r.text = res[ "%s_mditem%s" % (parentLabel, items[r.index]) ]
+        r.text = res[ "%s_item%s" % (parentLabel, items[r.index]) ]
         print "Item %s: %s" % (r.index+1, items[r.index])
 ]]></content>
     <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
