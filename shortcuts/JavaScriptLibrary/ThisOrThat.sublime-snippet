@@ -15,9 +15,10 @@ window.addEventListener("DOMContentLoaded", ()=>{
     const [baseName, baseDelimiter] = base.split('-');
     const swichDelimiter = baseDelimiter === 'this' ? 'that' : baseDelimiter === 'that' ? 'this' : null;
     const setClassName = baseName+'-'+swichDelimiter;
-    const currInput = document.querySelector('.'+base+' input[type=checkbox]');
+    const currInput = document.querySelectorAll('.'+base+' input[type=checkbox]');
     const disableInput = document.querySelectorAll('.'+setClassName);
-    if( currInput.checked ){
+    const inputCheckFlag = [...currInput].filter((ip)=> ip.checked);
+    if( inputCheckFlag.length >= 1 ){
       disableInput.forEach( (item)=>{
         const firIcon = item.querySelector('.fir-icon');
         firIcon.classList.remove('selected');
