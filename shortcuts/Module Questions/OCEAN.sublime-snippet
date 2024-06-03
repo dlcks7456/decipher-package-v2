@@ -1,0 +1,187 @@
+<snippet>
+  <content><![CDATA[
+<res label="ocean_left_legend">왼쪽에 가깝다</res>
+<res label="ocean_right_legend">오른쪽에 가깝다</res>
+
+<note>!!! 한글 버전 및 제과/식품 관련 문항으로 되어 있음</note>
+<note>!!! 프로젝트 카테고리에 따라 항목의 워딩을 변경될 수 있음</note>
+<note>!!! 각 변수명 및 타이틀은 설문지에 맞춰서 변경</note>
+<note>!!! 중복 선언된 함수가 있을 수 있으니 주의</note>
+<exec when="init">
+def soft_Err(cond, str, high_rows=[], high_cols=[]):
+  if cond :
+    if p.chk==0 :
+      p.chk=1
+    else :
+      p.chk=0
+      if high_rows :
+        for each in high_rows :
+          error(str, row=each)
+
+      elif high_cols :
+        for each in high_cols :
+          error(str, col=each)
+      else :
+        error(str)
+  else :
+    p.chk=1
+
+def samegrid():
+  qid = allQuestions[this.label]
+  checkAnswer = [i.label for i in qid.rows if not i.val == None]
+  if len(checkAnswer) gt 1 :
+    if len(set(qid.val)-set([None])) == 1:
+      soft_Err(True, "%s&lt;br /&gt;%s"%(res.samegrid, res.softerr))
+    else :
+      p.chk=1
+  else :
+    p.chk=1
+
+def OCEAN_soft_err() :
+  group_rows = {x.label: [r for r in this.rows if r.group.label == x.label] for x in this.rows.groups}
+
+  focus_rows = []
+  for gr, rw in group_rows.items() :
+    check_sum = sum([this.cols[this.attr(each.label).val].value for each in rw])
+    if check_sum in [2, 3, 13, 14] :
+      focus_rows = sum([focus_rows, rw], [])
+
+  if focus_rows :
+    soft_Err(focus_rows, res.softerr, high_rows=focus_rows)
+  else :
+    samegrid()
+</exec>
+
+<block label="OCEAN_BLOCK">
+  <radio 
+   label="OB1"
+   averages="cols"
+   shuffle="rows,groups"
+   type="rating"
+   uses="atmtable.6">
+    <title><div class="q-name">OB1</div> OCEAN - OB1</title>
+    <alt>OCEAN - OB1</alt>
+    <validate>
+OCEAN_soft_err()
+    </validate>
+
+    <style arg:autoContinue="false" arg:autoNumber="false" arg:btnDirection="row" arg:disableContinue="false" arg:leftText="${res.ocean_left_legend}" arg:qmode="rating" arg:rightText="${res.ocean_right_legend}" arg:showArrow="true" arg:showGroup="false" copy="custom_rating" name="question.after"/>
+    <group label="g1" where="none">Block EXT</group>
+    <row label="r1" groups="g1" legend="both" rightLegend="사람이 많은 모임이나 파티를 좋아하지 않는다" value="1">파티나 모임에서 분위기 메이커이다</row>
+    <row label="r2" groups="g1" legend="both" rightLegend="내가 먼저 대화를 시작한다" value="2">말을 많이 하지 않는다</row>
+    <row label="r3" groups="g1" legend="both" rightLegend="좋은 친구 몇 명과 어울리는 것을 선호한다" value="3">새로운 사람을 만나거나 친구 사귀는 것이 좋다</row>
+    <group label="g2" where="none">Block NEU</group>
+    <row label="r4" groups="g2" legend="both" rightLegend="평정심을 거의 잃지 않는다" value="4">기분이 좋지 않을 때가 자주 있다</row>
+    <row label="r5" groups="g2" legend="both" rightLegend="스트레스를 쉽게 받는다" value="5">거의 언제나 느긋하다</row>
+    <row label="r6" groups="g2" legend="both" rightLegend="미래에 대해 언제나 긍정적이다" value="6">최악의 경우에 대한 두려움을 자주 느낀다</row>
+    <group label="g3" where="none">Block AGR</group>
+    <row label="r7" groups="g3" legend="both" rightLegend="다른 사람을 돕는 것을 좋아한다" value="7">사람들은 혼자 힘으로 자립해야 한다고 믿는다</row>
+    <row label="r8" groups="g3" legend="both" rightLegend="다른 사람 문제에 대해 관심이 없다" value="8">다른 사람 기분에 공감한다</row>
+    <row label="r9" groups="g3" legend="both" rightLegend="나는 인정 많은 사람이다" value="9">사람들에게 솔직한 것이 최선이라고 생각한다</row>
+    <group label="g4" where="none">Block CON</group>
+    <row label="r10" groups="g4" legend="both" rightLegend="나는 즉흥적이다" value="10">내가 선택한 길을 고수한다</row>
+    <row label="r11" groups="g4" legend="both" rightLegend="별로 신경쓰지 않는다" value="11">디테일에 집중한다</row>
+    <row label="r12" groups="g4" legend="both" rightLegend="일정을 따르는 것을 좋아한다" value="12">급하게 계획을 세우는 경우가 자주 있다</row>
+    <group label="g5" where="none">Block OPN</group>
+    <row label="r13" groups="g5" legend="both" rightLegend="상상력이 풍부하지 않다" value="13">상상력이 활발하다</row>
+    <row label="r14" groups="g5" legend="both" rightLegend="어려운 주제에 관여하고 싶지 않다" value="14">복잡한 문제를 해결하는 것을 좋아한다</row>
+    <row label="r15" groups="g5" legend="both" rightLegend="새롭고 창의적인 아이디어가 가득하다" value="15">창의적인 아이디어를 만드는데 약하다</row>
+    <col label="c7" value="7">(7)</col>
+    <col label="c6" value="6">(6)</col>
+    <col label="c5" value="5">(5)</col>
+    <col label="c4" value="4">(4)</col>
+    <col label="c3" value="3">(3)</col>
+    <col label="c2" value="2">(2)</col>
+    <col label="c1" value="1">(1)</col>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="CI1"
+   averages="cols"
+   shuffle="rows"
+   type="rating"
+   uses="atmtable.6">
+    <title><div class="q-name">CI1</div> OCEAN - CI1</title>
+    <alt>OCEAN - CI1</alt>
+    <validate>
+samegrid()
+    </validate>
+
+    <style arg:autoContinue="false" arg:autoNumber="false" arg:btnDirection="row" arg:disableContinue="false" arg:leftText="${res.ocean_left_legend}" arg:qmode="rating" arg:rightText="${res.ocean_right_legend}" arg:showArrow="true" arg:showGroup="true" copy="custom_rating" name="question.after"/>
+    <row label="r1" legend="both" rightLegend="어떤 제과 제품을 선택해야 할지 잘 모르겠다" value="1">어떤 제과 제품이 나에게 좋은지 알고 있습니다</row>
+    <row label="r2" legend="both" rightLegend="나는 제과 제품을 매우 까다롭게 고른다" value="2">대부분의 제과 제품은 비슷하다고 생각한다</row>
+    <row label="r3" legend="both" rightLegend="나는 다른 카테고리에 비해 제과 제품을 구매할 때 가끔 부담 없이 구매할 수 있다" value="3">다른 카테고리에 비해 제과 제품을 고를 때 더 신중하다</row>
+    <row label="r4" legend="both" rightLegend="나는 프리미엄 제과 제품을 위해 추가 비용을 지불할 의향이 있다." value="4">나는 예산 범위 내에서 선택할 수 있는 제과 제품을 선호한다</row>
+    <row label="r5" legend="both" rightLegend="나는 내 취향/상황에 따라 여러 제품을 번갈아 구입한다" value="5">나는 보통 한 가지 제품만 구입한다</row>
+    <col label="c5" value="5">(5)</col>
+    <col label="c4" value="4">(4)</col>
+    <col label="c3" value="3">(3)</col>
+    <col label="c2" value="2">(2)</col>
+    <col label="c1" value="1">(1)</col>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="BI1"
+   averages="cols"
+   shuffle="rows"
+   type="rating"
+   uses="atmtable.6">
+    <title><div class="q-name">BI1</div> OCEAN - BI1</title>
+    <alt>OCEAN - BI1</alt>
+    <validate>
+samegrid()
+    </validate>
+
+    <style arg:autoContinue="false" arg:autoNumber="false" arg:btnDirection="row" arg:disableContinue="false" arg:leftText="${res.ocean_left_legend}" arg:qmode="rating" arg:rightText="${res.ocean_right_legend}" arg:showArrow="true" arg:showGroup="true" copy="custom_rating" name="question.after"/>
+    <row label="r1" legend="both" rightLegend="제과 제품 브랜드에 크게 신경 쓰지 않는다" value="1">나는 항상 잘 알려진 브랜드의 제과 제품을 구입한다.</row>
+    <row label="r2" legend="both" rightLegend="프로모션으로 인해 제과 제품 브랜드 선택이 거의 바뀌지 않는다." value="2">나는 프로모션 중인 제과 제품 브랜드만 구매한다.</row>
+    <row label="r3" legend="both" rightLegend="매번 같은 브랜드의 제과 제품을 구입한다." value="3">나는 항상 다른 브랜드의 제과 제품을 구입하게 된다.</row>
+    <row label="r4" legend="both" rightLegend="제과 제품의 브랜드는 나에게 매우 중요하다." value="4">내가 필요한 것을 얻는 한 제과 제품의 브랜드는 중요하지 않다.</row>
+    <row label="r5" legend="both" rightLegend="나는 매장에서 제과 제품 브랜드를 결정하는 경향이 있다." value="5">매장에 가기 전에 어떤 브랜드의 제과 제품을 사야 할지 정확히 알고 있다.</row>
+    <col label="c5" value="5">(5)</col>
+    <col label="c4" value="4">(4)</col>
+    <col label="c3" value="3">(3)</col>
+    <col label="c2" value="2">(2)</col>
+    <col label="c1" value="1">(1)</col>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="PS1"
+   averages="cols"
+   shuffle="rows"
+   type="rating"
+   uses="atmtable.6">
+    <title><div class="q-name">PS1</div> OCEAN - PS1</title>
+    <alt>OCEAN - PS1</alt>
+    <validate>
+samegrid()
+    </validate>
+
+    <style arg:autoContinue="false" arg:autoNumber="false" arg:btnDirection="row" arg:disableContinue="false" arg:leftText="${res.ocean_left_legend}" arg:qmode="rating" arg:rightText="${res.ocean_right_legend}" arg:showArrow="true" arg:showGroup="true" copy="custom_rating" name="question.after"/>
+    <row label="r1" legend="both" rightLegend="저렴한 가격이라면 제과 브랜드가 무엇이든 구매할 것이다" value="1">제과 제품을 가장 싸게 구입하기 위해 많은 시간을 들인다</row>
+    <row label="r2" legend="both" rightLegend="제과 제품 가격을 매우 잘 알고 있다" value="2">제과 제품 가격에 대해 전혀 모른다</row>
+    <row label="r3" legend="both" rightLegend="제과 제품 구입 시 가격비교를 거의 하지 않는다" value="3">제과 제품 구입 전 여러 브랜드 가격을 항상 비교한다</row>
+    <row label="r4" legend="both" rightLegend="프로모션 때문에 제과 브랜드 선택이 달라지지 않는다" value="4">프로모션을 하는 제과 제품 브랜드만 구입한다</row>
+    <col label="c5" value="5">(5)</col>
+    <col label="c4" value="4">(4)</col>
+    <col label="c3" value="3">(3)</col>
+    <col label="c2" value="2">(2)</col>
+    <col label="c1" value="1">(1)</col>
+  </radio>
+
+  <suspend/>
+</block>
+
+<suspend/>
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>ocean</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.xml</scope>
+</snippet>
