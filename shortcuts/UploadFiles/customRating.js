@@ -476,6 +476,12 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     transform: translateX(10px);
 }
 
+@media (max-width:920px) {
+    .sp-question {
+        max-width: 750px;
+    }
+}
+
 @media (max-width: 768px) {
     .sp-container {
         max-width: 350px;
