@@ -17,8 +17,8 @@ if this.any :
     error('<b>핸드폰 번호</b> 확인 부탁드립니다.')
       </validate>
 <style name="el.text"><![CDATA[
-<div style="display: flex; flex-direction: row;">
-  <div>
+<div style="display: flex; flex-direction: row;align-items: center;">
+  <div class="f-highlight" style="display: flex;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:25px; margin:0 auto;">
       <path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
     </svg>
