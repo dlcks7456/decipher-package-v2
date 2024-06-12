@@ -8,6 +8,12 @@ document.querySelectorAll('.only-number').forEach(input => {
       event.preventDefault();
     }
   });
+
+  input.addEventListener('input', function(event) {
+    if (this.value.match(/[^0-9]/g)) {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    }
+  });
 });
 ]]${-1}></style>
 ]]></content>
