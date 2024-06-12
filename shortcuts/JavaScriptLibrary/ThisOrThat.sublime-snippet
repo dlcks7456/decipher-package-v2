@@ -1,11 +1,6 @@
 <snippet>
 	<content><![CDATA[
 <style name="question.after" label="this_or_that"><![CDATA[
-<style>
-.this-or-that {
-  transition: opacity 0.5s;
-}
-</style>
 <script>
 // this-or-that
 // base-this / base-that

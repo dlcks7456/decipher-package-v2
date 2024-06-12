@@ -2051,7 +2051,7 @@ const setCustomBtn = ()=>{
 }
 
 #${btnId}.sp-custom-btn .answers .element { 
-    transition: background-color 0.5s;
+    transition: background-color 0.5s, opacity 0.5s;
 }
 
 #${btnId}.sp-custom-btn .answers .element img { 
