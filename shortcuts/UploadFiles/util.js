@@ -2446,17 +2446,30 @@ const customInputBox = ()=>{
 
     inputBoxQuestion.forEach((numq) => {
         const inputBoxId = numq.id;
-        if (numq.classList.contains('noCols') && numq.classList.contains('noRows')) {
-            return;
-        }
 
         if (!(numq.classList.contains('number') || numq.classList.contains('text'))) {
             return;
         }
 
         const checkMaxWidth = [...numq.classList].filter((cl) => cl.includes('ip-mw-'));
-
+        
+        let setMaxWidth = null;
         if (checkMaxWidth.length == 1) {
+            setMaxWidth = checkMaxWidth[0].split('-').slice(-1)[0];
+        }
+
+        if (numq.classList.contains('noCols') && numq.classList.contains('noRows')) {
+            if (setMaxWidth !== null) {
+                mainStyle.innerHTML += `
+#${inputBoxId} .answers .input[type=number], #${inputBoxId} .answers .input[type=text] {
+    max-width: ${setMaxWidth}px;
+}`;
+            }
+            return;
+        }
+
+        
+        if (setMaxWidth !== null) {
             const setMaxWidth = checkMaxWidth[0].split('-').slice(-1)[0];
             mainStyle.innerHTML += `
 #${inputBoxId} .answers {

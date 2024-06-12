@@ -2662,3 +2662,31 @@ input[type='number'] {
         }
     }
 }
+
+
+/* No Rows/Cols Input Type */
+.no-rows-input {
+  width: fit-content;
+  min-width: 300px;
+  border: 1px solid @custom-border-color;
+  .box-shadow-style();
+  border-radius: 10px;
+
+  .number-header {
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid @custom-border-color;
+  }
+
+  .number-inputs {
+    padding: 10px;
+
+    .input-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+}
+
+

@@ -1,24 +1,6 @@
 <snippet>
   <content><![CDATA[
-.no-rows-input {
-  width: fit-content;
-  min-width: 300px;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  border-radius: 10px;
-}
-
-.no-rows-input .number-header {
-  font-weight: bold;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.no-rows-input .number-inputs {
-  padding: 10px;
-}
-
-<style label="no_rows_number" arg:numberTitle="${1}" name="el.text"><![CDATA[
+<style label="no_els_input" arg:numberTitle="${1}" name="el.text"><![CDATA[
 <div class="no-rows-input">
   <div class="number-header">\$(numberTitle)</div>
   <div class="number-inputs">
@@ -34,7 +16,7 @@
 ]]${-1}></style>
 ]]></content>
   <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-  <tabTrigger>no.row.input</tabTrigger>
+  <tabTrigger>no.el.ip</tabTrigger>
   <!-- Optional: Set a scope to limit where the snippet will trigger -->
   <scope>text.xml</scope>
 </snippet>

@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-<style arg:subTitle="${0}" name="el.textarea"><![CDATA[
+<style label="textarea_title" arg:subTitle="${0}" name="el.textarea"><![CDATA[
 \@if row.styles.ss.preText or this.styles.ss.preText
     \${row.styles.ss.preText or this.styles.ss.preText or ""}&nbsp;
 \@endif
