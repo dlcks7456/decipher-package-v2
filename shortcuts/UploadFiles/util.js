@@ -872,6 +872,17 @@ function fnLengthCheck(_label, _num, _placeholder){
   }
 }
 
+function fnViewPort(_max){
+  var strMin = "1";
+  var strMax = (_max === undefined || isNaN(_max) || _max < 1) ? "3" : String(_max);
+  for (var meta of document.querySelectorAll('head meta')){
+    if (meta.getAttribute('name') !== null && meta.getAttribute('name') === 'viewport'){
+      meta.setAttribute('content', 'width=device-width, initial-scale=' + strMin + ', maximum-scale=' + strMax);
+      break;
+    }
+  }
+}
+
 function fnSemiOpenBadText(){
   const fnOpenFilltering = (_obj) => {
     if (_obj.getAttribute('type') === 'text' && !_obj.disabled){
@@ -947,7 +958,7 @@ function fnSemiOpenBadText(){
   let objAllOpen = document.querySelectorAll('#primary input[type=text]');
   let objAnswers = document.querySelectorAll('.answers')
   for (i = 0; i < objAnswers.length; i++){
-    objAnswers[i].addEventListener('animationend', (event) => {
+    objAnswers[i].addEventListener('animationstart', (event) => {
       for (k = 0; k < event.target.querySelectorAll('.custom-rank-sort input[type=text]').length; k++){
         if (event.target.querySelectorAll('.custom-rank-sort input[type=text]')[k].className.indexOf('customBadText') === -1){
           event.target.querySelectorAll('.custom-rank-sort input[type=text]')[k].classList.add('customBadText');

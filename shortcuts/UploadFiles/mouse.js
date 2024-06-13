@@ -10,18 +10,16 @@
   }
   function fnResize(){
     if (document.getElementById('clickWrap') != null){
-      var objClickImage = document.querySelectorAll('#clickWrap img')[0];
-      objClickImage.style.width = '';
-      objClickImage.style.height = '';
+      var objClickImage = document.querySelector('#clickWrap img');
       var numWindowWidth = 'onorientationchange' in window ? screen.availWidth : window.innerWidth;
       var numWindowHeight = 'onorientationchange' in window ? screen.availHeight : window.innerHeight;
-      if (numWindowWidth >= numWindowHeight) {
+      objClickImage.style.width = '100%';
+      objClickImage.style.height = '';
+      var numImageWidth = Number(getComputedStyle(objClickImage).width.split('px')[0]);
+      var numImageHeight = Number(getComputedStyle(objClickImage).height.split('px')[0]);
+      if (numImageHeight >= numWindowHeight) {
        objClickImage.style.width = '';
        objClickImage.style.height = '100%';
-      }
-      else {
-       objClickImage.style.width = '100%';
-       objClickImage.style.height = '';
       }
     }
   }
@@ -233,7 +231,6 @@ function fnImageZoom(_click){
   }
   var strMobilePlatform = 'ontouchstart' in document.documentElement ? true : false;
   if (document.getElementsByClassName('zoom').length != 0) {
-    var strLabel = document.querySelectorAll('#primary .question')[0].getAttribute('id').split('_')[1];
     if (document.getElementById('zoomWrap') == null){
       fnImageZoomStyle();
       var objZoomWrap = document.createElement('div');
