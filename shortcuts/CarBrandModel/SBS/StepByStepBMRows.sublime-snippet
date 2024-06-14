@@ -1,5 +1,6 @@
 <snippet>
     <content><![CDATA[
+<note>브랜드/모델 레이아웃이 갑자기 깨지는 경우 모델/PT 문항 rightOf 옵션이 삭제됐는지 검토</note>
 <block label="${1:[QID]}_block">
         <select 
       label="${1:[QID]}x1"
