@@ -312,7 +312,15 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     transition: transform 0.3s;
 }
 
-.sp-col-legend, .sp-row-card {
+.sp-col-left-right {
+    width: 100%;
+    display: flex;
+    transition: transform 0.3s;
+    margin-top: 5px;
+    gap: 10px;
+}
+
+.sp-col-legend {
     width: 50%;
     display: flex;
     align-items: center;
@@ -402,8 +410,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     color: #fff;
 }
 
-.sp-row-left, .sp-row-right {
-    width: 100%;
+.sp-row {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -413,6 +420,27 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     border-radius: 5px;
     padding: 10px;
     text-align: center;
+    width: 100%;
+    margin: 5px;
+    min-height: 100px;
+}
+
+.sp-row-left, .sp-row-right {
+    font-size: 1.2rem;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.sp-row-left p, .sp-row-right p {
+    word-break: break-word;    
 }
 
 .sp-row-inputs {
@@ -714,8 +742,8 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
                                             </div>
                                         </div>
                                     ) : null}
-                                    <div className={"sp-row-legend"}>
-                                        <div className={"sp-row-card sp-row-left"}>
+                                    <div className={haveRightLegend ? "sp-col-left-right" : "sp-row-legend"}>
+                                        <div className={haveRightLegend ? "sp-row-card sp-row-left" : "sp-row"}>
                                             {qaShow ? (<p className="qaCode-label">[{row.label}]{haveRightLegend ? ("_left") : null}</p>) : null}
                                             <p dangerouslySetInnerHTML={{__html: row.text}}></p>
                                         </div>
