@@ -100,9 +100,9 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
         }
     }).filter(element=>element));
 
-    console.log(errRows);
-    console.log(errCols);
-    console.log(errRowLegends);
+    // console.log(errRows);
+    // console.log(errCols);
+    // console.log(errRowLegends);
 
 
     let colDirection = haveRightLegend ? 'row' : flexDirection;
