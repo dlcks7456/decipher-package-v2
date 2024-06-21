@@ -426,7 +426,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 .sp-row-left, .sp-row-right {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     padding: 10px;
     text-align: center;
     width: 100%;
@@ -511,6 +511,10 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 }
 
 @media (max-width: 768px) {
+    .sp-row-left, .sp-row-right {
+        font-size: 1.2rem;
+    }
+    
     .sp-container {
         max-width: 350px;
         margin: 0 auto;
