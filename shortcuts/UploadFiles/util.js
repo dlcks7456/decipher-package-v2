@@ -2245,7 +2245,7 @@ const setCustomBtn = ()=>{
     }
 
     style.innerHTML +=  `
-#${btnId} .cell-sub-wrapper {
+#${btnId} .${newClassName} .cell-sub-wrapper {
     min-height: ${maxHeight}px;
 }
     `;
