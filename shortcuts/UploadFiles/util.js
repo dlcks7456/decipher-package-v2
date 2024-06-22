@@ -2036,8 +2036,11 @@ const setCustomBtn = ()=>{
     }
 
     const singleDimension = (btn.classList.contains('noCols') || btn.classList.contains('noRows'))
+    const elCount = btn.querySelectorAll('.answers .element:not(.btn-bot):not(.btn-top)').length;
+    const exclusiveColNumber = elCount >= colNumber ? -1 : (elCount - colNumber) - 1;
 
     const mainStyle = document.createElement('style');
+
     mainStyle.innerHTML = `
 #${btnId} .zeroHeight {
     display: none!important;
@@ -2045,6 +2048,17 @@ const setCustomBtn = ()=>{
 
 #${btnId} .btn-exclusive {
     max-width: 924px;
+}
+
+#${btnId} .btn-exclusive {
+  display: grid;
+  grid-template-columns: repeat(${colNumber}, 1fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+#${btnId} .btn-exclusive .element {
+  grid-column: 1/${exclusiveColNumber};
 }
 
 #${btnId}.sp-custom-btn .answers .element {
@@ -2160,7 +2174,6 @@ const setCustomBtn = ()=>{
     display: flex;
     align-items: stretch;
 }
-
 `;
 
       if (colNumber >= 3) {
@@ -2235,8 +2248,6 @@ const setCustomBtn = ()=>{
 }`;
 
 
-
-
     const wrapper = btn.querySelectorAll('.answers .element');
     let maxHeight = Array.from(wrapper).reduce((max, el) => Math.max(max, el.clientHeight), 0);
 
@@ -2247,6 +2258,10 @@ const setCustomBtn = ()=>{
     style.innerHTML +=  `
 #${btnId} .${newClassName} .cell-sub-wrapper {
     min-height: ${maxHeight}px;
+}
+
+#${btnId} .btn-exclusive .cell-sub-wrapper {
+    min-height: 50px;
 }
     `;
 
@@ -2298,6 +2313,15 @@ const setCustomBtn = ()=>{
                 element.classList.remove('btn-hover');
             });
         });
+    });
+
+    // Exclusive Group Hidden
+    const toggleGroups = btn.querySelectorAll('.ch-group-toggle');
+    toggleGroups.forEach((tog)=>{
+        const togRow = tog.querySelector('.ch-group-rows');
+        if(togRow.children.length == 0){
+            tog.classList.add('hidden');
+        }
     });
 
   
