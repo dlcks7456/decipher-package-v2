@@ -1,0 +1,20 @@
+<snippet>
+  <content><![CDATA[
+<style label="no_els_text" arg:textTitle="${1}" name="el.text"><![CDATA[
+<div class="no-rows-input">
+  <div class="number-header">\$(textTitle)</div>
+  <div class="number-inputs">
+    <div class="input-container">
+      <span>\${row.styles.ss.preText if not row.styles.ss.preText == None else ''}</span>
+      <input type="text" name="\$(name)" id="\$(id)" value="\$(value)" size="\$(size)" class="input text-input" \$(extra)/>
+      <span>\${row.styles.ss.postText if not row.styles.ss.postText == None else ''}</span>
+    </div>
+  </div>
+</div>
+]]${-1}></style>
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>no.el.text</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.xml</scope>
+</snippet>
