@@ -2749,7 +2749,10 @@ const customCard = ()=>{
         return;
     }else{
         if( !errorFlag ){
-            continueBtn.disabled = true;
+            const gridList = document.querySelectorAll('.grid-list-mode');
+            if( gridList.length > 0  ){
+                continueBtn.disabled = true;
+            }
         }else{
             continueBtn.disabled = false;
         }
@@ -2892,7 +2895,6 @@ const customCard = ()=>{
         const allRows = card.querySelectorAll('.grid-list-mode .row-elements:not(.zeroHeight)');
         const baseElements = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
         const disabledElements = [...allRows].filter(row => row.querySelectorAll('input').length == 0);
-
 
         // Answer Check
         const answerCount = [...baseElements].filter(row => row.querySelector('.fir-icon.selected')).length;
