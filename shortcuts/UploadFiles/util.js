@@ -2042,6 +2042,17 @@ const setCustomBtn = ()=>{
     const mainStyle = document.createElement('style');
 
     mainStyle.innerHTML = `
+#${btnId}.sp-custom-card.noCols .answers .legend.col-legend {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    background-color: #b7ceff;
+    border: 1px solid #343434;
+    border-radius: 7px;
+    padding:5px;
+}
+
 #${btnId} .zeroHeight {
     display: none!important;
 }
@@ -2761,6 +2772,10 @@ const customCard = ()=>{
     const style = document.createElement('style');
 
     style.innerHTML = `
+.sp-custom-card:not(.noCols) .answers {
+    margin: 0 auto;
+}
+
 .survey-container {
   overflow: unset !important;
 }

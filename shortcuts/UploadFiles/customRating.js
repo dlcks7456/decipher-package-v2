@@ -434,6 +434,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     border-radius: 5px;
     padding: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
