@@ -18,7 +18,7 @@
 }
 
 
-<res label="img_div" translateable="0"><div class="card-img"><p>%s</p><p><img src="%s"/></p></div></res>
+<res label="img_div"><div class="card-img"><p>%s</p><p><img src="%s"/></p></div></res>
 
 def row_img_setting(qid, text_base, base_path, diff_value=[], img_format="png") :
   for x in qid.rows :
