@@ -1,8 +1,16 @@
 <snippet>
   <content><![CDATA[
-import re
-[verify] = re.findall('\(([^)]+)', ${1:QID}.o.verify)
-minv, maxv = map(lambda x : int(x), verify.split(","))
+# example
+# minv, masv = get_verify(Q1)
+def get_verify(qid) :
+  [verify] = re.findall('\(([^)]+)', qid.o.verify)
+  minv, maxv = map(lambda x : int(x), verify.split(","))
+
+  return [minv, maxv]
+
+def get_placeholder(qid) :
+    minv, maxv = get_verify(qid)
+    return '%s-%s'%(minv, maxv)
 ]]></content>
   <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
   <tabTrigger>get.verify</tabTrigger>
