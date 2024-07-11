@@ -2041,6 +2041,14 @@ const setCustomBtn = ()=>{
 
     const mainStyle = document.createElement('style');
 
+    const cardMaxWidth = [...btn.classList].filter((cl)=> cl.includes('card-mw-'));
+
+    let setCardMaxWidth = 924;
+    if( cardMaxWidth.length == 1 ) {
+        setCardMaxWidth = cardMaxWidth[0].split('-').slice(-1)[0];
+    }
+
+
     mainStyle.innerHTML = `
 #${btnId}.sp-custom-card.noCols .answers .legend.col-legend {
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -2051,6 +2059,10 @@ const setCustomBtn = ()=>{
     border: 1px solid #343434;
     border-radius: 7px;
     padding:5px;
+}
+
+#${btnId}.sp-custom-card.noCols .answers {
+    max-width: ${setCardMaxWidth}px;
 }
 
 #${btnId} .zeroHeight {
@@ -2787,9 +2799,6 @@ const customCard = ()=>{
   background-color: #fff;
 }
 
-.sp-custom-card .grid-list-mode {
-    max-width: 924px;
-}
 
 .sp-card-arrow {
     display: flex !important;
@@ -2910,6 +2919,30 @@ const customCard = ()=>{
         const allRows = card.querySelectorAll('.grid-list-mode .row-elements:not(.zeroHeight)');
         const baseElements = [...allRows].filter(row => row.querySelectorAll('input').length >= 1);
         const disabledElements = [...allRows].filter(row => row.querySelectorAll('input').length == 0);
+
+        const checkMaxWidth = [...card.classList].filter((cl)=> cl.includes('card-mw-'));
+
+        if( checkMaxWidth.length == 1 ) {
+            const setMaxWidth = checkMaxWidth[0].split('-').slice(-1)[0];
+            style.innerHTML += `
+#${card.id}.sp-custom-card .grid-list-mode {
+    max-width: ${setMaxWidth}px;
+}
+`;
+        }else{
+            style.innerHTML += `
+#${card.id}.sp-custom-card .grid-list-mode {
+    max-width: 924px;
+}`;
+        }
+
+        style.innerHTML += `
+@media (max-width: 768px) {
+    #${card.id}.sp-custom-card .grid-list-mode {
+        max-width: 100%;
+    }
+}`;
+
 
         // Answer Check
         const answerCount = [...baseElements].filter(row => row.querySelector('.fir-icon.selected')).length;

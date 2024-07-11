@@ -269,7 +269,7 @@ border-radius : 100%; \
 -moz-transform : translate(-50%, -50%); \
 -ms-transform : translate(-50%, -50%); \
 -o-transform : translate(-50%, -50%); \
-z-index : 50;\
+z-index : 201;\
 '
         );
       objZoomWrap.setAttribute('style',
@@ -285,7 +285,7 @@ border-radius : 25px; \
 box-sizing : content-box; \
 background-color : white; \
 overflow : hidden; \
-z-index : 20;\
+z-index : 200;\
 '
       );
 
