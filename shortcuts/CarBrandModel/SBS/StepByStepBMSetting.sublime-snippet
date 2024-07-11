@@ -98,7 +98,8 @@
   <row label="m228" value="228">코나 하이브리드</row>
   <row label="m229" value="229">코나 일렉트릭</row>
   <row label="m230" value="230">투싼</row>
-  <row label="m231" value="231">팰리세이드</row>
+  <row label="m231" value="231">넥쏘 2세대</row>
+  <row label="m232" value="232">팰리세이드</row>
   <row label="m298" value="298" open="1" openOptional="1" openSize="25" randomize="0">기타 (구체적으로:)</row>
   <row label="m301" value="301">EQ900</row>
   <row label="m302" value="302">G70</row>

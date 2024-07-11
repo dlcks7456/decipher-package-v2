@@ -32,7 +32,7 @@ model	p1	p2	p3	p4	p5	p6	p7	p98
 203	O	O	O		O		O	O
 204	O	O	O		O		O	O
 205	O	O	O		O		O	O
-206			O	O	O	O		O
+206						O		
 207	O	O	O		O		O	O
 208	O	O	O		O		O	O
 209	O	O	O		O		O	O
@@ -57,7 +57,8 @@ model	p1	p2	p3	p4	p5	p6	p7	p98
 228			O		O			O
 229				O				O
 230	O	O	O		O		O	O
-231	O	O	O		O		O	O
+231						O		
+232	O	O	O		O		O	O
 298	O	O	O	O	O		O	O
 301	O	O						O
 302	O	O	O	O	O		O	O
