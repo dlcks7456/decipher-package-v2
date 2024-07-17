@@ -2594,25 +2594,36 @@ const customInputBox = ()=>{
 #${inputBoxId} .ch-group-toggle .indent-2 {
     padding-left: .4em;
 }
+
+#${inputBoxId} .ch-group-toggle .ch-group-rows {
+    padding: 5px;
+}
 `;
 
         if (colsFlag) {
+            const groupElements = document.querySelectorAll(`#${inputBoxId} .ch-group-toggle`);
+
             if (!(numq.classList.contains('noCols') || numq.classList.contains('noRows'))) {
+
+                let gridClass = '.grid-list-mode tbody';
+                if( groupElements.length >= 1 ){
+                    gridClass = '.ch-group-rows';
+                }
                 mainStyle.innerHTML += `
-#${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody {
+#${inputBoxId}.sp-custom-input .answers ${gridClass} {
     display: grid;
     gap: 5px;
     grid-template-columns: repeat(${colNumber}, 1fr);
 }
 
-#${inputBoxId}.sp-custom-input .answers .grid-list-mode .row-elements {
+#${inputBoxId}.sp-custom-input .answers ${gridClass} .row-elements {
     margin-top: unset !important;
 }`;
 
                 if (colNumber >= 3) {
                     mainStyle.innerHTML += `
 @media (max-width: 1000px) {
-    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody {
+    #${inputBoxId}.sp-custom-input .answers ${gridClass} {
       grid-template-columns: repeat(${minColCount == 1 ? 2 : (colNumber-1 > minColCount ? colNumber-1 : minColCount)}, 1fr);
     }
 }`;
@@ -2620,32 +2631,37 @@ const customInputBox = ()=>{
 
                 mainStyle.innerHTML += `
 @media (max-width: 768px) {
-    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody{
+    #${inputBoxId}.sp-custom-input .answers ${gridClass} {
         grid-template-columns: repeat(${minColCount}, 1fr);
     }
 
-    #${inputBoxId}.sp-custom-input .answers .grid-list-mode tbody{
+    #${inputBoxId}.sp-custom-input .answers ${gridClass} {
         max-width: 100%;
     }
 }
                 `;
 
             } else {
+
+                let gridClass = '.answers';
+                if( groupElements.length >= 1 ){
+                    gridClass = '.ch-group-rows';
+                }
                 mainStyle.innerHTML += `
-#${inputBoxId}.sp-custom-input .answers {
+#${inputBoxId}.sp-custom-input ${gridClass} {
     display: grid;
     gap: 5px;
     grid-template-columns: repeat(${colNumber}, 1fr);
 }
 
-#${inputBoxId}.sp-custom-input .answers .element {
+#${inputBoxId}.sp-custom-input ${gridClass} .element {
     padding: unset;
 }`;
 
                 if (colNumber >= 3) {
                     mainStyle.innerHTML += `
 @media (max-width: 1000px) {
-    #${inputBoxId}.sp-custom-input .answers {
+    #${inputBoxId}.sp-custom-input ${gridClass} {
       grid-template-columns: repeat(${minColCount == 1 ? 2 : (colNumber-1 > minColCount ? colNumber-1 : minColCount)}, 1fr);
     }
 }`;
@@ -2653,15 +2669,15 @@ const customInputBox = ()=>{
 
                 mainStyle.innerHTML += `
 @media (max-width: 768px) {
-    #${inputBoxId}.sp-custom-input .answers {
+    #${inputBoxId}.sp-custom-input ${gridClass} {
         grid-template-columns: repeat(${minColCount}, 1fr);
     }
 
-    #${inputBoxId}.sp-custom-input .answers {
+    #${inputBoxId}.sp-custom-input ${gridClass} {
         max-width: 100%;
     }
 
-    #${inputBoxId}.sp-custom-input .answers .element {
+    #${inputBoxId}.sp-custom-input ${gridClass} .element {
         max-width: 100% !important;
         padding: .4em .4em .4em 0;
     }
