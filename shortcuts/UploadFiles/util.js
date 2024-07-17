@@ -2589,7 +2589,12 @@ const customInputBox = ()=>{
 
 #${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper:hover .cell-text {
   background-color: #b7ceff;
-}`;
+}
+
+#${inputBoxId} .ch-group-toggle .indent-2 {
+    padding-left: .4em;
+}
+`;
 
         if (colsFlag) {
             if (!(numq.classList.contains('noCols') || numq.classList.contains('noRows'))) {
