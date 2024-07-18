@@ -534,6 +534,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 
     .sp-col-btn-text {
         display: flex;
+        flex-direction: ${haveRightLegend ? 'column' : 'row'};
         gap: 5px;
         align-items: center;
         justify-content: ${haveRightLegend ? 'center' : 'flex-start'};
