@@ -1397,6 +1397,10 @@ function stepQuestion(bundleClassName){
                 });
 
                 nextSelect.disabled = false;
+                const checkOption = [...nextSelect.options].slice(1);
+                if( checkOption.length == 1 ){
+                    nextSelect.selectedIndex = 1;
+                }
             };
 
             optionHandler();
