@@ -1399,12 +1399,20 @@ function stepQuestion(bundleClassName){
                 nextSelect.disabled = false;
                 const checkOption = [...nextSelect.options].slice(1);
                 if( checkOption.length == 1 ){
-                    nextSelect.selectedIndex = 1;
+                    if(nextSelect.selectedIndex !== 1){
+                        nextSelect.selectedIndex = 1;
+                        nextSelect.options[nextSelect.selectedIndex].click();
+                    }
                 }
             };
 
             optionHandler();
             openHandler(false);
+            
+            step.addEventListener('click', ()=>{
+                optionHandler();
+                openHandler(false);
+            });
 
             step.addEventListener('change', ()=>{
                 // reset
