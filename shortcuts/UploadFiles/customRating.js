@@ -183,20 +183,24 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     const hasError = document.querySelector('.hasError');
     const hasErrorFlag = (hasError === undefined || hasError === null);
 
-    const speeingHandle = ()=>{
-            const containers = document.querySelectorAll('.sp-col-btn-box');
+    const speedingHandle = () => {
+        const containers = document.querySelectorAll('.sp-col-btn-box');
 
-            if((hold !== undefined) & (hold !== null) & (hold > 0)){
-                // Add the 'speeding-handle' class to each container
-                const speeding = 'speeding-handle';
-                containers.forEach(container => container.classList.add(speeding));
+        if ((hold !== undefined) && (hold !== null) && (hold > 0)) {
+            const speeding = 'speeding-handle';
+            containers.forEach((container) => {
+                const input = container.querySelector('input:checked');
+                if (!input) {
+                    container.classList.add(speeding);
+                }
+            });
 
-                // Remove the 'speeding-handle' class after 0.5 seconds (500 milliseconds)
-                setTimeout(() => {
-                    containers.forEach(container => container.classList.remove(speeding));
-                }, hold*1000);
-            }
-    }
+            // Remove the 'speeding-handle' class after the specified time
+            setTimeout(() => {
+                containers.forEach(container => container.classList.remove(speeding));
+            }, hold * 1000);
+        }
+    };
 
     const answerUpdate = (setIndex, ans) => {
         const newAnswer = [...answer];
@@ -216,7 +220,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
         setElRows(newElRows);
         if( autoNext && hasErrorFlag ){
             setAnsIndex(ansIndex + 1);
-            speeingHandle();
+            speedingHandle();
         }
 
         if( hasErrorFlag ){
