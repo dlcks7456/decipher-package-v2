@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-<style label="custom_rating" arg:qmode="rating" arg:autoContinue="false" arg:autoNumber="true" arg:btnDirection="row" arg:leftText="" arg:rightText="" arg:showArrow="false" arg:showGroup="true" arg:disableContinue="true" name="question.after"><![CDATA[
+<style label="custom_rating" arg:hold="0.5" arg:qmode="rating" arg:autoContinue="false" arg:autoNumber="true" arg:btnDirection="row" arg:leftText="" arg:rightText="" arg:showArrow="false" arg:showGroup="true" arg:disableContinue="true" name="question.after"><![CDATA[
 \@if (this.grouping.rows and len(this.rows) > 1) or (this.grouping.cols and len(this.cols) > 1)
 <style>.label_\$(this.label) .answers {display: none;}</style>
 <div class="custom-loader"></div>
@@ -37,6 +37,7 @@ try {
 \@if this.grouping.cols
     answers: \${dict([[x.label, x.val if x.val != None else 'null'] for x in \$(this.label).cols if x.displayed])},
 \@endif
+    hold: $(hold),
     flexDirection: "\$(btnDirection)",
     disableContinue: \$(disableContinue),
     showGroup: \$(showGroup),

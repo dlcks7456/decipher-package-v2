@@ -2035,7 +2035,7 @@ class makeRowCommand(sublime_plugin.TextCommand):
 
                 for x in input:
 
-                    if ("other" in input[count].strip().lower() and "specify" in input[count].strip().lower()) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
+                    if ("other" in input[count].strip().lower() and (("specify" in input[count].strip().lower()) or ("specific" in input[count].strip().lower()))) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
                       input[count] = input[count].strip().replace("_", "")
                       extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
                     else:
@@ -2078,7 +2078,7 @@ class makeRowAutoValueCommand(sublime_plugin.TextCommand):
 
                 for x in input:
 
-                    if ("other" in input[count].strip().lower() and "specify" in input[count].strip().lower()) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
+                    if ("other" in input[count].strip().lower() and (("specify" in input[count].strip().lower()) or ("specific" in input[count].strip().lower()))) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
                       input[count] = input[count].strip().replace("_", "")
                       extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
                     else:
@@ -2124,7 +2124,7 @@ class makeRowrCommand(sublime_plugin.TextCommand):
 
                 for x in input:
 
-                    if ("other" in input[count-1].strip().lower() and "specify" in input[count-1].strip().lower()) or ("기타" in input[count-1].strip().lower() and "구체적" in input[count-1].strip().lower()):
+                    if ("other" in input[count-1].strip().lower() and ("specify" in input[count-1].strip().lower()) or ("specific" in input[count-1].strip().lower())) or ("기타" in input[count-1].strip().lower() and "구체적" in input[count-1].strip().lower()):
                       input[count-1] = input[count-1].replace("_", "")
                       extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
                     else:
@@ -2174,7 +2174,7 @@ class makeRowsMatchLabelCommand(sublime_plugin.TextCommand):
 
                      extra=""
 
-                     if ("other" in content.lower() and "specify" in content.lower()) or ("기타" in content.lower() and "구체적" in content.lower()):
+                     if ("other" in content.lower() and ("specify" in content.lower() or "specific" in content.lower())) or ("기타" in content.lower() and "구체적" in content.lower()):
                        content = content.replace("_", "")
                        extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
 
@@ -2231,7 +2231,7 @@ class makeRowsMatchValuesCommand(sublime_plugin.TextCommand):
 
                     extra=""
 
-                    if ("other" in content.lower() and "specify" in content.lower()) or ("기타" in content.lower() and "구체적" in content.lower()):
+                    if ("other" in content.lower() and ("specify" in content.lower() or "specific" in content.lower())) or ("기타" in content.lower() and "구체적" in content.lower()):
                         content = content.replace("_", "")
                         extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
 
@@ -2265,7 +2265,7 @@ class makeColsCommand(sublime_plugin.TextCommand):
                     input[x] = re.sub("^[a-zA-Z0-9]{1,2}[\.:\)][ \t]+", "\n", input[x])
                 count = 0
                 for x in input:
-                    if ("other" in input[count].strip().lower() and "specify" in input[count].strip().lower()) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
+                    if ("other" in input[count].strip().lower() and (("specify" in input[count].strip().lower()) or ("specific" in input[count].strip().lower()))) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
                         input[count] = input[count].strip().replace("_", "")
                         extra=' open=\"1\" openSize=\"25\" randomize=\"0\"'
                         printPage += "  <col label=\"c%s\"%s>%s</col>\n" % (str(count+1), extra, input[count].strip())
@@ -2315,7 +2315,7 @@ class makeColsMatchLabelCommand(sublime_plugin.TextCommand):
 
                      extra=""
 
-                     if ("other" in content.lower() and "specify" in content.lower()) or ("기타" in content.lower() and "구체적" in content.lower()):
+                     if ("other" in content.lower() and ("specify" in content.lower() or "specific" in content.lower())) or ("기타" in content.lower() and "구체적" in content.lower()):
                        content = content.replace("_", "")
                        extra=' open=\"1\" openSize=\"25\" randomize=\"0\"'
 
@@ -2366,7 +2366,7 @@ class makeColsMatchValueCommand(sublime_plugin.TextCommand):
 
                      extra=""
 
-                     if ("other" in content.lower() and "specify" in content.lower()) or ("기타" in content.lower() and "구체적" in content.lower()):
+                     if ("other" in content.lower() and ("specify" in content.lower() or "specific" in content.lower())) or ("기타" in content.lower() and "구체적" in content.lower()):
                        content = content.replace("_", "")
                        extra=' open=\"1\" openSize=\"25\" randomize=\"0\"'
 
@@ -2570,7 +2570,7 @@ class makeColsWithGroupCommand(sublime_plugin.TextCommand):
 
                      extra=""
 
-                     if ("other" in content.lower() and "specify" in content.lower()) or ("기타" in content.lower() and "구체적" in content.lower()):
+                     if ("other" in content.lower() and ("specify" in content.lower() or "specific" in content.lower())) or ("기타" in content.lower() and "구체적" in content.lower()):
                        content = content.replace("_", "")
                        extra=' open=\"1\" openSize=\"25\" randomize=\"0\"'
 
@@ -2783,7 +2783,7 @@ class makeRowsMatchValuesGroupCommand(sublime_plugin.TextCommand):
 
                             extra=""
                             otherArr1 = ["기타","other","others"]
-                            otherArr2 = ["구체적","자세히","specify"]
+                            otherArr2 = ["구체적","자세히","specify","specific"]
 
                             noneArr = ["모름","없음","none"]
 
@@ -3783,7 +3783,7 @@ class makeColAutoValueCommand(sublime_plugin.TextCommand):
 
                 for x in input:
 
-                    if ("other" in input[count].strip().lower() and "specify" in input[count].strip().lower()) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
+                    if ("other" in input[count].strip().lower() and (("specify" in input[count].strip().lower()) or ("specific" in input[count].strip().lower()))) or ("기타" in input[count].strip().lower() and "구체적" in input[count].strip().lower()):
                       input[count] = input[count].strip().replace("_", "")
                       extra=' open=\"1\" openSize=\"'+openSize+'\" randomize=\"0\"'
                     else:

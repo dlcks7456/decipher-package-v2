@@ -53,7 +53,7 @@ const ColButton = ({uid, row, col, ansUpdate, mouseOverEvent, mouseOutEvent, aut
     )
 }
 
-const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", disableContinue=true, autoContinue=false, showArrow=false, autoNumber, showGroup=false, groupInfo={}})=>{
+const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection="row", disableContinue=true, autoContinue=false, showArrow=false, autoNumber, showGroup=false, groupInfo={}})=>{
     const brandColor = "#2d6df6";
     const brandSubColor = "#b7ceff";
     const errorColor = "#e7046f"
@@ -183,6 +183,21 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     const hasError = document.querySelector('.hasError');
     const hasErrorFlag = (hasError === undefined || hasError === null);
 
+    const speeingHandle = ()=>{
+            const containers = document.querySelectorAll('.sp-col-btn-box');
+
+            if((hold !== undefined) & (hold !== null) & (hold > 0)){
+                // Add the 'speeding-handle' class to each container
+                const speeding = 'speeding-handle';
+                containers.forEach(container => container.classList.add(speeding));
+
+                // Remove the 'speeding-handle' class after 0.5 seconds (500 milliseconds)
+                setTimeout(() => {
+                    containers.forEach(container => container.classList.remove(speeding));
+                }, hold*1000);
+            }
+    }
+
     const answerUpdate = (setIndex, ans) => {
         const newAnswer = [...answer];
         const answerChageFlag = newAnswer[setIndex] !== ans;
@@ -197,9 +212,11 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
             }
             return row;
         });
+
         setElRows(newElRows);
         if( autoNext && hasErrorFlag ){
             setAnsIndex(ansIndex + 1);
+            speeingHandle();
         }
 
         if( hasErrorFlag ){
@@ -451,6 +468,7 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
 .sp-card-container {
     display: flex;
     flex-direction: ${showError ? 'column' : 'row'};
+    transition: opacity 0.3s;
 }
 
 .sp-card {
@@ -687,6 +705,11 @@ const SetLeftRight = ({json, mode, left, right, answers, flexDirection="row", di
     transition: transform 0.5s;
 }
 
+.speeding-handle {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
             `}</style>
             {!haveRightLegend ? (
                 <div>
@@ -870,6 +893,7 @@ const CustomRating = ({
     leftText, 
     rightText, 
     answers,
+    hold=0.5,
     flexDirection="row",
     disableContinue=true,
     autoContinue=false,
@@ -921,6 +945,7 @@ const CustomRating = ({
             mode={mode}
             disableContinue={disableContinue}
             answers={answers}
+            hold={hold}
             flexDirection={flexDirection}
             showArrow={showArrow}
             showGroup={showGroup}
