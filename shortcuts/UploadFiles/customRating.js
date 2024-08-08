@@ -15,7 +15,10 @@ const setMinHeightForColBtn = ()=>{
 
         rankTextElements.forEach(element => {
             element.style.minHeight = maxHeight + 'px';
-        });            
+            if(maxHeight < 50){
+                element.style.minHeight = '50px';
+            }
+        });
     }
 }
 
@@ -66,6 +69,8 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
         cols = copy_rows;
     }
 
+    const bothLegend = (haveRightLegend) || (left !== '' && right !== '');
+    const smallFont = (bothLegend) && cols.length > 7
 
     const [errRows, setErrRows] = React.useState(errors.map((err)=>{
         const errProp = err[1];
@@ -105,7 +110,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     // console.log(errRowLegends);
 
 
-    let colDirection = haveRightLegend ? 'row' : flexDirection;
+    let colDirection = bothLegend ? 'row' : flexDirection;
 
     const colSeparator = Math.floor(cols.length/2);
     const leftCols = cols.slice(0, colSeparator).map((col)=>{return col.index});
@@ -305,6 +310,8 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
 
     const showError = document.querySelector('.hasError') ? true : false;
 
+
+
     return (
         <>
         <div ref={containerRef} className="focus-zone"></div>
@@ -382,7 +389,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     display: flex;
     flex-direction: column;
     gap: 5px;
-    justify-content: ${colDirection === "row" ? "flex-start" : "center"};
+    justify-content: ${colDirection === "row" ? (smallFont ? "center" : "flex-start") : "center"};
     align-items: center;
     font-size: 1.1rem;
     color: #333;
@@ -533,35 +540,6 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     }
 }
 
-@media (max-width: 768px) {
-    .sp-row-left, .sp-row-right {
-        font-size: 1.2rem;
-    }
-    
-    .sp-container {
-        max-width: 350px;
-        margin: 0 auto;
-    }
-    .sp-arrow-left:hover {
-        transform: translateX(0px);
-    }
-
-    .sp-arrow-right:hover {
-        transform: translateX(0px);
-    }
-
-    .sp-col-center {
-        justify-content: flex-start;
-    }
-
-    .sp-col-btn-text {
-        display: flex;
-        flex-direction: ${haveRightLegend ? 'column' : 'row'};
-        gap: 5px;
-        align-items: center;
-        justify-content: ${haveRightLegend ? 'center' : 'flex-start'};
-    }
-}
 
 .sp-answer-count {
     font-size: 1rem;
@@ -655,6 +633,43 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     .sp-col-left.mouse-over, .sp-col-right.mouse-over {
         background-color: unset;
     }
+
+    .sp-row-left, .sp-row-right {
+        font-size: 1.2rem;
+    }
+    
+    .sp-container {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    .sp-arrow-left:hover {
+        transform: translateX(0px);
+    }
+
+    .sp-arrow-right:hover {
+        transform: translateX(0px);
+    }
+
+    .sp-col-center {
+        justify-content: flex-start;
+    }
+
+    .sp-col-btn-text {
+        display: flex;
+        flex-direction: ${bothLegend ? 'column' : 'row'};
+        gap: 5px;
+        align-items: center;
+        justify-content: ${bothLegend ? 'center' : 'flex-start'};
+    }
+
+    .sp-col-score {
+        font-size: ${smallFont ? '0.8' : '1'}rem;
+    }
+
+    .sp-col-btn {
+        padding: ${smallFont ? '0' : '10'}px;
+        margin: ${smallFont ? '1' : '5'}px;
+    }
 }
 
 /* hasError */
@@ -715,7 +730,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
 }
 
             `}</style>
-            {!haveRightLegend ? (
+            {!bothLegend ? (
                 <div>
                     <style jsx="true">{`
 @media (max-width: 768px){
@@ -730,7 +745,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     }
 
     .arrow-container {
-        display: ${haveRightLegend ? 'flex' : 'none'};
+        display: ${bothLegend ? 'flex' : 'none'};
     }
 }
                     `}</style>
@@ -794,7 +809,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
                                                 <div className={"arrow-right"}></div>
                                             </div>
                                         ) : null}
-                                        {haveRightLegend ? (
+                                        {bothLegend ? (
                                             <div className={"sp-col-legend-box"}>
                                                 <div className={classHandler(leftFlag, "sp-col-legend sp-col-left", "mouse-over")} dangerouslySetInnerHTML={{__html: left}}></div>
                                                 <div className={classHandler(rightFlag, "sp-col-legend sp-col-right", "mouse-over")} dangerouslySetInnerHTML={{__html: right}}></div>
