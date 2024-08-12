@@ -931,7 +931,7 @@ const CustomRating = ({
     const {cols, rows} = json;
     const filteredAnswers = Object.values(answers).filter(value => value !== 'null');
 
-    const regex = /(\(\d+\))\s*(.*)/;;
+    const regex = /(\([^)]+\))\s*(.*)/;
 
     let numberFlag = autoNumber;
     /* Col numbering */
