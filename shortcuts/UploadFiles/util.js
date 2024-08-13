@@ -2071,6 +2071,7 @@ const setCustomBtn = ()=>{
     border: 1px solid #343434;
     border-radius: 7px;
     padding:5px;
+    grid-column: 1/-1;
 }
 
 #${btnId}.sp-custom-card.noCols .answers {
