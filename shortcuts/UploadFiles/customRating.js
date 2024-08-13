@@ -136,8 +136,12 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
             return row.answer;
         }
     }));
+    
+    const currentLang = document.documentElement.lang; // HTML 태그의 lang 속성 가져오기
+    const isRTL = currentLang === 'ar' || currentLang === 'he';
+    
+    const [offset, setOffset] = React.useState(-(ansIndex) * 100);
 
-    const [offset, setOffset] = React.useState(-(ansIndex)*100);
 
     const [autoNext, setAutoNext] = React.useState(true);
     const [leftFlag, setLeftFlag] = React.useState(false);
@@ -526,6 +530,10 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
     transition: transform 0.5s, opacity 0.5s;
 }
 
+*:lang(ar) .sp-arrow-left, *:lang(ar) .sp-arrow-right, *:lang(he) .sp-arrow-left, *:lang(he) .sp-arrow-right {
+    transform: rotateY(180deg);
+}
+
 .sp-arrow-left:hover {
     transform: translateX(-10px);
 }
@@ -533,6 +541,17 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
 .sp-arrow-right:hover {
     transform: translateX(10px);
 }
+
+
+*:lang(ar) .sp-arrow-left:hover, *:lang(he) .sp-arrow-left:hover {
+    transform: rotateY(180deg) translateX(-10px);
+}
+
+*:lang(ar) .sp-arrow-right:hover, *:lang(he) .sp-arrow-right:hover {
+    transform: rotateY(180deg) translateX(10px);
+}
+
+
 
 @media (max-width:920px) {
     .sp-question {
@@ -782,7 +801,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
                     <div className={"sp-card-container"}>
                         {elRows.map((row, rowIndex)=>{
                             return (
-                                <div key={rowIndex} className={classHandler(errRows.includes(String(rowIndex)) || errRowLegends.includes(String(rowIndex)), "sp-card", "error-focus")} style={{transform: showError ? null : `translateX(${offset}%)`}}> 
+                                <div key={rowIndex} className={classHandler(errRows.includes(String(rowIndex)) || errRowLegends.includes(String(rowIndex)), "sp-card", "error-focus")} style={{transform: showError ? null : (isRTL ? `translateX(${offset*(-1)}%)` : `translateX(${offset}%)`)}}> 
                                     {Object.keys(groupInfo).length > 0 && showGroup ? (
                                         <div className={"sp-rate-group"}>
                                             <div className={`sp-group-text sp-group-${groupInfo[row.label].label}`}>
@@ -887,7 +906,7 @@ const SetLeftRight = ({json, mode, left, right, answers, hold=0.5, flexDirection
                             )
                         })}
                         {!showError ? (
-                            <div className={"sp-card"} style={{transform: `translateX(${offset}%)`}}>
+                            <div className={"sp-card"} style={{transform: (isRTL ? `translateX(${offset*(-1)}%)` : `translateX(${offset}%)`)}}>
                                 {ansIndex == elRows.length ? (
                                     <div className={"sp-complete animate__animated animate__bounceIn"}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

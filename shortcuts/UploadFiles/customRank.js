@@ -274,6 +274,10 @@ const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[
         })
     );
 
+
+    const currentLang = document.documentElement.lang; // HTML 태그의 lang 속성 가져오기
+    const isRTL = currentLang === 'ar' || currentLang === 'he';
+
     let orderGroups = [];
     let setGroupRows = [];
     rows.forEach((row)=>{
@@ -783,7 +787,7 @@ const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[
 .show-cnt {
     position: fixed;
     bottom: 7%;
-    left: 10%;
+    ${isRTL ? "right: 10%;" : "left: 10%;"}
     padding: 10px;
     border-radius: 10px;
     background-color: #2d6df6;
@@ -1052,7 +1056,7 @@ const GridRankSort = ({json, defaultValue, gridColumnCount, showGroups, groups=[
                 </div>
             </div>
             {showCnt ? (
-                <div className={answerCompleted || noAnswer ? "show-cnt animate__animated animate__bounceOutLeft" : "show-cnt animate__animated animate__bounceIn"}>
+                <div className={answerCompleted || noAnswer ? (isRTL ? "show-cnt animate__animated animate__bounceOutRight" : "show-cnt animate__animated animate__bounceOutLeft") : "show-cnt animate__animated animate__bounceIn"}>
                     {rankAnswers.length}/{cols.length}
                 </div>
             ) : null}
