@@ -1,0 +1,14 @@
+<snippet>
+	<content><![CDATA[
+<style label="comment_box" name='survey.question.instructions'> <![CDATA[
+<h2 title="@(instructions)" class="instruction-text">
+  <div class="comment-box">\$(comment)</div>
+</h2>
+<!-- /.instruction-text -->
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>comment.box</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
