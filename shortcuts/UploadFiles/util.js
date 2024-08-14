@@ -2794,6 +2794,8 @@ const customCard = ()=>{
     const customCard = document.querySelectorAll('.sp-custom-card');
     const continueBtn = document.querySelector('#btn_continue');
     let answerComplteCount = 0;
+    const currentLang = document.documentElement.lang; // HTML 태그의 lang 속성 가져오기
+    const isRTL = currentLang === 'ar' || currentLang === 'he';
 
     if( continueBtn === null || continueBtn === undefined ){
         return;
@@ -2855,6 +2857,10 @@ const customCard = ()=>{
     transition: transform 0.5s, opacity 0.5s;
 }
 
+*:lang(ar) .sp-card-arrow-left, *:lang(ar) .sp-card-arrow-right, *:lang(he) .sp-card-arrow-left, *:lang(he) .sp-card-arrow-right {
+    transform: rotateY(180deg);
+}
+
 .sp-card-arrow-icon {
     width: 30px;
 }
@@ -2865,6 +2871,14 @@ const customCard = ()=>{
 
 .sp-card-arrow-right:hover {
     transform: translateX(10px);
+}
+
+*:lang(ar) .sp-card-arrow-left:hover, *:lang(he) .sp-card-arrow-left:hover {
+    transform: rotateY(180deg) translateX(-10px);
+}
+
+*:lang(ar) .sp-card-arrow-right:hover, *:lang(he) .sp-card-arrow-right:hover {
+    transform: rotateY(180deg) translateX(10px);
 }
 
 @media (max-width: 1000px) {
@@ -3116,7 +3130,7 @@ const customCard = ()=>{
             eachPage.push(lastPage);
 
             eachPage.forEach(row => {
-                row.style.transform = `translateX(${offset}%)`;
+                row.style.transform = `translateX(${isRTL ? (offset)*(-1) : offset}%)`;
             });
 
             const pageNumber = currentIndex + 1 <= rowElementsCount ? currentIndex + 1 : currentIndex;
