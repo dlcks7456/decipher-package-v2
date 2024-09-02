@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[
+<style copy="year_month_range" name="question.after" wrap="ready" arg:minDate="${1:2000-01}" arg:maxDate="${2:2099-12}"/>
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>month.range.copy</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>text.xml</scope>
+</snippet>
