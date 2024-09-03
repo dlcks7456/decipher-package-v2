@@ -1,0 +1,9 @@
+<snippet>
+  <content><![CDATA[
+<style copy="text_to_select" arg:optionItems="${1:range(2021, 2025)}" name="el.text"/>
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>el.text.select</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.xml</scope>
+</snippet>

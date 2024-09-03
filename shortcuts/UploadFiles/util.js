@@ -3329,3 +3329,70 @@ const customCard = ()=>{
         });
     });
 }
+
+
+// select year/month date
+const selectDateRange = (minDate, maxDate, yearBase='.year-selector', monthBase='.month-selector') => {
+  const [minYear, minMonth] = minDate.split('-').map(Number);
+  const [maxYear, maxMonth] = maxDate.split('-').map(Number);
+
+  const yearSelectors = document.querySelectorAll(yearBase);
+  const monthSelectors = document.querySelectorAll(monthBase);
+
+  yearSelectors.forEach((yearContainer, index) => {
+    const yearSelector = yearContainer.querySelector('select');
+    const monthSelector = monthSelectors[index].querySelector('select');
+
+    const updateYearOptions = () => {
+      const yearOpts = yearSelector.querySelectorAll('option');
+      [...yearOpts].forEach((opt, idx) => {
+        if (idx === 0) return;
+        opt.parentNode.removeChild(opt);
+      });
+
+      // minYear부터 maxYear까지의 연도 옵션 추가
+      for (let year = maxYear; year >= minYear; year--) {
+        const optElement = document.createElement('option');
+        optElement.value = year;
+        optElement.text = year;
+        yearSelector.appendChild(optElement);
+      }
+    };
+
+    const updateMonthOptions = () => {
+      const selectedYear = parseInt(yearSelector.value);
+      let startMonth = 1;
+      let endMonth = 12;
+
+      if (selectedYear === minYear) {
+        startMonth = minMonth;
+      }
+      if (selectedYear === maxYear) {
+        endMonth = maxMonth;
+      }
+
+      // month-selector의 기존 옵션 제거
+      const monthOpts = monthSelector.querySelectorAll('option');
+      [...monthOpts].forEach((opt, idx) => {
+        if (idx === 0) return; // 첫 번째 옵션은 유지 (e.g., "Select a month")
+        opt.parentNode.removeChild(opt);
+      });
+
+      // 새로운 월 옵션 추가
+      for (let month = startMonth; month <= endMonth; month++) {
+        const optElement = document.createElement('option');
+        optElement.value = String(month).padStart(2, '0');
+        optElement.text = String(month).padStart(2, '0');
+        monthSelector.appendChild(optElement);
+      }
+    };
+
+    // 초기 설정
+    updateYearOptions();
+    updateMonthOptions();
+
+    // 연도 선택 변경 시 월 옵션 업데이트
+    yearSelector.addEventListener('change', updateMonthOptions);
+  });
+};
+
