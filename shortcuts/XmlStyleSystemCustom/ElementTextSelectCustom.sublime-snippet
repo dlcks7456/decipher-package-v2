@@ -1,6 +1,6 @@
 <snippet>
   <content><![CDATA[
-<style label="text_to_select" arg:optionItems="${1:range(2021, 2025)}" name="el.text"><![CDATA[
+<style arg:optionItems="${1:range(2021, 2025)}" name="el.text"><![CDATA[
 \@if row.styles.ss.preText or this.styles.ss.preText
 <span class="pre-text">
   \${row.styles.ss.preText or this.styles.ss.preText or ""}&nbsp;
