@@ -1,7 +1,11 @@
 <snippet>
     <content><![CDATA[
-<style arg:minDate="${1:2000-01}" arg:maxDate="${2:2099-12}" label="year_month_range" name="question.after" wrap="ready"><![CDATA[
-selectDateRange('\$(minDate)', '\$(maxDate)');
+<style arg:minDate="${1:2000-01}" arg:maxDate="${2:2099-12}" arg:yearDescending="true" label="year_month_range" name="question.after" wrap="ready"><![CDATA[
+selectDateRange({
+    minDate: '\$(minDate)', 
+    maxDate: '\$(maxDate)',
+    descending: \$(yearDescending),
+});
 ]]${-1}></style>
 ]]></content>
     <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

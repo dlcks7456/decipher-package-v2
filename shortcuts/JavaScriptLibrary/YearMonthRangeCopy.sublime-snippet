@@ -1,6 +1,6 @@
 <snippet>
     <content><![CDATA[
-<style arg:minDate="${1:2000-01}" arg:maxDate="${2:2099-12}" copy="year_month_range" name="question.after" wrap="ready"/>
+<style arg:minDate="${1:2000-01}" arg:maxDate="${2:2099-12}" arg:yearDescending="true" copy="year_month_range" name="question.after" wrap="ready"/>
 ]]></content>
     <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
     <tabTrigger>month.range.copy</tabTrigger>
