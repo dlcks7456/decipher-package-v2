@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+<number 
+    label="${1}"
+    amount="${5:100}"
+    optional="0"
+    size="3"
+    verify="range(0,100)">
+    <title><div class="q-name">${1}</div> ${2}</title>
+  <style arg:postText="${3:%}" arg:totalText="${4:Total}" arg:columns="2" arg:limitActivate="true" arg:dragRange="1" arg:goalValue="${5:100}" arg:minValue="0" arg:maxValue="100" arg:viewDivision=":" arg:viewOrigin="false" name="question.after" wrap="ready"><![CDATA[
+fnAutosum(\$(viewOrigin), \$(limitActivate), \$(dragRange), \$(columns), \$(goalValue), \$(minValue), \$(maxValue), '\$(viewDivision)', '\$(totalText)', '\$(postText)', '\${this.label}');
+]]${-1}></style>
+${6}
+</number>
+
+<suspend/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>autosum</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

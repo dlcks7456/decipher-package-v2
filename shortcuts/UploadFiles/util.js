@@ -3408,343 +3408,369 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
 
 
 // sum100 drag
+//sum100
 const fnAutosum = (_viewOrigin, _limitActivate, _dragRange, _columns, _goalValue, _minValue, _maxValue, _viewDivision, _totalText, _postText, _thisLabel) => {
 
   const fnAutosumStyle = () => {
     for (k = 0; k < document.querySelectorAll('style').length; k++) {
       if (document.querySelectorAll('style')[k].getAttribute('media') == null) {
-        document.querySelectorAll('style')[k].innerHTML = document.querySelectorAll('style')[k].innerHTML + ' \
-:root { \
---common-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); \
---blue-color : #0a52ed; \
---err-color : #e7046f; \
---cols-border-color : #959595; \
---inputBar-color : #b7ceff; \
---complete-color : #b7ceff; \
---sticky-color : rgba(255, 255, 255, 1); \
---complete-duration : 0.3s; \
---graduation-color : black; \
---graduation-duration : 0.05s; \
---noanswer-duration : 0.2s; \
-} \
-\@keyframes initAfter { \
-  0% { \
-    left : calc(0% - 25px); \
-    opacity : 0; \
-  } \
-  100% { \
-    left : calc(100% - 0px); \
-    opacity : 1; \
-  } \
-} \
-\@keyframes afterRotate { \
-  0% { \
-    transform : perspective(30px) rotate3d(0, 1, 0, 0deg); \
-  } \
-  100% { \
-    transform : perspective(30px) rotate3d(0, 1, 0, -360deg); \
-  } \
-} \
-body #survey { \
-  overflow : unset; \
-} \
-#question_' + _thisLabel + ' .autosumWrap { \
-  position : relative; \
-  display : block; \
-  margin : 10px 0px 10px 0px; \
-  max-width : 924px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .qaCode { \
-  display : inline-block; \
-  background-color : #3581C8; \
-  border : 0px solid blue; \
-  border-radius : 6px; \
-  -moz-border-radius : 6px; \
-  -webkit-border-radius : 6px; \
-  padding : 2px 4px; \
-  color : white; \
-  font-size : 11px; \
-  font-weight : bold; \
-  margin : 2px 0; \
-  line-height : normal; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .clickShield { \
-  pointer-events : none; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .newNoAnswerWrap { \
-  position : relative; \
-  display : inline-grid; \
-  padding : 10px; \
-  font-size : 15px; \
-  border : solid 1px #959595; \
-  border-radius : 10px; \
-  left : 50%; \
-  transform : translateX(-50%); \
-  box-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); \
-  cursor : pointer; \
-  transition-duration : 0.2s; \
-} \
-\@media (hover: hover) and (pointer: fine) { \
-  #question_' + _thisLabel + ' .autosumWrap .newNoAnswerWrap:hover { \
-    background-color : #b7ceff; \
-  } \
-} \
-#question_' + _thisLabel + ' .autosumWrap .noChecked { \
-  background-color : #b7ceff; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .newNoAnswerInner { \
-  pointer-events : none; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumCols { \
-  position : relative; \
-  display : grid; \
-  margin : 20px 0px 10px 0px; \
-  padding : 10px 25px 10px 25px; \
-  border : solid 1px #959595; \
-  border-radius : 10px; \
-  box-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); \
-  grid-template-columns : repeat(' + numGridColumn + ', 1fr); \
-  align-items : end; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumCols .autofill { \
-  transition-duration : 0s !important; \
-} \
-\@media (max-width: 767px) { \
-  #question_' + _thisLabel + ' .autosumWrap .autosumCols { \
-    grid-template-columns : repeat(1, 1fr); \
-  } \
-} \
-#question_' + _thisLabel + ' .autosumWrap .cHasError { \
-  border-color : #e7046f; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumCols .completeCol { \
-  background-color : #b7ceff; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumCols .warningCol { \
-  background-color : #ffff78; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTitle { \
-  position : sticky; \
-  display : block; \
-  text-align : center; \
-  padding : 10px; \
-  font-size : 1.6rem; \
-  font-weight : bold; \
-  z-index : 99; \
-  top : 0; \
-  background-color : rgba(255, 255, 255, 1); \
-  border : solid 1px #959595; \
-  border-radius : 8px; \
-  transition-duration : 0.3s; \
-  grid-column : 1 / -1; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotal{ \
-  position : relative; \
-  display : grid; \
-  width : 100%; \
-  grid-template-columns : 1fr 40px 1fr; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalTitle { \
-  position : relative; \
-  height : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalTitleCenterSort { \
-  position : relative; \
-  display : block; \
-  top : 50%; \
-  transform : translateY(-50%); \
-  text-align : left; \
-  float : right; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalDivision { \
-  position : relative; \
-  height : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalDivisionCenterSort { \
-  position : relative; \
-  display : block; \
-  left : 50%; \
-  top : 50%; \
-  transform : translate(-50%, -50%); \
-  text-align : center; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalAnswer { \
-  position : relative; \
-  height : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumColTotalAnswerCenterSort { \
-  position : relative; \
-  display : block; \
-  left : 50%; \
-  top : 50%; \
-  transform : translate(-50%, -50%); \
-  text-align : left; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumDragObject { \
-  position : relative; \
-  display : block; \
-  margin : 10px 0px 10px 0px; \
-  padding : 10px; \
-  width : 100%; \
-  height : 100%; \
-  border : solid 1px transparent; \
-  border-radius : 20px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumGroupWrap { \
-  position : relative; \
-  display : grid; \
-  padding : 10px 25px 10px 25px; \
-  border : solid 1px #959595; \
-  border-radius : 10px; \
-  grid-template-columns : repeat(' + numGridColumn + ', 1fr); \
-  grid-column : 1 / -1; \
-  align-items : end; \
-  margin : 15px 0px 15px 0px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumGroupTitle { \
-  position : relative; \
-  display : block; \
-  text-align : center; \
-  padding : 10px; \
-  font-size : 1.4rem; \
-  font-weight : bold; \
-  border : solid 1px #959595; \
-  border-radius : 8px; \
-  grid-column : 1 / -1; \
-  align-items : center; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .rHasError { \
-  border-color : #e7046f; \
-  border-width : 2px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewer { \
-  position : relative; \
-  display : block; \
-  width : 100%; \
-  padding-bottom : 10px; \
-  font-size : 15px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerTitle { \
-  position : relative; \
-  display : grid; \
-  justify-items : center; \
-  align-items : center; \
-  margin-bottom : 10px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerTitleCenterSort { \
-  position : relative; \
-  display : block; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerAnswer { \
-  position : relative; \
-  display : block; \
-  width : 100%; \
-  height : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerAnswerCenterSort { \
-  position : relative; \
-  display : grid; \
-  grid-template-columns : 1fr 1fr; \
-  column-gap : 10px; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerAnswerCenterSort input[type=number]{ \
-  justify-self : end; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .autosumRowViewerAnswerCenterSort .autosumRowViewerAnswerCenterSortPostText{ \
-  justify-self : start; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerHandler { \
-  position : relative; \
-  display : block; \
-  width : 100%; \
-  min-height : 40px; \
-  cursor : pointer; \
-  -webkit-touch-callout : none; \
-  -webkit-user-select : none; \
-  -khtml-user-select : none; \
-  -moz-user-select : none; \
-  -ms-user-select : none; \
-  user-select : none; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputGraduation { \
-  position : absolute; \
-  left : 0%; \
-  top : 50%; \
-  transform : translateY(-50%); \
-  width : 100%; \
-  height : 15%; \
-  border-radius : 5px; \
-  pointer-events : none; \
-  background-color : black; \
-  opacity : 0.3; \
-  transition-duration : 0.05s; \
-  z-index : 98; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputBar { \
-  position : absolute; \
-  left : 0%; \
-  top : 50%; \
-  transform : translateY(-50%); \
-  width : 0%; \
-  height : 20%; \
-  pointer-events : none; \
-  background-color : #b7ceff; \
-  border-radius : 10px; \
-  z-index : 98; \
-  transition-duration : 0.1s; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputBarAfter { \
-  position : absolute; \
-  display : block; \
-  left : 100%; \
-  top : 50%; \
-  transform : translate(-50%, -50%); \
-  width : 20px; \
-  height : 20px; \
-  border : solid 1px #0a52ed; \
-  border-radius : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputBarAfterRound { \
-  position : relative; \
-  display : block; \
-  left : calc(100% - 16px); \
-  top : calc(100% - 16px); \
-  width : 14px; \
-  height : 14px; \
-  background-color : #0a52ed; \
-  border-radius : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputAimWrap { \
-  position : absolute; \
-  display : flex; \
-  flex-wrap : nowrap; \
-  width : 100%; \
-  height : 100%; \
-} \
-#question_' + _thisLabel + ' .autosumWrap .innerInputAimPoint { \
-  width : 100%; \
-  height : 100%; \
-  -webkit-touch-callout : none; \
-  -webkit-user-select : none; \
-  -khtml-user-select : none; \
-  -moz-user-select : none; \
-  -ms-user-select : none; \
-  user-select : none; \
-} \
-#question_' + _thisLabel + ' .errorGuideWrap { \
-  position : relative; \
-  display : block; \
-  margin : 2px 0px 2px 0px; \
-  width : 24px; \
-  cursor : pointer; \
-} \
-#question_' + _thisLabel + ' .errorGuideButton { \
-  pointer-events : none; \
-} \
-';
+        document.querySelectorAll('style')[k].innerHTML = document.querySelectorAll('style')[k].innerHTML + `
+:root {
+--common-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+--blue-color : #0a52ed;
+--err-color : #e7046f;
+--cols-border-color : #959595;
+--inputBar-color : #b7ceff;
+--complete-color : #b7ceff;
+--sticky-color : rgba(255, 255, 255, 1);
+--complete-duration : 0.3s;
+--graduation-color : black;
+--graduation-duration : 0.05s;
+--noanswer-duration : 0.2s;
+}
+\@keyframes initAfter {
+  0% {
+    left : calc(0% - 25px);
+    opacity : 0;
+  }
+  100% {
+    left : calc(100% - 0px);
+    opacity : 1;
+  }
+}
+\@keyframes afterRotate {
+  0% {
+    transform : perspective(30px) rotate3d(0, 1, 0, 0deg);
+  }
+  100% {
+    transform : perspective(30px) rotate3d(0, 1, 0, -360deg);
+  }
+}
+body #survey {
+  overflow : unset;
+}
+#question_${_thisLabel} .autosumWrap {
+  position : relative;
+  display : block;
+  margin : 10px 0px 10px 0px;
+  max-width : 924px;
+}
+#question_${_thisLabel} .autosumWrap .qaCode {
+  display : inline-block;
+  background-color : #3581C8;
+  border : 0px solid blue;
+  border-radius : 6px;
+  -moz-border-radius : 6px;
+  -webkit-border-radius : 6px;
+  padding : 2px 4px;
+  color : white;
+  font-size : 11px;
+  font-weight : bold;
+  margin : 2px 0;
+  line-height : normal;
+}
+#question_${_thisLabel} .autosumWrap .clickShield {
+  pointer-events : none;
+}
+#question_${_thisLabel} .autosumWrap .newNoAnswerWrap {
+  position : relative;
+  display : inline-grid;
+  padding : 10px;
+  font-size : 15px;
+  border : solid 1px #959595;
+  border-radius : 10px;
+  left : 50%;
+  transform : translateX(-50%);
+  box-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  cursor : pointer;
+  transition-duration : 0.2s;
+}
+\@media (hover: hover) and (pointer: fine) {
+  #question_${_thisLabel} .autosumWrap .newNoAnswerWrap:hover {
+    background-color : #b7ceff;
+  }
+}
+#question_${_thisLabel} .autosumWrap .noChecked {
+  background-color : #b7ceff;
+}
+#question_${_thisLabel} .autosumWrap .newNoAnswerInner {
+  pointer-events : none;
+}
+#question_${_thisLabel} .autosumWrap .autosumCols {
+  position : relative;
+  display : grid;
+  margin : 20px 0px 10px 0px;
+  padding : 10px 25px 10px 25px;
+  border : solid 1px #959595;
+  border-radius : 10px;
+  box-shadow : 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  grid-template-columns : repeat(${numGridColumn}, 1fr);
+  align-items : end;
+}
+#question_${_thisLabel} .autosumWrap .autosumCols .autofill {
+  transition-duration : 0s !important;
+}
+\@media (max-width: 767px) {
+  #question_${_thisLabel} .autosumWrap .autosumCols {
+    grid-template-columns : repeat(1, 1fr);
+  }
+}
+#question_${_thisLabel} .autosumWrap .cHasError {
+  border-color : #e7046f;
+}
+#question_${_thisLabel} .autosumWrap .autosumCols .completeCol {
+  background-color : #b7ceff;
+}
+#question_${_thisLabel} .autosumWrap .autosumCols .warningCol {
+  background-color : #ffff78;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTitle {
+  position : sticky;
+  display : block;
+  text-align : center;
+  padding : 10px;
+  font-size : 1.6rem;
+  font-weight : bold;
+  z-index : 99;
+  top : 0;
+  background-color : rgba(255, 255, 255, 1);
+  border : solid 1px #959595;
+  border-radius : 8px;
+  transition-duration : 0.3s;
+  grid-column : 1 / -1;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotal{
+  position : relative;
+  display : grid;
+  width : 100%;
+  grid-template-columns : 1fr 40px 1fr;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalTitle {
+  position : relative;
+  height : 100%;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalTitleCenterSort {
+  position : relative;
+  display : block;
+  top : 50%;
+  transform : translateY(-50%);
+  text-align : left;
+  float : right;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalDivision {
+  position : relative;
+  height : 100%;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalDivisionCenterSort {
+  position : relative;
+  display : block;
+  left : 50%;
+  top : 50%;
+  transform : translate(-50%, -50%);
+  text-align : center;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalAnswer {
+  position : relative;
+  height : 100%;
+}
+#question_${_thisLabel} .autosumWrap .autosumColTotalAnswerCenterSort {
+  position : relative;
+  display : block;
+  left : 50%;
+  top : 50%;
+  transform : translate(-50%, -50%);
+  text-align : left;
+}
+#question_${_thisLabel} .autosumWrap .autosumRows {
+  padding : 10px;
+}
+#question_${_thisLabel} .autosumWrap .autosumDragObject {
+  position : relative;
+  display : block;
+  margin : 10px 0px 10px 0px;
+  padding : 10px;
+  width : 100%;
+  height : 100%;
+  border : solid 1px transparent;
+  border-radius : 20px;
+}
+#question_${_thisLabel} .autosumWrap .autosumGroupWrap {
+  position : relative;
+  display : grid;
+  border : solid 1px #959595;
+  border-radius : 10px;
+  grid-template-columns : repeat(${numGridColumn}, 1fr);
+  grid-column : 1 / -1;
+  align-items : end;
+  margin : 15px 0px 15px 0px;
+  overflow : hidden;
+}
+\@media (max-width: 767px) {
+  #question_${_thisLabel} .autosumWrap .autosumGroupWrap {
+    grid-template-columns : repeat(1, 1fr);
+  }
+}
+#question_${_thisLabel} .autosumWrap .autosumGroupTitle {
+  position : relative;
+  display : block;
+  text-align : center;
+  padding : 10px;
+  font-size : 1.4rem;
+  font-weight : bold;
+  grid-column : 1 / -1;
+  align-items : center;
+  transition-duration : 0.2s;
+  border-bottom: 1px solid #959595;
+}
+#question_${_thisLabel} .autosumWrap .groupFocused {
+  background-color : #b7ceff;
+}
+#question_${_thisLabel} .autosumWrap .rHasError {
+  border-color : #e7046f;
+  border-width : 2px;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewer {
+  position : relative;
+  display : block;
+  width : 100%;
+  padding-bottom : 10px;
+  font-size : 15px;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerTitle {
+  position : relative;
+  display : grid;
+  justify-items : center;
+  align-items : center;
+  margin-bottom : 10px;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerTitleCenterSort {
+  position : relative;
+  display : block;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerAnswer {
+  position : relative;
+  display : block;
+  width : 100%;
+  height : 100%;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerAnswerCenterSort {
+  position : relative;
+  display : grid;
+  grid-template-columns : 1fr 1fr;
+  column-gap : 10px;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerAnswerCenterSort input[type=number]{
+  justify-self : end;
+}
+#question_${_thisLabel} .autosumWrap .autosumRowViewerAnswerCenterSort .autosumRowViewerAnswerCenterSortPostText{
+  justify-self : start;
+}
+#question_${_thisLabel} .autosumWrap .innerHandler {
+  position : relative;
+  display : block;
+  width : 100%;
+  min-height : 40px;
+  cursor : pointer;
+  -webkit-touch-callout : none;
+  -webkit-user-select : none;
+  -khtml-user-select : none;
+  -moz-user-select : none;
+  -ms-user-select : none;
+  user-select : none;
+}
+#question_${_thisLabel} .autosumWrap .innerInputGraduation {
+  position : absolute;
+  left : 0%;
+  top : 50%;
+  transform : translateY(-50%);
+  width : 100%;
+  height : 15%;
+  border-radius : 5px;
+  pointer-events : none;
+  background-color : black;
+  opacity : 0.3;
+  transition-duration : 0.05s;
+  z-index : 98;
+}
+#question_${_thisLabel} .autosumWrap .innerInputBar {
+  position : absolute;
+  left : 0%;
+  top : 50%;
+  transform : translateY(-50%);
+  width : 0%;
+  height : 20%;
+  pointer-events : none;
+  background-color : #b7ceff;
+  border-radius : 10px;
+  z-index : 98;
+  transition-duration : 0.1s;
+}
+#question_${_thisLabel} .autosumWrap .innerInputBarAfter {
+  position : absolute;
+  display : block;
+  left : 100%;
+  top : 50%;
+  transform : translate(-50%, -50%);
+  width : 20px;
+  height : 20px;
+  border : solid 1px #0a52ed;
+  border-radius : 100%;
+}
+#question_${_thisLabel} .autosumWrap .innerInputBarAfterRound {
+  position : relative;
+  display : block;
+  left : calc(100% - 16px);
+  top : calc(100% - 16px);
+  width : 14px;
+  height : 14px;
+  background-color : #0a52ed;
+  border-radius : 100%;
+}
+#question_${_thisLabel} .autosumWrap .innerInputAimWrap {
+  position : absolute;
+  display : flex;
+  flex-wrap : nowrap;
+  width : 100%;
+  height : 100%;
+}
+#question_${_thisLabel} .autosumWrap .innerInputAimPoint {
+  width : 100%;
+  height : 100%;
+  -webkit-touch-callout : none;
+  -webkit-user-select : none;
+  -khtml-user-select : none;
+  -moz-user-select : none;
+  -ms-user-select : none;
+  user-select : none;
+}
+#question_${_thisLabel} .errorGuideWrap {
+  position : relative;
+  display : block;
+  margin : 2px 0px 2px 0px;
+  width : 24px;
+  cursor : pointer;
+}
+#question_${_thisLabel} .errorGuideButton {
+  pointer-events : none;
+}
+`;
         break;
       }
     }
+  }
+
+  const fnParentSearch = (_this, _goal) => {
+    let objTemp = _this;
+    while (objTemp.hasAttribute('class') && !objTemp.className.includes(_goal)){
+      if (objTemp.parentNode) {
+        objTemp = objTemp.parentNode;
+      }
+      else {
+        objTemp = 'null';
+        break;
+      }
+    }
+    return objTemp;
   }
 
   const fnDragReturn = (_target, _point, _option) => {
@@ -3850,10 +3876,7 @@ body #survey { \
         points.classList.add('aimMarker');
         if (Number(points.className.split('aimPoint_')[1].split(' ')[0]) !== _minValue) {
           bolFirstStep = true;
-          let objCol = objCurDragTarget;
-          while (objCol.hasAttribute('class') && !objCol.className.includes('autosumCols')){
-            objCol = objCol.parentNode;
-          }
+          const objCol = fnParentSearch(objCurDragTarget, 'autosumCols');
           objCol.classList.remove('firstStep');
         }
       }
@@ -3893,6 +3916,7 @@ body #survey { \
         }
       }
     } catch (e) {
+      console.log(e)
       return false;
     }
   }
@@ -3907,12 +3931,7 @@ body #survey { \
   }
 
   const fnResultTotal = () => {
-    let objCol = objCurDragTarget;
-    while (objCol.hasAttribute('class') && !objCol.className.includes('autosumCols')) {
-      objCol = objCol.parentNode;
-    }
-
-
+    const objCol = fnParentSearch(objCurDragTarget, 'autosumCols');
     const objTotal = objCol.querySelector('.autosumColTotalAnswerCenterSort');
     let numTotalScore = 0;
     for (const markers of objCol.querySelectorAll('.aimMarker')) {
@@ -3943,7 +3962,6 @@ body #survey { \
               point.classList.add('aimLimit');
               arrLimitList.push(point);
             }
-
             fnDragComplete(3);
           }
           else {
@@ -3952,7 +3970,6 @@ body #survey { \
                 point.classList.add('aimLimit');
                 arrLimitList.push(point);
               }
-
               fnDragComplete(1);
             }
             else {
@@ -3962,7 +3979,6 @@ body #survey { \
                   point.classList.add('aimLimit');
                   arrLimitList.push(point);
                 }
-
               }
               fnDragComplete(2);
             }
@@ -3989,10 +4005,7 @@ body #survey { \
     _status === 3, warning
     */
     fnDragShield(false);
-    let objCol = objCurDragTarget;
-    while (objCol.hasAttribute('class') && !objCol.querySelector('.autosumColTitle')) {
-      objCol = objCol.parentNode;
-    }
+    const objCol = fnParentSearch(objCurDragTarget, 'autosumCols');
     const objCompleteCol = objCol.querySelector('.autosumColTitle');
     if (_status === 1) {
       objCompleteCol.classList.add('completeCol');
@@ -4012,11 +4025,7 @@ body #survey { \
 
   const fnDragShield = (_bol) => {
     if (!bolAutofill) {
-      let objCol = objCurDragTarget;
-      while (objCol.hasAttribute('class') && !objCol.className.includes('autosumCols')) {
-        objCol = objCol.parentNode;
-      }
-      const objTargetCol = objCol;
+      const objTargetCol = fnParentSearch(objCurDragTarget, 'autosumCols');
       for (const rows of objTargetCol.querySelectorAll('.autosumRows')) {
         if (_bol) {
           if (rows.querySelector('.aimMarker')) {
@@ -4061,9 +4070,7 @@ body #survey { \
             const objTargetStorage = objCurDragTarget;
             const objAutoDragTarget = rows.querySelector('.innerHandler');
             objCurDragTarget = objAutoDragTarget;
-
             fnDragAction(objAutoDragTarget.querySelector('.aimPoint_' + numCalcValue));
-
             objCurDragTarget = objTargetStorage;
             break;
           }
@@ -4110,11 +4117,12 @@ body #survey { \
 
   const fnNoanswer = (_bol, _btn) => {
     if (_bol) {
-      for (const drags of document.querySelectorAll('#question_' + _thisLabel + ' .autosumDragObject')) {
+      for (const drags of document.querySelectorAll(`#question_${_thisLabel} .autosumDragObject`)) {
         const strOriginID = drags.className.split('autosumDragObject ')[1].split(' ')[0];
         const objOriginInput = document.getElementById(strOriginID);
         const objTempTarget = drags.querySelector('.innerHandler');
-        const objColTitleAnswer = drags.parentNode.parentNode.querySelector('.autosumColTotalAnswerCenterSort');
+        const objCol = fnParentSearch(drags, 'autosumCols');
+        const objColTitleAnswer = objCol.querySelector('.autosumColTotalAnswerCenterSort');
         objCurDragTarget = objTempTarget;
         const objTempPoint = objTempTarget.querySelector('.aimPoint_' + String(_minValue));
         fnDragAction(objTempPoint);
@@ -4135,7 +4143,7 @@ body #survey { \
       }
     }
     else {
-      for (const drags of document.querySelectorAll('#question_' + _thisLabel + ' .autosumDragObject')) {
+      for (const drags of document.querySelectorAll(`#question_${_thisLabel} .autosumDragObject`)) {
         const strOriginID = drags.className.split('autosumDragObject ')[1].split(' ')[0];
         const objOriginInput = document.getElementById(strOriginID);
         const objTempTarget = drags.querySelector('.innerHandler');
@@ -4164,12 +4172,12 @@ body #survey { \
   }
 
   const fnInitSum = () => {
-    if (numHasErrorCount === 0 && document.getElementById(_thisLabel + '_error')) {
+    if (numHasErrorCount === 0 && document.getElementById(`${_thisLabel}_error`)) {
       for (const cols of objQuestionWrap.querySelectorAll('.autosumCols')) {
         cols.classList.add('cHasError');
       }
     }
-    else if (numHasErrorCount > 0 && document.getElementById(_thisLabel + '_error')) {
+    else if (numHasErrorCount > 0 && document.getElementById(`${_thisLabel}_error`)) {
       const objErrorGuideWrap = document.createElement('div');
       const objErrorGuideSVG = document.createElement('div');
       objErrorGuideWrap.className = 'errorGuideWrap';
@@ -4184,9 +4192,9 @@ body #survey { \
         fnErrScroll(e.target, objQuestionWrap.querySelector('.rHasError'));
       })
       objErrorGuideWrap.append(objErrorGuideSVG);
-      document.getElementById(_thisLabel + '_error').append(objErrorGuideWrap);
+      document.getElementById(`${_thisLabel}_error`).append(objErrorGuideWrap);
     }
-    for (const drags of document.querySelectorAll('#question_' + _thisLabel + ' .autosumDragObject')) {
+    for (const drags of document.querySelectorAll(`#question_${_thisLabel} .autosumDragObject`)) {
       const strOriginID = drags.className.split('autosumDragObject ')[1].split(' ')[0];
       const objOriginInput = document.getElementById(strOriginID);
       const objTempTarget = drags.querySelector('.innerHandler');
@@ -4234,9 +4242,27 @@ body #survey { \
       }
     }
     objCurDragTarget = undefined;
-    for (const after of document.querySelectorAll('#question_' + _thisLabel + ' .innerInputBarAfter')) {
+    for (const after of document.querySelectorAll(`#question_${_thisLabel} .innerInputBarAfter`)) {
       after.style.animation = '1s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal forwards running initAfter';
     }
+  }
+
+  const fnOEProcess = (_oe) => {
+    if (_oe.hasAttribute('id')) _oe.removeAttribute('id');
+    const strName = _oe.getAttribute('name');
+    jQuery(_oe).on('propertychange change keyup paste input', (e) => {
+      for (const oe of document.getElementsByName(strName)) {
+        if (e.target !== oe){
+          oe.value = e.target.value;
+        }
+      }
+    })
+  }
+
+  const fnGroupAttention = (_target) => {
+    const objCol = fnParentSearch(_target, 'autosumGroupWrap');
+    const objCurGroup = objCol.querySelector('.autosumGroupTitle');
+    objCurGroup.classList.add('groupFocused');
   }
 
   let objCurDragTarget;
@@ -4251,7 +4277,7 @@ body #survey { \
   let bolGroups = false;
   let numGridColumn = 1;
   let strUniqueName;
-  const objQuestionWrap = document.querySelector('#question_' + _thisLabel);
+  const objQuestionWrap = document.querySelector(`#question_${_thisLabel}`);
   const objQuestionAnswers = objQuestionWrap.querySelector('.answers');
   const objGridWrap = objQuestionWrap.querySelector('.grid');
   const objNoAnswer = objQuestionAnswers.querySelector('.no-answer') ? objQuestionAnswers.querySelector('.no-answer') : false;
@@ -4273,81 +4299,80 @@ body #survey { \
   if (arrInputList.length >= 0) {
     // 그룹이 있는 지 없는 지를 체크해야 하는데, 처음 페이지가 로드 될 때 플랫폼에 상관 없이 grid-table-mode로 생성이 되었다가 스크린 크기에 맞춰서 grid-list-mode로 바뀌는 건지, 아니면 처음부터 플랫폼 스크린 크기에 따라서 grid-list-mode로 생성이 되는 건지 확인 필요
     // 일단은 grid-table-mode로 생성이 되었다가 스크린 크기에 맞춰서 grid-list-mode로 바뀌는 것으로 확인
-    //if (bolSingleMode) {
-    //  let arrGroupNode = new Array();
-    //  objQuestionAnswers.childNodes.forEach((cList, cIndex) => {
-    //    if (cList.nodeType === 3 && cList.nodeValue.replaceAll('\n', '').replaceAll(' ', '').length > 0) {
-    //      arrGroupNode.push(cList);
-    //    }
-    //    else if (cList.nodeType === 1 && !cList.querySelector('input[type=number]') && !cList.hasAttribute('class')) {
-    //      arrGroupNode.push(cList);
-    //    }
-    //  })
-    //  if (arrGroupNode.length > 0) {
-    //    bolGroups = true;
-    //    arrGroupNode.forEach((group, gIndex) => {
-    //      arrGroupsList[gIndex] = new Object();
-    //      arrGroupsList[gIndex].gChildren = new Array();
-    //      if (group.nodeType === 3) {
-    //        arrGroupsList[gIndex].gLabel = group.nodeValue.replaceAll('\n', '');
-    //      }
-    //      else if (group.nodeType === 1) {
-    //        arrGroupsList[gIndex].gLabel = group.outerHTML;
-    //      }
-    //      let objGroupChild = group;
-    //      while (objGroupChild.nextSibling && !arrGroupNode.includes(objGroupChild.nextSibling)) {
-    //        objGroupChild = objGroupChild.nextSibling;
-    //        if (objGroupChild.nodeType === 1 && objGroupChild.querySelector('input[type=number]')) {
-    //          const objRowInput = objGroupChild.querySelector('input[type=number]');
-    //          arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
-    //        }
-    //      }
-    //    })
-    //  }
-    //}
-    //else {
-    //  if (objGridWrap.querySelector('.row-group')) { // grid-table-mode
-    //    bolGroups = true;
-    //    const arrGroupTag = objGridWrap.querySelectorAll('.row-group');
-    //    arrGroupTag.forEach((group, gIndex) => {
-    //      arrGroupsList[gIndex] = new Object();
-    //      arrGroupsList[gIndex].gChildren = new Array();
-    //      arrGroupsList[gIndex].gLabel = group.querySelector('th').innerHTML;
-    //      if (arrGroupsList[gIndex].gLabel.substr(0, 1) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(1, arrGroupsList[gIndex].gLabel.length - 1);
-    //      if (arrGroupsList[gIndex].gLabel.substr(arrGroupsList[gIndex].gLabel.length - 1, arrGroupsList[gIndex].gLabel.length) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(0, arrGroupsList[gIndex].gLabel.length - 1);
-    //      let objGroupChild = group;
-    //      while (objGroupChild.nextSibling && objGroupChild.nextSibling.className.includes('row-elements')) {
-    //        objGroupChild = objGroupChild.nextSibling;
-    //        const objRowInput = objGroupChild.querySelector('input[type=number]');
-    //        arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
-    //      }
-    //    })
-    //  }
-    //  else if (objGridWrap.querySelector('.grid-list-mode .row-elements')) { // grid-list-mode
-    //    let objFirstColumn = objGridWrap.querySelector('.grid-list-mode .row-elements');
-    //    for (const element of objGridWrap.querySelectorAll('.grid-list-mode .row-elements')) {
-    //      if (!element.className.includes('zeroHeight')) {
-    //        objFirstColumn = element;
-    //        break;
-    //      }
-    //    }
-    //    objFirstColumn.querySelectorAll('.mobile-group-legend').forEach((group, gIndex) => {
-    //      arrGroupsList[gIndex] = new Object();
-    //      arrGroupsList[gIndex].gChildren = new Array();
-    //      arrGroupsList[gIndex].gLabel = group.innerHTML;
-    //      if (arrGroupsList[gIndex].gLabel.substr(0, 1) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(1, arrGroupsList[gIndex].gLabel.length - 1);
-    //      if (arrGroupsList[gIndex].gLabel.substr(arrGroupsList[gIndex].gLabel.length - 1, arrGroupsList[gIndex].gLabel.length) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(0, arrGroupsList[gIndex].gLabel.length - 1);
-    //      let objGroupChild = group;
-    //      while (objGroupChild.nextSibling && objGroupChild.nextSibling.hasAttribute('headers')) {
-    //        objGroupChild = objGroupChild.nextSibling;
-    //        const objRowInput = objGroupChild.querySelector('input[type=number]');
-    //        arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
-    //      }
-    //    })
-    //  }
-    //}
+    if (bolSingleMode) {
+      let arrGroupNode = new Array();
+      objQuestionAnswers.childNodes.forEach((cList, cIndex) => {
+        if (cList.nodeType === 3 && cList.nodeValue.replaceAll('\n', '').replaceAll(' ', '').length > 0) {
+          arrGroupNode.push(cList);
+        }
+        else if (cList.nodeType === 1 && !cList.querySelector('input[type=number]') && !cList.hasAttribute('class')) {
+          arrGroupNode.push(cList);
+        }
+      })
+      if (arrGroupNode.length > 0) {
+        bolGroups = true;
+        arrGroupNode.forEach((group, gIndex) => {
+          arrGroupsList[gIndex] = new Object();
+          arrGroupsList[gIndex].gChildren = new Array();
+          if (group.nodeType === 3) {
+            arrGroupsList[gIndex].gLabel = group.nodeValue.replaceAll('\n', '');
+          }
+          else if (group.nodeType === 1) {
+            arrGroupsList[gIndex].gLabel = group.outerHTML;
+          }
+          let objGroupChild = group;
+          while (objGroupChild.nextSibling && !arrGroupNode.includes(objGroupChild.nextSibling)) {
+            objGroupChild = objGroupChild.nextSibling;
+            if (objGroupChild.nodeType === 1 && objGroupChild.querySelector('input[type=number]')) {
+              const objRowInput = objGroupChild.querySelector('input[type=number]');
+              arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
+            }
+          }
+        })
+      }
+    }
+    else {
+      if (objGridWrap.querySelector('.row-group')) { // grid-table-mode
 
-
+        bolGroups = true;
+        const arrGroupTag = objGridWrap.querySelectorAll('.row-group');
+        arrGroupTag.forEach((group, gIndex) => {
+          arrGroupsList[gIndex] = new Object();
+          arrGroupsList[gIndex].gChildren = new Array();
+          arrGroupsList[gIndex].gLabel = group.querySelector('th').innerHTML;
+          if (arrGroupsList[gIndex].gLabel.substr(0, 1) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(1, arrGroupsList[gIndex].gLabel.length - 1);
+          if (arrGroupsList[gIndex].gLabel.substr(arrGroupsList[gIndex].gLabel.length - 1, arrGroupsList[gIndex].gLabel.length) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(0, arrGroupsList[gIndex].gLabel.length - 1);
+          let objGroupChild = group;
+          while (objGroupChild.nextSibling && objGroupChild.nextSibling.className.includes('row-elements')) {
+            objGroupChild = objGroupChild.nextSibling;
+            const objRowInput = objGroupChild.querySelector('input[type=number]');
+            if (objRowInput) arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
+          }
+        })
+      }
+      else if (objGridWrap.querySelector('.grid-list-mode .row-elements')) { // grid-list-mode
+        let objFirstColumn = objGridWrap.querySelector('.grid-list-mode .row-elements');
+        for (const element of objGridWrap.querySelectorAll('.grid-list-mode .row-elements')) {
+          if (!element.className.includes('zeroHeight')) {
+            objFirstColumn = element;
+            break;
+          }
+        }
+        objFirstColumn.querySelectorAll('.mobile-group-legend').forEach((group, gIndex) => {
+          arrGroupsList[gIndex] = new Object();
+          arrGroupsList[gIndex].gChildren = new Array();
+          arrGroupsList[gIndex].gLabel = group.innerHTML;
+          if (arrGroupsList[gIndex].gLabel.substr(0, 1) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(1, arrGroupsList[gIndex].gLabel.length - 1);
+          if (arrGroupsList[gIndex].gLabel.substr(arrGroupsList[gIndex].gLabel.length - 1, arrGroupsList[gIndex].gLabel.length) === '\n') arrGroupsList[gIndex].gLabel = arrGroupsList[gIndex].gLabel.substr(0, arrGroupsList[gIndex].gLabel.length - 1);
+          let objGroupChild = group;
+          while (objGroupChild.nextSibling && objGroupChild.nextSibling.hasAttribute('headers')) {
+            objGroupChild = objGroupChild.nextSibling;
+            const objRowInput = objGroupChild.querySelector('input[type=number]');
+            arrGroupsList[gIndex].gChildren.push(objRowInput.id.split('.')[2]);
+          }
+        })
+      }
+    }
     if (arrRowsList.length === 1) {
       _limitActivate = false;
       bolFirstStep = false;
@@ -4364,6 +4389,9 @@ body #survey { \
     }
     fnAutosumStyle();
     document.addEventListener('mouseup', (e) => {
+      for (const focus of objQuestionWrap.querySelectorAll('.autosumGroupTitle')){
+        focus.classList.remove('groupFocused');
+      }
       bolInterrupt = false;
       if (objCurDragTarget) {
         fnRoundRotation(true);
@@ -4378,6 +4406,9 @@ body #survey { \
       objCurDragTarget = null;
     });
     document.addEventListener('touchend', () => {
+      for (const focus of objQuestionWrap.querySelectorAll('.autosumGroupTitle')){
+        focus.classList.remove('groupFocused');
+      }
       bolInterrupt = false;
       if (objCurDragTarget) {
         objCurDragTarget.querySelector('.innerInputBar').style.transitionDuration = '';
@@ -4468,7 +4499,6 @@ body #survey { \
       objAutosumColTitle.append(objAutosumColTotal);
       objAutosumCol.append(objAutosumColTitle);
       objAutosumWrap.append(objAutosumCol);
-
       if (bolGroups) {
         arrGroupsList.forEach((group, gIndex) => {
           const objAutosumGroupWarp = document.createElement('div');
@@ -4486,10 +4516,7 @@ body #survey { \
           objAutosumGroupWarp.append(objAutosumGroupTitle);
           objAutosumCol.append(objAutosumGroupWarp);
         })
-
       }
-
-
       arrRowsList.forEach((row, rIndex) => {
         const objAutosumRow = document.createElement('div');
         const objAutosumRowDragObject = document.createElement('div');
@@ -4514,8 +4541,8 @@ body #survey { \
         }
         else {
           if (objOriginInputTag.parentNode.parentNode.querySelector('.cell-text')) {
-            if (document.getElementById(_thisLabel + '_r' + (rIndex + 1) + '_left')) {
-              strViewerTitle = document.getElementById(_thisLabel + '_r' + (rIndex + 1) + '_left').innerHTML;
+            if (document.getElementById(`${_thisLabel}_r` + (rIndex + 1) + '_left')) {
+              strViewerTitle = document.getElementById(`${_thisLabel}_r` + (rIndex + 1) + '_left').innerHTML;
             }
             else {
               strViewerTitle = objOriginInputTag.parentNode.parentNode.querySelector('.cell-text').innerHTML;
@@ -4562,6 +4589,9 @@ body #survey { \
         objAutosumRowViewerTitleCenterSort.innerHTML = strViewerTitle;
         objAutosumRowViewerAnswerCenterSort.appendChild(objOriginInputTag);
         objAutosumRowViewerAnswerCenterSortPostText.innerHTML = _postText;
+        if (objAutosumRowViewerTitleCenterSort.querySelector('input[type=text]')){
+          fnOEProcess(objAutosumRowViewerTitleCenterSort.querySelector('input[type=text]'));
+        }
         if (_dragRange !== 1) objOriginInputTag.readOnly = true;
         objInnerInputBarAfter.addEventListener('animationend', (e) => {
           if (objInnerInputBarAfter === e.target) {
@@ -4587,6 +4617,7 @@ body #survey { \
               e.stopPropagation();
               if (objCurDragTarget) {
                 objCurDragTarget.querySelector('.innerInputBar').style.transitionDuration = '0s';
+                if (bolGroups) fnGroupAttention(e.target);
                 if (objCurDragTarget === e.target.parentNode.parentNode) {
                   fnDragAction(e.target);
                   fnDragActivate(e.target, true);
@@ -4625,6 +4656,7 @@ body #survey { \
                 e.stopPropagation();
                 if (objCurDragTarget) {
                   objCurDragTarget.querySelector('.innerInputBar').style.transitionDuration = '0s';
+                  if (bolGroups) fnGroupAttention(objCurDragTarget);
                   let numUseX;
                   if (e.touches[0].clientX < objCurDragTarget.getBoundingClientRect().left) numUseX = objCurDragTarget.getBoundingClientRect().left;
                   else if (e.touches[0].clientX > objCurDragTarget.getBoundingClientRect().left + Number(getComputedStyle(objCurDragTarget).width.split('px')[0])) numUseX = objCurDragTarget.getBoundingClientRect().left + Number(getComputedStyle(objCurDragTarget).width.split('px')[0]) - 0.2;
@@ -4651,7 +4683,6 @@ body #survey { \
         objAutosumRowDragObject.append(objInnerHandler);
         objAutosumRow.append(objAutosumRowDragObject);
         objAutosumCol.append(objAutosumRow);
-
         if (bolGroups) {
           arrGroupsList.forEach((group, gIndex) => {
             if (group.gChildren.includes(String(row))) {
