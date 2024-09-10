@@ -3407,7 +3407,6 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
 
 
 // sum100 drag
-//sum100
 const fnAutosum = (_viewOrigin, _limitActivate, _dragRange, _columns, _goalValue, _minValue, _maxValue, _viewDivision, _totalText, _postText, _thisLabel) => {
 
   const fnAutosumStyle = () => {
@@ -4580,6 +4579,10 @@ body #survey {
         }
         objAutosumRowViewer.style.display = objOriginInputTag.parentNode.parentNode.querySelector('.cell-text') ? '' : 'block';
         objAutosumRowViewerTitle.style.display = objOriginInputTag.parentNode.parentNode.querySelector('.cell-text') ? '' : 'None';
+        if (_postText.length === 0) {
+          objAutosumRowViewerAnswerCenterSort.style.display = 'flex';
+          objAutosumRowViewerAnswerCenterSort.style.justifyContent = 'center';
+        } 
         objInnerHandler.ondragstart = function () { return false; };
         objInnerHandler.oncontextmenu = function () { return false; };
         objInnerHandler.onselectstart = function () { return false; };
@@ -4669,7 +4672,7 @@ body #survey {
           }
         })
         objAutosumRowViewerTitle.append(objAutosumRowViewerTitleCenterSort);
-        objAutosumRowViewerAnswerCenterSort.append(objAutosumRowViewerAnswerCenterSortPostText)
+        if (_postText.length > 0) objAutosumRowViewerAnswerCenterSort.append(objAutosumRowViewerAnswerCenterSortPostText);
         objAutosumRowViewerAnswer.append(objAutosumRowViewerAnswerCenterSort);
         objAutosumRowViewer.append(objAutosumRowViewerTitle);
         objAutosumRowViewer.append(objAutosumRowViewerAnswer);
