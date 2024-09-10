@@ -1308,42 +1308,40 @@ function stepQuestion(bundleClassName){
           noneHandler();
         });
 
+        const openHandler = (step, focus=true)=>{
+             const openChk = step.options[step.selectedIndex].dataset.open;
+             const openDiv = step.parentElement.nextElementSibling;
+             
+             if( openDiv === null || openDiv === undefined ){
+                return;
+             }
+
+             if( !openDiv.classList.contains('step-by-step-oe')  ){
+                return;
+             }
+
+             const open = openDiv.querySelector('input[type=text]');
+             if( open === null || open === undefined ){
+                return;
+             }
+             if( openChk === '1' ){
+                open.disabled = false;
+                if( focus ){
+                    open.focus();
+                }
+             }else{
+                open.disabled = true;
+             }
+        }
+
         sts.forEach((step, index)=>{
             const nextIndex = index + 1;
-
-            const openHandler = (focus=true)=>{
-                 const openChk = step.options[step.selectedIndex].dataset.open;
-
-                 const openDiv = step.parentElement.nextElementSibling;
-                 
-                 if( openDiv === null || openDiv === undefined ){
-                    return;
-                 }
-
-                 if( !openDiv.classList.contains('step-by-step-oe')  ){
-                    return;
-                 }
-
-                 const open = openDiv.querySelector('input[type=text]');
-                 if( open === null || open === undefined ){
-                    return;
-                 }
-                 if( openChk === '1' ){
-                    open.disabled = false;
-                    if( focus ){
-                        open.focus();
-                    }
-                 }else{
-                    open.disabled = true;
-                 }
-
-            }
             
-            openHandler(false);
+            openHandler(step, false);
 
             if( index === lastIndex ){
                 step.addEventListener('change', ()=>{
-                     openHandler();
+                     openHandler(step);
                 });
                 return;
             }
@@ -1402,16 +1400,17 @@ function stepQuestion(bundleClassName){
                     if(nextSelect.selectedIndex !== 1){
                         nextSelect.selectedIndex = 1;
                         nextSelect.options[nextSelect.selectedIndex].click();
+                        openHandler(nextSelect, false);
                     }
                 }
             };
 
             optionHandler();
-            openHandler(false);
+            openHandler(step, false);
             
             step.addEventListener('click', ()=>{
                 optionHandler();
-                openHandler(false);
+                openHandler(step, false);
             });
 
             step.addEventListener('change', ()=>{
@@ -1434,7 +1433,7 @@ function stepQuestion(bundleClassName){
                     }
                 });
                 optionHandler();
-                openHandler();
+                openHandler(step);
             });
         });
      });
