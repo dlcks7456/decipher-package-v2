@@ -2184,6 +2184,10 @@ const setCustomBtn = ()=>{
   #${btnId}.sp-custom-btn .answers .element label { 
     font-size: 1.1rem;
   }
+
+  #${btnId} .btn-exclusive .element {
+    grid-column: 1/-1;
+  }
 }
   `;
     document.head.appendChild(mainStyle);
