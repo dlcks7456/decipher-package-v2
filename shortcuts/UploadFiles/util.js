@@ -2594,6 +2594,7 @@ const customInputBox = ()=>{
 
 #${inputBoxId}.sp-custom-input .answers div.element .cell-input {
   padding: 10px 10px 10px 13px;
+  display: flex;
 }
 
 #${inputBoxId}.sp-custom-input .answers div.element.groupingCols .cell-sub-wrapper {
@@ -3623,6 +3624,7 @@ body #survey {
   align-items : center;
   transition-duration : 0.2s;
   border-bottom: 1px solid #959595;
+  background-color: #d8d8d863;
 }
 #question_${_thisLabel} .autosumWrap .groupFocused {
   background-color : #b7ceff;

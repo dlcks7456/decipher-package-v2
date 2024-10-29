@@ -1,0 +1,162 @@
+<snippet>
+	<content><![CDATA[
+<checkbox 
+  label="${1:QID}_title"
+  atleast="0"
+  ss:questionClassNames="sp-custom-btn btn-mw-500">
+  <title><div class="q-name">${1:QID}</div> ${2}</title>
+  <validate>
+qid_number = range(1,5+1)
+if ${1:QID}_title.na :
+  for x in qid_number :
+    allQuestions['${1:QID}_%s'%(x)].val = None
+else :
+  if all(allQuestions['${1:QID}_%s'%(x)].val == None or allQuestions['${1:QID}_%s'%(x)].unsafe_val.strip() == '' for x in qid_number) :
+    error("Please check the image again.")
+  </validate>
+
+  <row label="na" ss:rowClassNames="no-upload">Do not upload</row>
+  <style name="survey.question.answers.end"><![CDATA[
+\@if not ec.simpleList
+  \@if not simple
+  </tbody>
+  \@endif
+  </\$(tag)>
+  \@endif
+  <!-- /.grid -->
+<div class="upload-image-container">
+\@for x in [1, 2, 3, 4, 5]
+    <div class="upload-image-row image-row-\${x}">
+      <div class="upload-image-title">Upload Image \${x}</div>
+      <div class="upload-image-btn"></div>
+    </div>
+\@end
+</div>
+  </div>
+  <!-- /.answers -->
+]]${-1}></style>
+  <style name="question.after"><![CDATA[
+<script>
+window.addEventListener("DOMContentLoaded", ()=>{
+  const imageUpload = document.querySelectorAll('.dq-imgupload');
+  const btnDom = document.querySelectorAll('.upload-image-btn');
+
+  imageUpload.forEach((upload, index)=>{
+    const btn = upload.querySelector('.dq-imgupload-button');
+    const preview = upload.querySelector('.dq-imgupload-preview');
+    btnElement = btnDom[index];
+    btnElement.appendChild(btn);
+    btnElement.appendChild(preview);
+
+    btnElement.addEventListener('click', (event)=>{
+      if( preview.style.display !== 'block' ){
+        btn.click();
+      }
+    });
+  });
+
+  const dontUpload = document.querySelector('.no-upload');
+  const imageContainer = document.querySelector('.upload-image-container');
+
+  const containerHandler = ()=>{
+    const inputCheckBox = dontUpload.querySelector('input');
+    if( inputCheckBox.checked ){
+      imageContainer.style.display = "none";
+    }else{
+      imageContainer.style.display = "";
+    }
+  }
+
+
+  dontUpload.addEventListener('click', containerHandler);
+  containerHandler();
+});
+</script>
+<style>
+.upload-image-container {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.upload-image-row {
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  padding: 5px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.upload-image-row:hover {
+  background-color: #b7ceff;
+}
+
+.upload-image-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.dq-imgupload-button {
+  max-width: 40px;
+  max-height: 40px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.icon.fa-icon-camera {
+  margin: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.fa-icon-camera:before {
+  font-size: 15px;
+}
+
+.dq-imgupload-preview {
+  zoom: 0.7;
+}
+</style>
+]]${-1}></style>
+</checkbox>
+
+<image label="${1:QID}_1" imgupload:providenoanswer="0" optional="1" ss:questionClassNames="hidden" sst="0" uses="imgupload.1">
+  <title>Image1</title>
+</image>
+
+<image label="${1:QID}_2" imgupload:providenoanswer="0" optional="1" ss:questionClassNames="hidden" sst="0" uses="imgupload.1">
+  <title>Image2</title>
+</image>
+
+<image label="${1:QID}_3" imgupload:providenoanswer="0" optional="1" ss:questionClassNames="hidden" sst="0" uses="imgupload.1">
+  <title>Image3</title>
+</image>
+
+<image label="${1:QID}_4" imgupload:providenoanswer="0" optional="1" ss:questionClassNames="hidden" sst="0" uses="imgupload.1">
+  <title>Image4</title>
+</image>
+
+<image label="${1:QID}_5" imgupload:providenoanswer="0" optional="1" ss:questionClassNames="hidden" sst="0" uses="imgupload.1">
+  <title>Image5</title>
+</image>
+
+<suspend/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>custom.image.upload</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
