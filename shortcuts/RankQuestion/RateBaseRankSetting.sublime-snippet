@@ -87,9 +87,9 @@ def scale_rank_items(scale_qid, rank_qid, reverse=True) :
         score_list = row_score_dict.values()
 
         if len(score_list) == len(rank_qid.cols) :
-          min_score = min(score_list)
-          min_rows = [lb for lb, ans in row_score_dict.items() if ans == min_score]
-          print('Min Score', min_score)
+          score_flag = min(score_list) if reverse else max(score_list)
+          min_rows = [lb for lb, ans in row_score_dict.items() if ans == score_flag]
+          print('Min Score', score_flag)
           print(min_rows)
 
           chk_cnt = 1
@@ -102,8 +102,8 @@ def scale_rank_items(scale_qid, rank_qid, reverse=True) :
               last_label.append(low_attr)
               row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x).val].value) for x in rowCond}
               score_list = row_score_dict.values()
-              min_score = min(score_list)
-              min_rows = [lb for lb, ans in row_score_dict.items() if ans == min_score]
+              score_flag = min(score_list)
+              min_rows = [lb for lb, ans in row_score_dict.items() if ans == score_flag]
               print(low_attr, min_rows)
               chk_cnt += 1
               print('')
