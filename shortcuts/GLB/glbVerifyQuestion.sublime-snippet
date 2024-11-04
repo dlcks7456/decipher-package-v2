@@ -1,0 +1,47 @@
+<snippet>
+	<content><![CDATA[
+<radio 
+  label="GLB_verify"
+  shuffle="rows"
+  sst="0">
+  <title><div class="comment-box">현재 화면에 보이는 동물이 무엇인지 선택해주세요.</div></title>
+  <style label="glb_iframe" arg:glbSrc="https://nielsenkor.cafe24.com/Decipher/TEST/GLB/FILES/verify.html" arg:glbName="elephant" name="survey.question"><![CDATA[
+<style>
+.ftp-iframe {
+  width: 100%;
+  max-width: 924px;
+  min-height: 500px;
+}
+
+\@media (max-width: 768px){
+  .ftp-iframe {
+    max-width: 100%;
+  }
+}
+</style>
+<iframe class="ftp-iframe" src="\$(glbSrc)?glbname=\$(glbName)"></iframe>
+<h1 title="@(question)" class="question-text" id="question_text_\${this.label}">\${this.styles.html.showNumber and (str(number) + '. ') or ''}
+	\$(title)
+</h1>
+  <!-- /.question-text -->
+]]${-1}></style>
+  <row label="r1" value="1">사자</row>
+  <row label="r2" value="2">개</row>
+  <row label="r3" value="3">침팬지</row>
+  <row label="r4" value="4">코끼리</row>
+  <row label="r5" value="5">말</row>
+  <row label="r6" value="6">새</row>
+  <row label="r7" value="7">고양이</row>
+</radio>
+
+<suspend/>
+
+<term label="Scr_GLB" cond="not GLB_verify.r4" sst="0">Scr_Video</term>
+
+<suspend/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>glb.verify</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

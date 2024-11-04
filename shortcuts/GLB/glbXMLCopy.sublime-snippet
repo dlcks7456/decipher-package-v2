@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+<style arg:glbSrc="${1:\$\{imgdr\}/modelViewer.html}" arg:glbName="${2}" copy="glb_iframe" name="survey.question"/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>glb.copy</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

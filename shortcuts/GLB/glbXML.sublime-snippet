@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+<style label="glb_iframe" arg:glbSrc="${1:modelviewer.html URL}" arg:glbName="${2: glb File name}" name="survey.question"><![CDATA[
+<style>
+.ftp-iframe {
+  width: 100%;
+  max-width: 924px;
+  min-height: 500px;
+}
+
+\@media (max-width: 768px){
+  .ftp-iframe {
+    max-width: 100%;
+  }
+}
+</style>
+<iframe class="ftp-iframe" src="\$(glbSrc)?glbname=\$(glbName)"></iframe>
+<h1 title="@(question)" class="question-text" id="question_text_\${this.label}">\${this.styles.html.showNumber and (str(number) + '. ') or ''}
+	\$(title)
+</h1>
+  <!-- /.question-text -->
+]]${-1}></style>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>glb.xml</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
