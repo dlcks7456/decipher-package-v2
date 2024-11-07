@@ -4726,3 +4726,56 @@ body #survey {
     }
   }
 }
+
+
+// This Or That
+const ThisOrThat = ()=>{
+  const thisOrThis = document.querySelectorAll('.this-or-that');
+  const swichRow = (base) => {
+    const [baseName, baseDelimiter] = base.split('-');
+    const swichDelimiter = baseDelimiter === 'this' ? 'that' : baseDelimiter === 'that' ? 'this' : null;
+    const setClassName = baseName+'-'+swichDelimiter;
+    const currInput = document.querySelectorAll('.'+base+' input[type=checkbox]');
+    const disableInput = document.querySelectorAll('.'+setClassName);
+    const inputCheckFlag = [...currInput].filter((ip)=> ip.checked);
+    if( inputCheckFlag.length >= 1 ){
+      disableInput.forEach( (item)=>{
+        const firIcon = item.querySelector('.fir-icon');
+        firIcon.classList.remove('selected');
+        const currInput = item.querySelector('input[type=checkbox]');
+        currInput.checked = false;
+
+        item.style.opacity = '0.5';
+        item.style.pointerEvents = 'none';
+      });
+    }else{
+      disableInput.forEach( (item)=>{
+        item.style.opacity = '1';
+        item.style.pointerEvents = '';
+      });
+    }
+  }
+
+  const executeFnc = ()=>{
+    thisOrThis.forEach( (row) =>{
+      const [baseClass] = [...row.classList].filter( (item) =>  item.includes('base'));
+      swichRow(baseClass);
+    });
+  }
+
+  thisOrThis.forEach( (row) =>{
+    const [baseClass] = [...row.classList].filter( (item) =>  item.includes('base'));
+    row.addEventListener('click', ()=>{
+      swichRow(baseClass);
+    });
+  });
+
+  const answers = document.querySelector('.answers');
+  answers.onchange = ()=>{
+    executeFnc();
+  };
+  executeFnc();
+}
+
+
+
