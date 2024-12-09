@@ -3412,7 +3412,7 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
 
 
 // sum100 drag
-const fnAutosum = (_viewOrigin, _limitActivate, _dragRange, _columns, _goalValue, _minValue, _maxValue, _viewDivision, _totalText, _postText, _thisLabel) => {
+const fnAutosum = (_viewOrigin, _limitActivate, _dragRange, _columns, _goalValue, _minValue, _maxValue, _viewDivision, _totalText, _postText, _thisLabel, _needDragCount) => {
 
   const fnAutosumStyle = () => {
     for (k = 0; k < document.querySelectorAll('style').length; k++) {
@@ -3874,15 +3874,26 @@ body #survey {
     }
   }
 
+  const fnStepCheck = (_points) => {
+    let numCheckCount = 0;
+    const objParentCol = fnParentSearch(_points, 'autosumCols');
+    for (const markers of objParentCol.querySelectorAll('.aimMarker')){
+      if (Number(markers.className.split('aimPoint_')[1].split(' ')[0]) !== _minValue){
+        numCheckCount++;
+      }
+    }
+    if (numCheckCount >= _needDragCount){
+      
+      bolFirstStep = true;
+      objParentCol.classList.remove('firstStep');
+    }
+  }
+
   const fnDragCalcMarker = (_target, _point) => {
     for (const points of _target.querySelectorAll('.innerInputAimWrap .innerInputAimPoint')) {
       if (points === _point) {
         points.classList.add('aimMarker');
-        if (Number(points.className.split('aimPoint_')[1].split(' ')[0]) !== _minValue) {
-          bolFirstStep = true;
-          const objCol = fnParentSearch(objCurDragTarget, 'autosumCols');
-          objCol.classList.remove('firstStep');
-        }
+        fnStepCheck(points);
       }
       else {
         points.classList.remove('aimMarker');
@@ -4141,7 +4152,7 @@ body #survey {
         step.className = step.className.replace('firstStep', 'stepNoanswer');
       }
       for (const cols of objQuestionWrap.querySelectorAll('.autosumColTitle')) {
-        if (cols.style.display !== 'none') {
+        if (_limitActivate) {
           cols.classList.add('completeCol');
         }
       }
@@ -4167,7 +4178,7 @@ body #survey {
         step.className = step.className.replace('stepNoanswer', 'firstStep');
       }
       for (const cols of objQuestionWrap.querySelectorAll('.autosumColTitle')) {
-        if (cols.style.display === 'none') {
+        if (_limitActivate) {
           cols.classList.add('firstStep');
         }
       }
@@ -4381,6 +4392,7 @@ body #survey {
       _limitActivate = false;
       bolFirstStep = false;
     }
+    _needDragCount = (isNaN(_needDragCount) || _needDragCount < 0) ? 0 : _needDragCount > arrRowsList.length ? arrRowsList.length : _needDragCount;
     if (_dragRange < 1 || isNaN(_dragRange) || !Number.isInteger(_dragRange)) _dragRange = 1;
     if (_columns < 1 || isNaN(_columns) || !Number.isInteger(_columns)) {
       numGridColumn = 1;
@@ -4475,7 +4487,7 @@ body #survey {
         }
       }
       objAutosumCol.className = 'autosumCols autosumCol_' + col;
-      if (!bolFirstStep) objAutosumCol.classList.add('firstStep');
+      if (!bolFirstStep) _needDragCount === 0 ? objAutosumCol.classList.remove('firstStep') : objAutosumCol.classList.add('firstStep');
       if (_limitActivate) objAutosumCol.classList.add('limitCol');
       objAutosumColTitle.className = 'autosumColTitle';
       objAutosumColName.className = 'autosumColName';
