@@ -2,7 +2,7 @@
 	<content><![CDATA[
 <note sst="0">
 ## VER ${1:1}
-#### QID : ${2:QID}
+#### ${2:QID}
 - ${3}
 </note>
 ]]></content>
