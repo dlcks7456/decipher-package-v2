@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+<note sst="0">
+## VER ${1:1}
+#### QID : ${2:QID}
+- ${3}
+</note>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>qc</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
