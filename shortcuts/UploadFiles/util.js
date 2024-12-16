@@ -3345,8 +3345,15 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
 
   yearSelectors.forEach((yearContainer, index) => {
     const yearSelector = yearContainer.querySelector('select');
-    const monthSelector = monthSelectors[index].querySelector('select');
+    const monthSelector = monthSelectors[index]?.querySelector('select');
 
+    if( yearSelector === null ){
+        return;
+    }
+
+    let yearBackup = yearSelector?.value || null;
+    let monthBackup = monthSelector?.value || null;
+    console.log(yearBackup, monthBackup);
     const updateYearOptions = () => {
       const yearOpts = yearSelector.querySelectorAll('option');
       [...yearOpts].forEach((opt, idx) => {
@@ -3394,7 +3401,7 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
       // 새로운 월 옵션 추가
       for (let month = startMonth; month <= endMonth; month++) {
         const optElement = document.createElement('option');
-        optElement.value = String(month).padStart(2, '0');
+        optElement.value = month;
         optElement.text = String(month).padStart(2, '0');
         monthSelector.appendChild(optElement);
       }
@@ -3403,6 +3410,9 @@ const selectDateRange = ({minDate, maxDate, descending=true, yearBase='.year-sel
     // 초기 설정
     updateYearOptions();
     updateMonthOptions();
+
+    yearSelector.value = yearBackup;
+    monthSelector.value = monthBackup;
 
     // 연도 선택 변경 시 월 옵션 업데이트
     yearSelector.addEventListener('change', updateMonthOptions);
