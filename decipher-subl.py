@@ -3834,3 +3834,77 @@ class makeChoiceAutoValueCommand(sublime_plugin.TextCommand):
 
         except Exception as e:
             print (e)
+
+
+
+class makeLooprowCommand(sublime_plugin.TextCommand):
+    def run (self,edit):
+        try:
+            sels = self.view.sel()
+            input = ''
+
+            for sel in sels:
+                printPage = ''
+                input = self.view.substr(sel)
+                input = re.sub("\t+", " ", input)
+                #CLEAN UP SPACES
+                input = re.sub("\n +\n", "\n\n", input)
+                #CLEAN UP THE EXTRA LINE BREAKS
+                input = re.sub("\n{2,}", "\n", input)
+                input = fixUniCode(input)
+                input = input.strip().split("\n")
+
+                for line in input:
+                     line = line.strip()
+                     parts = re.split(r"\s",line,1)
+
+                     ordinal= parts[0].strip()
+                     ordinal= ordinal.rstrip('.')
+                     ordinal= ordinal.rstrip(')')
+
+                     content = parts[1].strip()
+
+                     #COMPOSE COLUMN
+                     printPage += """  <looprow label="%s"><loopvar name="var">%s</loopvar></looprow>\n"""%(ordinal, content)
+
+                self.view.replace(edit,sel, checkDupeElement(printPage))
+        except Exception as e:
+            print (e)
+
+
+class makeLooprowMacroCommand(sublime_plugin.TextCommand):
+    def run (self,edit):
+        try:
+            sels = self.view.sel()
+            input = ''
+
+            for sel in sels:
+                printPage = ''
+                input = self.view.substr(sel)
+                input = input.strip()
+                # print(input)
+                if '\n' in input :
+                  error_text = "%s\n❌ Invalid input method"%(input)
+                  self.view.replace(edit, sel, error_text)
+                  return
+
+                base = input.split(' ')[-1]
+                code = input.replace(base, '').strip()
+                code = code.split(',')
+                code = [list(range(int(c.split('-')[0]), int(c.split('-')[-1])+1)) if '-' in c else [c] for c in code]
+                code = sum(code, [])
+                code = [c.strip().lower() if isinstance(c, str) else c for c in code]
+                for c in code :
+                  loop_row_text = "${%s.r%s.text}"%(base, c)
+                  if isinstance(c, str) and 'oe' in c :
+                    c = c.replace('oe', '')
+                    c = c.replace(' ', '')
+                    c = c.strip()
+                    loop_row_text = "${%s.r%s.open}"%(base, c)
+
+                  printPage += """  <looprow label="%s"><loopvar name="var">%s</loopvar></looprow>\n"""%(c, loop_row_text)
+
+            self.view.replace(edit,sel, checkDupeElement(printPage))
+
+        except Exception as e:
+            print (e)

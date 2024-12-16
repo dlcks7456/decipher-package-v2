@@ -322,4 +322,18 @@
         "keys": ["alt+z"], "command": "toggle_setting", 
         "args": {"setting": "word_wrap"}
     },
+    { 
+        "keys": ["ctrl+shift+6"], "command": "make_looprow", "context": [
+            {
+              "key": "selector", "operator": "equal", "operand":"text.xml"
+            }
+        ]
+    },
+    { 
+        "keys": ["ctrl+alt+6"], "command": "make_looprow_macro", "context": [
+            {
+              "key": "selector", "operator": "equal", "operand":"text.xml"
+            }
+        ]
+    }
 ]
