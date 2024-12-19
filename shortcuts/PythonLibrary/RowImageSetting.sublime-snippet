@@ -21,13 +21,13 @@
   display: inline!important;
 }
 
-.f-highlight p {
+.f-highlight .card-img p {
   display: inline-block!important;
   width:unset!important;
   text-align:unset!important;
 }
 
-.f-highlight img {
+.f-highlight .card-img img {
   display: none!important;
 }
 
