@@ -1,5 +1,9 @@
 <snippet>
 	<content><![CDATA[
+def reset_disabled(question) :
+  for each in question.rows :
+    each.disabled = False
+
 def disabled_labels(question, condition, *labels) :
   if condition :
     for label in labels :

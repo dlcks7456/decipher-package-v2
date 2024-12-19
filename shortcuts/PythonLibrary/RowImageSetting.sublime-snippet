@@ -17,16 +17,39 @@
   width: 100%;
 }
 
+.f-highlight .card-img {
+  display: inline!important;
+}
+
+.f-highlight p {
+  display: inline-block!important;
+  width:unset!important;
+  text-align:unset!important;
+}
+
+.f-highlight img {
+  display: none!important;
+}
+
 
 <res label="img_div"><div class="card-img"><p>%s</p><p><img src="%s"/></p></div></res>
 
-def row_img_setting(qid, text_base, base_path, diff_value=[], img_format="png") :
+def row_img_setting(qid, text_base, base_path, diff_value=[], img_format="png", img_class="row-element-img", img_div=None) :
   for x in qid.rows :
     if (x.value in diff_value) or (not x.displayed):
       continue
 
-    img_path = "%s/%s.%s"%(base_path, '{0:02d}'.format(x.value), img_format)
-    x.text = res.img_div%(text_base.attr(x.label).text, img_path)
+    img_path = "%s/%s.%s"%(base_path, x.value, img_format)
+    div = res.img_div if img_div is None else img_div
+    x.text = div%(text_base.attr(x.label).text, img_path)
+    
+    if img_class is not None :
+      class_names = x.styles.ss.rowClassNames
+      if class_names is None :
+        x.styles.ss.rowClassNames = img_class
+      
+      elif not img_class in class_names :
+        x.styles.ss.rowClassNames = "%s %s"%(class_names, img_class)
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>row.img</tabTrigger>

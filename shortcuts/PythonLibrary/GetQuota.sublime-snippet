@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+quotas = gv.survey.root.quota.getQuotaCells()
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>get.quota</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>

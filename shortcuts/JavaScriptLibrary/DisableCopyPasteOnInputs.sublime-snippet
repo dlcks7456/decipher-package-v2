@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+// .dont-cv에 적용
+const disableCopyPasteOnInputs = () => {
+    const inputs = document.querySelectorAll('.dont-cv input[type="text"]');
+
+    inputs.forEach(input => {
+        // 마우스 오른쪽 클릭 차단
+        input.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            //alert("복사 및 붙여넣기가 비활성화되었습니다.");
+        });
+
+        // 키보드 단축키 차단
+        input.addEventListener('keydown', event => {
+            if (
+                (event.ctrlKey || event.metaKey) &&
+                (event.key === 'c' || event.key === 'v' || 
+                 event.key === 'x' || event.key === 'a' || event.key === 'u')
+            ) {
+                event.preventDefault();
+                //alert("이 작업은 허용되지 않습니다.");
+            }
+        });
+
+        // 텍스트 드래그 방지
+        input.addEventListener('selectstart', event => {
+            event.preventDefault();
+        });
+
+        // 모바일용 터치 홀드 방지
+        input.addEventListener('touchstart', event => {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        });
+    });
+}
+
+window.addEventListener("DOMContentLoaded", function(){
+    disableCopyPasteOnInputs();
+});
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dont.cv</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.xml</scope>
+</snippet>
