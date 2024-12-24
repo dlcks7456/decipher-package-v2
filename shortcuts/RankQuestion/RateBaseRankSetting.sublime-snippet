@@ -130,6 +130,8 @@ def scale_rank_vali(scale_qid, reverse=True) :
 
   err_flag = False
   remain_answer = [r for r in this.rows if not r and scale_qid.attr(r.label).any]
+  remain_value = [scale_qid.cols[r.val].value for r in scale_qid.rows if r.any]
+
   for idx, eachCol in enumerate(this.cols) :
     if not eachCol.displayed :
       continue
@@ -151,16 +153,19 @@ def scale_rank_vali(scale_qid, reverse=True) :
           error(res.rank_rv_order_err, col=x)
         err_flag = True
 
-    if ((reverse) and (next_value lt curr_value)) or ((not reverse) and (next_value gt curr_value)):
-      remain_value = [scale_qid.attr(r.label).val for r in remain_answer]
-      if curr_value in remain_value :
-        for r in remain_answer :
-          if scale_qid.attr(r.label).val == curr_value :
-            if reverse :
-              error(res.rank_remain_err, row=r)
-            else :
-              error(res.rank_rv_remain_err, row=r)
-            err_flag = True
+    
+    answer_value = scale_qid.cols[scale_qid.attr(this.rows[eachCol.val].label).val].value
+    error_answer = [r.label for r in scale_qid.rows if r.any and ((reverse and scale_qid.cols[r.val].value gt answer_value) or (not reverse and scale_qid.cols[r.val].value lt answer_value))]
+
+    if error_answer :
+      err_flag = True
+      for err in error_answer :
+        high_row = this.attr(err)
+        if reverse :
+          error(res.rank_remain_err, row=high_row)
+          
+        if not reverse :
+          error(res.rank_rv_remain_err, row=high_row)
 
   if not err_flag :
     row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x.label).val].value) for x in this.rows if x.displayed}
