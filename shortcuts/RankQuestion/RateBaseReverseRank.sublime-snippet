@@ -28,6 +28,13 @@ base = ${2}
 
 <suspend/>
 
+<exec>
+auto_rows = scale_rank_items(${2}, ${3}, reverse=False)['auto']
+scale_rank_auto(${3}, auto_rows)
+</exec>
+
+<suspend/>
+
 <radio
   label="${3}"
   unique="1"
@@ -51,11 +58,11 @@ scale_rank_vali(${2}, reverse=False)
 <style name="page.head"><![CDATA[
 <style>
 \@for rank, x in auto_rows
-.answer-rank-\${rank} {
+.answer-rank-\${rank+1} {
   pointer-events: none !important;
 }
 
-.answer-rank-\${rank} svg {
+.answer-rank-\${rank+1} svg {
   pointer-events: none !important;
   visibility: hidden;
 }
@@ -64,12 +71,12 @@ scale_rank_vali(${2}, reverse=False)
   pointer-events: none !important;
 }
 \@if rank == len(auto_rows)
-.answer-rank-\${rank+1} .rk-up {
+.answer-rank-\${rank+2} .rk-up {
   pointer-events: none !important;
   display: none;
 }
 
-.answer-rank-\${rank+1} .ans-hd-grid {
+.answer-rank-\${rank+2} .ans-hd-grid {
   display: block !important;
 }
 \@endif

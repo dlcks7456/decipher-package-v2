@@ -71,9 +71,7 @@ def scale_rank_items(scale_qid, rank_qid, reverse=True) :
       auto_rows = []
       for idx, row_list in enumerate(rank_able_answer) :
         if len(row_list) == 1 :
-          auto_rows.append([idx+1, row_list[0]])
-          if not gv.isSST() :
-            rank_qid.cols[idx].val = rank_qid.attr(row_list[0]).index
+          auto_rows.append([idx, row_list[0]])
         else :
           break
 
@@ -124,16 +122,23 @@ def scale_rank_items(scale_qid, rank_qid, reverse=True) :
           'low' : []
         }
 
+def scale_rank_auto(rank_qid, auto_list) :
+  for idx, lb in auto_list :
+    rank_qid.cols[idx].val = rank_qid.attr(lb).index
+
 def scale_rank_vali(scale_qid, reverse=True) :
   if gv.isSST() :
     return
 
   err_flag = False
   remain_answer = [r for r in this.rows if not r and scale_qid.attr(r.label).any]
-  remain_value = [scale_qid.cols[r.val].value for r in scale_qid.rows if r.any]
+  remain_rows = [r for r in scale_qid.rows if r.any and this.attr(r.label).displayed and this.attr(r.label).count == 0]
 
   for idx, eachCol in enumerate(this.cols) :
     if not eachCol.displayed :
+      continue
+
+    if (not hasattr(scale_qid, this.rows[eachCol.val].label)) or (scale_qid.attr(this.rows[eachCol.val].label).val is None) :
       continue
 
     if idx == (len([c for c in this.cols if c.displayed])-1) :
@@ -145,6 +150,10 @@ def scale_rank_vali(scale_qid, reverse=True) :
     curr_value = scale_qid.rows[curr.val].val
     next_value = scale_qid.rows[next.val].val
  
+
+    if any([curr_value is None, next_value is None]) :
+      continue
+
     if ((reverse) and (next_value gt curr_value)) or ((not reverse) and (next_value lt curr_value)):
       for x in [curr, next] :
         if reverse :
@@ -155,26 +164,22 @@ def scale_rank_vali(scale_qid, reverse=True) :
 
     
     answer_value = scale_qid.cols[scale_qid.attr(this.rows[eachCol.val].label).val].value
-    error_answer = [r.label for r in scale_qid.rows if r.any and ((reverse and scale_qid.cols[r.val].value gt answer_value) or (not reverse and scale_qid.cols[r.val].value lt answer_value))]
+    error_answer = []
+    
+    if reverse :
+      error_answer = [r.label for r in remain_rows if scale_qid.cols[r.val].value gt answer_value]
+    else :
+      error_answer = [r.label for r in remain_rows if scale_qid.cols[r.val].value lt answer_value]
 
+    
     if error_answer :
       err_flag = True
       for err in error_answer :
         high_row = this.attr(err)
         if reverse :
           error(res.rank_remain_err, row=high_row)
-          
-        if not reverse :
+        else :
           error(res.rank_rv_remain_err, row=high_row)
-
-  if not err_flag :
-    row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x.label).val].value) for x in this.rows if x.displayed}
-    low_labels = scale_rank_items(scale_qid, this, reverse=reverse)['low']
-
-    if low_labels :
-      rv_cols = this.cols[::-1]
-      for idx, low in enumerate(low_labels) :
-        rv_cols[idx].val = this.attr(low).index
 </exec>
 ]]></content>
   <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
