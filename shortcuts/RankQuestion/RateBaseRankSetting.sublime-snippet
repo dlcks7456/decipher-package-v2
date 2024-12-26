@@ -180,6 +180,15 @@ def scale_rank_vali(scale_qid, reverse=True) :
           error(res.rank_remain_err, row=high_row)
         else :
           error(res.rank_rv_remain_err, row=high_row)
+    
+    if not err_flag :
+      row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x.label).val].value) for x in this.rows if x.displayed}
+      low_labels = scale_rank_items(scale_qid, this, reverse=reverse)['low']
+
+      if low_labels :
+        rv_cols = this.cols[::-1]
+        for idx, low in enumerate(low_labels) :
+          rv_cols[idx].val = this.attr(low).index
 </exec>
 ]]></content>
   <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
