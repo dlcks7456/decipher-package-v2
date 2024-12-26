@@ -182,12 +182,14 @@ def scale_rank_vali(scale_qid, reverse=True) :
           error(res.rank_rv_remain_err, row=high_row)
     
     if not err_flag :
-      row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x.label).val].value) for x in this.rows if x.displayed}
+      row_score_dict = {x: int(scale_qid.cols[scale_qid.attr(x.label).val].value) for x in this.rows if x.displayed and scale_qid.attr(x.label).displayed}
       low_labels = scale_rank_items(scale_qid, this, reverse=reverse)['low']
 
       if low_labels :
         rv_cols = this.cols[::-1]
         for idx, low in enumerate(low_labels) :
+          if rv_cols[idx].displayed and rv_cols[idx].any :
+            continue
           rv_cols[idx].val = this.attr(low).index
 </exec>
 ]]></content>
